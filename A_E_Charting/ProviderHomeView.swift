@@ -2,7 +2,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 
-struct Client: Identifiable {
+struct Client: Identifiable, Equatable {
     var id: String
     var name: String
     var pronouns: String
@@ -18,8 +18,7 @@ struct ProviderHomeView: View {
     @State private var showAddClient = false
     @State private var isLoading = true
     @State private var selectedClient: Client? = nil
-    @State private var showClientInfo = false
-    
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 16) {
@@ -31,10 +30,10 @@ struct ProviderHomeView: View {
                     .padding(10)
                     .background(Color(.secondarySystemBackground))
                     .cornerRadius(8)
-                
+
                 Text("Recent Clients")
                     .font(.headline)
-                
+
                 if isLoading {
                     ProgressView("Loading clients...")
                 } else {
@@ -50,14 +49,8 @@ struct ProviderHomeView: View {
                                 Spacer()
                                 Button(action: {
                                     selectedClient = client
-                                    showClientInfo = true
                                 }) {
                                     Image(systemName: "info.circle")
-                                }
-                                .sheet(isPresented: $showClientInfo) {
-                                    if let client = selectedClient {
-                                        ClientInfoModal(client: client)
-                                    }
                                 }
                             }
                             .contentShape(Rectangle())
@@ -68,7 +61,7 @@ struct ProviderHomeView: View {
                     }
                     .listStyle(PlainListStyle())
                 }
-                
+
                 Spacer()
             }
             .padding()
@@ -81,13 +74,16 @@ struct ProviderHomeView: View {
             .sheet(isPresented: $showAddClient, onDismiss: loadClients) {
                 AddClientView(onClientAdded: loadClients)
             }
+            .sheet(item: $selectedClient) { client in
+                ClientInfoModal(client: client)
+            }
             .onAppear {
                 fetchProviderName()
                 loadClients()
             }
         }
     }
-    
+
     var filteredClients: [Client] {
         if searchText.isEmpty {
             return clients
@@ -95,7 +91,7 @@ struct ProviderHomeView: View {
             return clients.filter { $0.name.lowercased().contains(searchText.lowercased()) }
         }
     }
-    
+
     func fetchProviderName() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
@@ -107,7 +103,7 @@ struct ProviderHomeView: View {
             }
         }
     }
-    
+
     func loadClients() {
         let db = Firestore.firestore()
         db.collection("clients")
@@ -128,21 +124,5 @@ struct ProviderHomeView: View {
                 }
                 isLoading = false
             }
-    }
-    
-    func showClientDetails(_ client: Client) {
-        let createdAtString = client.createdAt?.formatted() ?? "Unknown"
-        let lastSeenString = client.lastSeenAt?.formatted() ?? "Unknown"
-        let msg = """
-        Created by: \(client.createdByName)
-        Created at: \(createdAtString)
-        Last seen: \(lastSeenString)
-        """
-        let alert = UIAlertController(title: client.name, message: msg, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootVC = windowScene.windows.first?.rootViewController {
-            rootVC.present(alert, animated: true)
-        }
     }
 }
