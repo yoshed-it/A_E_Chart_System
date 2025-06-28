@@ -33,7 +33,16 @@ struct ProviderHomeView: View {
 
                 Text("Recent Clients")
                     .font(.headline)
-
+                HStack {
+                    Text("Recent Clients")
+                        .font(.headline)
+                    Spacer()
+                    NavigationLink(destination: ClientsListView()) {
+                        Text("See All")
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
+                    }
+                }
                 if isLoading {
                     ProgressView("Loading clients...")
                 } else {
