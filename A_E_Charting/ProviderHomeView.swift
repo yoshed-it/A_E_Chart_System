@@ -25,14 +25,12 @@ struct ProviderHomeView: View {
                 Text("Welcome, \(providerName)")
                     .font(.largeTitle)
                     .bold()
-                
+
                 TextField("Search clients...", text: $searchText)
                     .padding(10)
                     .background(Color(.secondarySystemBackground))
                     .cornerRadius(8)
 
-                Text("Recent Clients")
-                    .font(.headline)
                 HStack {
                     Text("Recent Clients")
                         .font(.headline)
@@ -43,6 +41,7 @@ struct ProviderHomeView: View {
                             .foregroundColor(.blue)
                     }
                 }
+
                 if isLoading {
                     ProgressView("Loading clients...")
                 } else {
@@ -64,7 +63,7 @@ struct ProviderHomeView: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                // TODO: Navigate to ClientDetailView
+                                selectedClient = client
                             }
                         }
                     }
@@ -81,10 +80,13 @@ struct ProviderHomeView: View {
                 }
             }
             .sheet(isPresented: $showAddClient, onDismiss: loadClients) {
-                AddClientView(onClientAdded: loadClients)
+                AddClientView(
+                    onClientAdded: loadClients,
+                    providerDisplayName: providerName
+                )
             }
             .sheet(item: $selectedClient) { client in
-                ClientInfoModal(client: client)
+                ClientDetailView(client: client, onUpdated: loadClients)
             }
             .onAppear {
                 fetchProviderName()
