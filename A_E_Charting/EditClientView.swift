@@ -21,12 +21,12 @@ struct EditClientView: View {
         self._firstName = State(initialValue: client.name.components(separatedBy: " ").first ?? "")
         self._lastName = State(initialValue: client.name.components(separatedBy: " ").dropFirst().joined(separator: " "))
         self._pronouns = State(initialValue: client.pronouns)
-        self._phone = State(initialValue: "") // You can load this onAppear if needed
+        self._phone = State(initialValue: "")  // Fetched onAppear
         self.onSave = onSave
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Edit Client")) {
                     TextField("First Name", text: $firstName)
@@ -43,8 +43,10 @@ struct EditClientView: View {
                 }
 
                 if !errorMessage.isEmpty {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
+                    Section {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                    }
                 }
             }
             .navigationTitle("Edit Client")
@@ -62,22 +64,22 @@ struct EditClientView: View {
                     }
                 }
             }
+            .onAppear(perform: loadPhone)
         }
-        .onAppear(perform: loadPhone)
     }
 
     private func loadPhone() {
         let db = Firestore.firestore()
         db.collection("clients").document(clientID).getDocument { snapshot, error in
-            if let data = snapshot?.data(), let phone = data["phone"] as? String {
-                self.phone = phone
+            if let data = snapshot?.data(), let fetchedPhone = data["phone"] as? String {
+                self.phone = fetchedPhone
             }
         }
     }
 
     private func updateClient() {
         let db = Firestore.firestore()
-        let name = "\(firstName) \(lastName)"
+        let name = "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
 
         let updatedData: [String: Any] = [
             "firstName": firstName,
@@ -85,7 +87,7 @@ struct EditClientView: View {
             "name": name,
             "pronouns": pronouns,
             "phone": phone,
-            "lastSeenAt": Timestamp(date: Date()) // optional update
+            "lastSeenAt": Timestamp(date: Date())
         ]
 
         isSaving = true

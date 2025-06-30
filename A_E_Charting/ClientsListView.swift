@@ -5,16 +5,19 @@ struct ClientsListView: View {
     @State private var clients: [Client] = []
     @State private var searchText = ""
     @State private var isLoading = true
+    @State private var selectedClient: Client? = nil
 
     var body: some View {
         List {
-            if filteredClients.isEmpty {
+            if filteredClients.isEmpty && !isLoading {
                 Text("No clients found.")
                     .foregroundColor(.secondary)
             } else {
                 Section("All Clients") {
                     ForEach(filteredClients) { client in
-                        NavigationLink(destination: ClientDetailView(client: client)) {
+                        Button(action: {
+                            selectedClient = client
+                        }) {
                             VStack(alignment: .leading) {
                                 Text(client.name)
                                     .font(.headline)
@@ -31,13 +34,19 @@ struct ClientsListView: View {
         .navigationTitle("Client Database")
         .searchable(text: $searchText)
         .onAppear(perform: loadClients)
+        .sheet(item: $selectedClient) { client in
+            ClientDetailView(client: client, onUpdated: loadClients)
+        }
     }
 
     var filteredClients: [Client] {
         if searchText.isEmpty {
             return clients
         } else {
-            return clients.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            return clients.filter {
+                $0.name.lowercased().contains(searchText.lowercased()) ||
+                $0.pronouns.lowercased().contains(searchText.lowercased())
+            }
         }
     }
 

@@ -7,54 +7,30 @@ struct ClientDetailView: View {
     @State private var showEditClient = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section(header: Text("Client Info")) {
-                    HStack {
-                        Text("Name")
-                        Spacer()
-                        Text(client.name)
-                            .foregroundColor(.secondary)
-                    }
-
-                    HStack {
-                        Text("Pronouns")
-                        Spacer()
-                        Text(client.pronouns)
-                            .foregroundColor(.secondary)
-                    }
+                    LabeledRow(label: "Name", value: client.name)
+                    LabeledRow(label: "Pronouns", value: client.pronouns)
 
                     if let created = client.createdAt {
-                        HStack {
-                            Text("Created")
-                            Spacer()
-                            Text(created.formatted(date: .abbreviated, time: .shortened))
-                                .foregroundColor(.secondary)
-                        }
+                        LabeledRow(label: "Created", value: created.formatted(date: .abbreviated, time: .shortened))
                     }
 
                     if let lastSeen = client.lastSeenAt {
-                        HStack {
-                            Text("Last Seen")
-                            Spacer()
-                            Text(lastSeen.formatted(date: .abbreviated, time: .shortened))
-                                .foregroundColor(.secondary)
-                        }
+                        LabeledRow(label: "Last Seen", value: lastSeen.formatted(date: .abbreviated, time: .shortened))
                     }
 
-                    HStack {
-                        Text("Added By")
-                        Spacer()
-                        Text(client.createdByName)
-                            .foregroundColor(.secondary)
-                    }
+                    LabeledRow(label: "Added By", value: client.createdByName)
                 }
             }
             .navigationTitle("Client Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                Button("Edit") {
-                    showEditClient = true
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Edit") {
+                        showEditClient = true
+                    }
                 }
             }
             .sheet(isPresented: $showEditClient) {
@@ -63,6 +39,16 @@ struct ClientDetailView: View {
                     showEditClient = false
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    func LabeledRow(label: String, value: String) -> some View {
+        HStack {
+            Text(label)
+            Spacer()
+            Text(value)
+                .foregroundColor(.secondary)
         }
     }
 }
