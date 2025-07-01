@@ -1,10 +1,11 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
+import PhotosUI
+import FirebaseStorage
 
 let onePieceProbes = ["F2 Gold", "F3 Gold", "F4 Gold", "F5 Gold", "F2 Insulated", "F3 Insulated", "F4 Insulated", "F5 Insulated"]
 let twoPieceProbes = ["F2 Gold", "F3 Gold", "F4 Gold", "F5 Gold", "F2 Insulated", "F3 Insulated", "F4 Insulated", "F5 Insulated"]
-
 
 struct ChartEntryFormView: View {
     let clientId: String
@@ -25,9 +26,11 @@ struct ChartEntryFormView: View {
     @State private var errorMessage = ""
     @State private var showRfPicker = false
     @State private var showDcPicker = false
+    @State private var imageSelections: [PhotosPickerItem] = []
+    @State private var uploadedImageURLs: [String] = []
 
     let modalities = ["Thermolysis", "Galvanic", "Blend"]
-    
+
     var chartId: String? { existingChart?.id }
 
     var selectedProbe: String {
@@ -52,6 +55,7 @@ struct ChartEntryFormView: View {
         }())
         _treatmentArea = State(initialValue: chart?.treatmentArea ?? "")
         _notes = State(initialValue: chart?.notes ?? "")
+        _uploadedImageURLs = State(initialValue: chart?.images ?? [])
     }
 
     var body: some View {
@@ -108,6 +112,21 @@ struct ChartEntryFormView: View {
                         .frame(height: 100)
                 }
 
+                Section(header: Text("Images")) {
+                    PhotosPicker("Select Images", selection: $imageSelections, maxSelectionCount: 5, matching: .images)
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(uploadedImageURLs, id: \.self) { url in
+                                AsyncImage(url: URL(string: url)) { image in
+                                    image.resizable().scaledToFit().frame(height: 100).cornerRadius(8)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if !errorMessage.isEmpty {
                     Section {
                         Text(errorMessage)
@@ -117,7 +136,7 @@ struct ChartEntryFormView: View {
 
                 Section {
                     Button(chartId == nil ? "Save Chart Entry" : "Update Chart") {
-                        saveOrUpdateChart()
+                        uploadImagesThenSave()
                     }
                     .disabled(isSaving || treatmentArea.isEmpty)
                 }
@@ -143,6 +162,12 @@ struct ChartEntryFormView: View {
                 showDcPicker = false
             }
         }
+        .onChange(of: imageSelections) { _, _ in
+            Task { await uploadSelectedImages() }
+        }
+        .onChange(of: existingChart?.id) { _, _ in
+            populateFromExistingChart()
+        }
     }
 
     func populateFromExistingChart() {
@@ -152,6 +177,7 @@ struct ChartEntryFormView: View {
         dcSetting = chart.dcLevel
         treatmentArea = chart.treatmentArea
         notes = chart.notes
+        uploadedImageURLs = chart.images
         if onePieceProbes.contains(chart.probe) {
             usingOnePiece = true
             selectedOnePieceProbe = chart.probe
@@ -159,6 +185,31 @@ struct ChartEntryFormView: View {
             usingOnePiece = false
             selectedTwoPieceProbe = chart.probe
         }
+    }
+
+    func uploadImagesThenSave() {
+        saveOrUpdateChart()
+    }
+
+    func uploadSelectedImages() async {
+        guard Auth.auth().currentUser != nil else { return }
+        let storage = Storage.storage()
+        var urls: [String] = uploadedImageURLs
+
+        for item in imageSelections {
+            if let data = try? await item.loadTransferable(type: Data.self) {
+                let filename = UUID().uuidString + ".jpg"
+                let ref = storage.reference().child("charts/\(clientId)/\(filename)")
+                do {
+                    _ = try await ref.putDataAsync(data, metadata: nil)
+                    let url = try await ref.downloadURL()
+                    urls.append(url.absoluteString)
+                } catch {
+                    print("❌ Upload error: \(error.localizedDescription)")
+                }
+            }
+        }
+        uploadedImageURLs = urls
     }
 
     func saveOrUpdateChart() {
@@ -178,7 +229,7 @@ struct ChartEntryFormView: View {
             "probe": selectedProbe,
             "treatmentArea": treatmentArea,
             "notes": notes,
-            "images": []
+            "images": uploadedImageURLs
         ]
 
         if chartId == nil {
@@ -189,6 +240,9 @@ struct ChartEntryFormView: View {
             chartData["lastEditedAt"] = now
         }
 
+        print("Saving chart with ID: \(chartRef.documentID), chartId is: \(chartId ?? "nil")") // WHICH CHARTS ARE SAVING?!
+
+        
         isSaving = true
         chartRef.setData(chartData, merge: true) { error in
             isSaving = false
