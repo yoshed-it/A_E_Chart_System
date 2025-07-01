@@ -9,8 +9,9 @@ let twoPieceProbes = ["F2 Gold", "F3 Gold", "F4 Gold", "F5 Gold", "F2 Insulated"
 
 struct ChartEntryFormView: View {
     let clientId: String
-    var existingChart: ChartEntry? = nil
-    var onSave: () -> Void
+    let existingChart: ChartEntry?
+    let onSave: () -> Void
+    let chartId: String?
 
     @Environment(\.dismiss) var dismiss
 
@@ -28,10 +29,9 @@ struct ChartEntryFormView: View {
     @State private var showDcPicker = false
     @State private var imageSelections: [PhotosPickerItem] = []
     @State private var uploadedImageURLs: [String] = []
+    @State private var didPopulate = false
 
     let modalities = ["Thermolysis", "Galvanic", "Blend"]
-
-    var chartId: String? { existingChart?.id }
 
     var selectedProbe: String {
         usingOnePiece ? selectedOnePieceProbe : selectedTwoPieceProbe
@@ -41,12 +41,13 @@ struct ChartEntryFormView: View {
         self.existingChart = existingChart
         self.onSave = onSave
         self.clientId = clientId
+        self.chartId = existingChart?.id
 
         let chart = existingChart
 
         _selectedModality = State(initialValue: chart?.modality ?? "Thermolysis")
-        _rfSetting = State(initialValue: chart?.rfLevel ?? 50)
-        _dcSetting = State(initialValue: chart?.dcLevel ?? 50)
+        _rfSetting = State(initialValue: Int(chart?.rfLevel ?? "") ?? 50)
+        _dcSetting = State(initialValue: Int(chart?.dcLevel ?? "") ?? 50)
         _selectedOnePieceProbe = State(initialValue: chart?.probe ?? "F2 Gold")
         _selectedTwoPieceProbe = State(initialValue: chart?.probe ?? "F2 Gold")
         _usingOnePiece = State(initialValue: {
@@ -55,7 +56,7 @@ struct ChartEntryFormView: View {
         }())
         _treatmentArea = State(initialValue: chart?.treatmentArea ?? "")
         _notes = State(initialValue: chart?.notes ?? "")
-        _uploadedImageURLs = State(initialValue: chart?.images ?? [])
+        _uploadedImageURLs = State(initialValue: chart?.imageURLs ?? [])
     }
 
     var body: some View {
@@ -151,7 +152,13 @@ struct ChartEntryFormView: View {
                 }
             }
         }
-        .onAppear(perform: populateFromExistingChart)
+        .onAppear {
+            print("👀 ChartEntryFormView onAppear. Existing chart ID: \(existingChart?.id ?? "none")")
+            if !didPopulate, chartId != nil {
+                populateFromExistingChart()
+                didPopulate = true
+            }
+        }
         .sheet(isPresented: $showRfPicker) {
             wheelPickerSheet(title: "RF Setting", selection: $rfSetting) {
                 showRfPicker = false
@@ -165,19 +172,21 @@ struct ChartEntryFormView: View {
         .onChange(of: imageSelections) { _, _ in
             Task { await uploadSelectedImages() }
         }
-        .onChange(of: existingChart?.id) { _, _ in
-            populateFromExistingChart()
-        }
     }
 
     func populateFromExistingChart() {
-        guard let chart = existingChart else { return }
+        guard let chart = existingChart else {
+            print("🟡 No existing chart provided.")
+            return
+        }
+        print("🟢 Populating form from chart ID: \(chart.id ?? "nil")")
+
         selectedModality = chart.modality
-        rfSetting = chart.rfLevel
-        dcSetting = chart.dcLevel
+        rfSetting = Int(chart.rfLevel) ?? 50
+        dcSetting = Int(chart.dcLevel) ?? 50
         treatmentArea = chart.treatmentArea
         notes = chart.notes
-        uploadedImageURLs = chart.images
+        uploadedImageURLs = chart.imageURLs
         if onePieceProbes.contains(chart.probe) {
             usingOnePiece = true
             selectedOnePieceProbe = chart.probe
@@ -224,12 +233,12 @@ struct ChartEntryFormView: View {
         let now = Timestamp(date: Date())
         var chartData: [String: Any] = [
             "modality": selectedModality,
-            "rfLevel": rfSetting,
-            "dcLevel": dcSetting,
+            "rfLevel": String(rfSetting),
+            "dcLevel": String(dcSetting),
             "probe": selectedProbe,
             "treatmentArea": treatmentArea,
             "notes": notes,
-            "images": uploadedImageURLs
+            "imageURLs": uploadedImageURLs
         ]
 
         if chartId == nil {
@@ -240,9 +249,8 @@ struct ChartEntryFormView: View {
             chartData["lastEditedAt"] = now
         }
 
-        print("Saving chart with ID: \(chartRef.documentID), chartId is: \(chartId ?? "nil")") // WHICH CHARTS ARE SAVING?!
+        print("💾 Saving chart with ID: \(chartRef.documentID), chartId is: \(chartId ?? "nil")")
 
-        
         isSaving = true
         chartRef.setData(chartData, merge: true) { error in
             isSaving = false

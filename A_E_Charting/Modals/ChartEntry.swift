@@ -1,32 +1,60 @@
 import Foundation
 import FirebaseFirestore
 
-struct ChartEntry: Identifiable, Codable {
-    @DocumentID var id: String?  // Firestore handles this
-    var createdAt: Date = Date()
-    var createdBy: String = ""
-    var modality: String = ""
-    var rfLevel: Int = 0
-    var dcLevel: Int = 0
-    var probe: String = ""
-    var treatmentArea: String = ""
-    var notes: String = ""
-    var images: [String] = []
-    var lastEditedAt: Date = Date()
-    var lastEditedBy: String = ""
+struct ChartEntry: Identifiable {
+    var id: String?
+    var createdAt: Date
+    var lastEditedAt: Date
+    var modality: String
+    var probe: String
+    var rfLevel: String
+    var dcLevel: String
+    var treatmentArea: String
+    var notes: String
+    var imageURLs: [String]
 
-    init(id: String, data: [String: Any]) {
+    init(id: String?, data: [String: Any]) {
         self.id = id
-        self.createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
-        self.createdBy = data["createdBy"] as? String ?? ""
+
+        // Safely unwrap timestamps
+        if let createdAtTS = data["createdAt"] as? Timestamp {
+            self.createdAt = createdAtTS.dateValue()
+        } else {
+            self.createdAt = Date()
+        }
+
+        if let lastEditedTS = data["lastEditedAt"] as? Timestamp {
+            self.lastEditedAt = lastEditedTS.dateValue()
+        } else {
+            self.lastEditedAt = self.createdAt
+        }
+
+        // Safely unwrap all other fields
         self.modality = data["modality"] as? String ?? ""
-        self.rfLevel = data["rfLevel"] as? Int ?? 0
-        self.dcLevel = data["dcLevel"] as? Int ?? 0
         self.probe = data["probe"] as? String ?? ""
+        self.rfLevel = data["rfLevel"] as? String ?? ""
+        self.dcLevel = data["dcLevel"] as? String ?? ""
         self.treatmentArea = data["treatmentArea"] as? String ?? ""
         self.notes = data["notes"] as? String ?? ""
-        self.images = data["images"] as? [String] ?? []
-        self.lastEditedAt = (data["lastEditedAt"] as? Timestamp)?.dateValue() ?? self.createdAt
-        self.lastEditedBy = data["lastEditedBy"] as? String ?? self.createdBy
+
+        if let urls = data["imageURLs"] as? [String] {
+            self.imageURLs = urls
+        } else {
+            self.imageURLs = []
+        }
+    }
+
+    func toDict() -> [String: Any] {
+        return [
+            "createdAt": Timestamp(date: createdAt),
+            "lastEditedAt": Timestamp(date: lastEditedAt),
+            "modality": modality,
+            "probe": probe,
+            "rfLevel": rfLevel,
+            "dcLevel": dcLevel,
+            "treatmentArea": treatmentArea,
+            "notes": notes,
+            "imageURLs": imageURLs
+        ]
     }
 }

@@ -6,10 +6,8 @@ struct ChartsListView: View {
 
     @State private var charts: [ChartEntry] = []
     @State private var isLoading = true
+    @State private var selectedChartForEdit: ChartEntry? = nil
     @State private var selectedChart: ChartEntry? = nil
-    @State private var editingChart: ChartEntry? = nil
-    @State private var showForm = false
-    @State private var showDetail = false
     @State private var chartToDelete: ChartEntry? = nil
     @State private var showDeleteConfirmation = false
 
@@ -25,16 +23,26 @@ struct ChartsListView: View {
                     ChartRowView(chart: chart)
                         .onTapGesture {
                             selectedChart = chart
-                            showDetail = true
                         }
                         .swipeActions(edge: .trailing) {
+                            Button {
+                                guard chart.id != nil else { return }
+                                selectedChartForEdit = nil
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    selectedChartForEdit = ChartEntry(id: chart.id, data: chart.toDict())
+                                }
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
+                            }
+                            .tint(.blue)
+
                             Button(role: .destructive) {
                                 chartToDelete = chart
                                 showDeleteConfirmation = true
                             } label: {
                                 Label("Delete", systemImage: "trash")
-                            }
                         }
+                    }
                 }
             }
         }
@@ -42,38 +50,40 @@ struct ChartsListView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    editingChart = nil
-                    showForm = true
+                    selectedChartForEdit = nil // New chart
                 } label: {
                     Image(systemName: "plus")
                 }
             }
         }
         .onAppear(perform: fetchCharts)
-        .sheet(isPresented: $showForm) {
+
+        // Detail view sheet
+        .sheet(item: $selectedChart) { chart in
+            NavigationStack {
+                ChartDetailView(
+                    chart: chart,
+                    onEdit: {
+                        selectedChart = nil
+                        selectedChartForEdit = chart
+                    }
+                )
+            }
+        }
+
+        // Edit/New chart form
+        .sheet(item: $selectedChartForEdit) { chart in
             ChartEntryFormView(
-                existingChart: editingChart,
+                existingChart: chart,
                 onSave: {
-                    showForm = false
+                    selectedChartForEdit = nil
                     fetchCharts()
                 },
                 clientId: clientId
             )
         }
-        .sheet(isPresented: $showDetail) {
-            if let selectedChart = selectedChart {
-                NavigationStack {
-                    ChartDetailView(
-                        chart: selectedChart,
-                        onEdit: {
-                            editingChart = selectedChart
-                            showDetail = false
-                            showForm = true
-                        }
-                    )
-                }
-            }
-        }
+
+        // Delete confirmation
         .alert("Delete Chart?", isPresented: $showDeleteConfirmation, presenting: chartToDelete) { chart in
             Button("Cancel", role: .cancel) {}
             Button("Delete", role: .destructive) {
