@@ -3,6 +3,8 @@ import FirebaseFirestore
 import FirebaseAuth
 import PhotosUI
 import FirebaseStorage
+import UIKit
+
 
 let onePieceProbes = ["F2 Gold", "F3 Gold", "F4 Gold", "F5 Gold", "F2 Insulated", "F3 Insulated", "F4 Insulated", "F5 Insulated"]
 let twoPieceProbes = ["F2 Gold", "F3 Gold", "F4 Gold", "F5 Gold", "F2 Insulated", "F3 Insulated", "F4 Insulated", "F5 Insulated"]
@@ -30,6 +32,7 @@ struct ChartEntryFormView: View {
     @State private var imageSelections: [PhotosPickerItem] = []
     @State private var uploadedImageURLs: [String] = []
     @State private var didPopulate = false
+    @State private var showCamera = false
 
     let modalities = ["Thermolysis", "Galvanic", "Blend"]
 
@@ -46,8 +49,8 @@ struct ChartEntryFormView: View {
         let chart = existingChart
 
         _selectedModality = State(initialValue: chart?.modality ?? "Thermolysis")
-        _rfSetting = State(initialValue: Int(chart?.rfLevel ?? "") ?? 50)
-        _dcSetting = State(initialValue: Int(chart?.dcLevel ?? "") ?? 50)
+        _rfSetting = State(initialValue: Int(chart?.rfLevel ?? "50") ?? 50)
+        _dcSetting = State(initialValue: Int(chart?.dcLevel ?? "50") ?? 50)
         _selectedOnePieceProbe = State(initialValue: chart?.probe ?? "F2 Gold")
         _selectedTwoPieceProbe = State(initialValue: chart?.probe ?? "F2 Gold")
         _usingOnePiece = State(initialValue: {
@@ -114,7 +117,14 @@ struct ChartEntryFormView: View {
                 }
 
                 Section(header: Text("Images")) {
-                    PhotosPicker("Select Images", selection: $imageSelections, maxSelectionCount: 5, matching: .images)
+                    Button("Take Photo") {
+                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                            showCamera = true
+                        } else {
+                            errorMessage = "Camera not available on this device."
+                        }
+                    }
+                    .disabled(!UIImagePickerController.isSourceTypeAvailable(.camera))
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach(uploadedImageURLs, id: \.self) { url in
@@ -151,9 +161,30 @@ struct ChartEntryFormView: View {
                     }
                 }
             }
+            .alert("Error", isPresented: .constant(!errorMessage.isEmpty)) {
+                Button("OK", role: .cancel) {
+                    errorMessage = ""
+                }
+            } message: {
+                Text(errorMessage)
+                
+                }
+            }
+        .sheet(isPresented: $showCamera) {
+            CameraCaptureView(image: Binding(
+                get: { nil },
+                set: { newImage in
+                    Task {
+                        if let newImage = newImage {
+                            if let url = await CameraUploader.uploadImage(image: newImage, clientId: clientId) {
+                                uploadedImageURLs.append(url)
+                            }
+                        }
+                    }
+                }
+            ))
         }
         .onAppear {
-            print("👀 ChartEntryFormView onAppear. Existing chart ID: \(existingChart?.id ?? "none")")
             if !didPopulate, chartId != nil {
                 populateFromExistingChart()
                 didPopulate = true
@@ -175,12 +206,7 @@ struct ChartEntryFormView: View {
     }
 
     func populateFromExistingChart() {
-        guard let chart = existingChart else {
-            print("🟡 No existing chart provided.")
-            return
-        }
-        print("🟢 Populating form from chart ID: \(chart.id ?? "nil")")
-
+        guard let chart = existingChart else { return }
         selectedModality = chart.modality
         rfSetting = Int(chart.rfLevel) ?? 50
         dcSetting = Int(chart.dcLevel) ?? 50
@@ -233,8 +259,8 @@ struct ChartEntryFormView: View {
         let now = Timestamp(date: Date())
         var chartData: [String: Any] = [
             "modality": selectedModality,
-            "rfLevel": String(rfSetting),
-            "dcLevel": String(dcSetting),
+            "rfLevel": "\(rfSetting)",
+            "dcLevel": "\(dcSetting)",
             "probe": selectedProbe,
             "treatmentArea": treatmentArea,
             "notes": notes,
@@ -248,8 +274,6 @@ struct ChartEntryFormView: View {
             chartData["lastEditedBy"] = user.uid
             chartData["lastEditedAt"] = now
         }
-
-        print("💾 Saving chart with ID: \(chartRef.documentID), chartId is: \(chartId ?? "nil")")
 
         isSaving = true
         chartRef.setData(chartData, merge: true) { error in
@@ -286,5 +310,57 @@ struct ChartEntryFormView: View {
         }
         .presentationDetents([.fraction(0.25)])
         .presentationDragIndicator(.visible)
+    }
+}
+
+struct CameraUploader {
+    static func uploadImage(image: UIImage, clientId: String) async -> String? {
+        guard let imageData = image.jpegData(compressionQuality: 0.7) else { 
+            print("❌ Failed to compress image")
+            return nil
+        }
+
+        let filename = UUID().uuidString + ".jpg"
+        let storageRef = Storage.storage().reference().child("charts/\(clientId)/\(filename)")
+
+        do {
+            let _ = try await storageRef.putDataAsync(imageData, metadata: nil)
+            let downloadURL = try await storageRef.downloadURL()
+            print("✅ Uploaded image to: \(downloadURL.absoluteString)")
+            return downloadURL.absoluteString
+        } catch {
+            print("❌ Firebase upload failed: \(error.localizedDescription)")
+            return nil
+        }
+    }
+}
+
+extension StorageReference {
+    func putDataAsync(_ uploadData: Data, metadata: StorageMetadata?) async throws -> StorageMetadata {
+        try await withCheckedThrowingContinuation { continuation in
+            self.putData(uploadData, metadata: metadata) { metadata, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let metadata = metadata {
+                    continuation.resume(returning: metadata)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "upload", code: -1))
+                }
+            }
+        }
+    }
+
+    func downloadURL() async throws -> URL {
+        try await withCheckedThrowingContinuation { continuation in
+            self.downloadURL { url, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let url = url {
+                    continuation.resume(returning: url)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "downloadURL", code: -1))
+                }
+            }
+        }
     }
 }
