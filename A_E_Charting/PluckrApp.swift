@@ -17,13 +17,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct AEChartingApp: App {
+struct PluckrApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
   var body: some Scene {
     WindowGroup {
       NavigationView {
-        LoginView()
+//        LoginView()
+          ProviderHomeView()
       }
     }
   }

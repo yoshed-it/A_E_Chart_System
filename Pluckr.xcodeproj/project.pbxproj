@@ -30,14 +30,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		094FF7682E0F269B00A212F7 /* A_E_Charting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = A_E_Charting.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		094FF7752E0F269D00A212F7 /* A_E_ChartingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = A_E_ChartingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		094FF77F2E0F269D00A212F7 /* A_E_ChartingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = A_E_ChartingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		094FF7682E0F269B00A212F7 /* Pluckr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluckr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		094FF7752E0F269D00A212F7 /* PluckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0992633E2E14B1A6004C1952 /* Exceptions for "A_E_Charting" folder in "Pluckr" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 094FF7672E0F269B00A212F7 /* Pluckr */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		094FF76A2E0F269B00A212F7 /* A_E_Charting */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0992633E2E14B1A6004C1952 /* Exceptions for "A_E_Charting" folder in "Pluckr" target */,
+			);
 			path = A_E_Charting;
 			sourceTree = "<group>";
 		};
@@ -94,9 +107,9 @@
 		094FF7692E0F269B00A212F7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				094FF7682E0F269B00A212F7 /* A_E_Charting.app */,
-				094FF7752E0F269D00A212F7 /* A_E_ChartingTests.xctest */,
-				094FF77F2E0F269D00A212F7 /* A_E_ChartingUITests.xctest */,
+				094FF7682E0F269B00A212F7 /* Pluckr.app */,
+				094FF7752E0F269D00A212F7 /* PluckrTests.xctest */,
+				094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,9 +117,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		094FF7672E0F269B00A212F7 /* A_E_Charting */ = {
+		094FF7672E0F269B00A212F7 /* Pluckr */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 094FF7892E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "A_E_Charting" */;
+			buildConfigurationList = 094FF7892E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "Pluckr" */;
 			buildPhases = (
 				094FF7642E0F269B00A212F7 /* Sources */,
 				094FF7652E0F269B00A212F7 /* Frameworks */,
@@ -119,19 +132,19 @@
 			fileSystemSynchronizedGroups = (
 				094FF76A2E0F269B00A212F7 /* A_E_Charting */,
 			);
-			name = A_E_Charting;
+			name = Pluckr;
 			packageProductDependencies = (
 				094FF7952E0F2AC100A212F7 /* FirebaseAuth */,
 				094FF7972E0F2AC100A212F7 /* FirebaseFirestore */,
 				094FF7992E0F2AC100A212F7 /* FirebaseStorage */,
 			);
 			productName = A_E_Charting;
-			productReference = 094FF7682E0F269B00A212F7 /* A_E_Charting.app */;
+			productReference = 094FF7682E0F269B00A212F7 /* Pluckr.app */;
 			productType = "com.apple.product-type.application";
 		};
-		094FF7742E0F269D00A212F7 /* A_E_ChartingTests */ = {
+		094FF7742E0F269D00A212F7 /* PluckrTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 094FF78C2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "A_E_ChartingTests" */;
+			buildConfigurationList = 094FF78C2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrTests" */;
 			buildPhases = (
 				094FF7712E0F269D00A212F7 /* Sources */,
 				094FF7722E0F269D00A212F7 /* Frameworks */,
@@ -145,16 +158,16 @@
 			fileSystemSynchronizedGroups = (
 				094FF7782E0F269D00A212F7 /* A_E_ChartingTests */,
 			);
-			name = A_E_ChartingTests;
+			name = PluckrTests;
 			packageProductDependencies = (
 			);
 			productName = A_E_ChartingTests;
-			productReference = 094FF7752E0F269D00A212F7 /* A_E_ChartingTests.xctest */;
+			productReference = 094FF7752E0F269D00A212F7 /* PluckrTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		094FF77E2E0F269D00A212F7 /* A_E_ChartingUITests */ = {
+		094FF77E2E0F269D00A212F7 /* PluckrUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 094FF78F2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "A_E_ChartingUITests" */;
+			buildConfigurationList = 094FF78F2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrUITests" */;
 			buildPhases = (
 				094FF77B2E0F269D00A212F7 /* Sources */,
 				094FF77C2E0F269D00A212F7 /* Frameworks */,
@@ -168,11 +181,11 @@
 			fileSystemSynchronizedGroups = (
 				094FF7822E0F269D00A212F7 /* A_E_ChartingUITests */,
 			);
-			name = A_E_ChartingUITests;
+			name = PluckrUITests;
 			packageProductDependencies = (
 			);
 			productName = A_E_ChartingUITests;
-			productReference = 094FF77F2E0F269D00A212F7 /* A_E_ChartingUITests.xctest */;
+			productReference = 094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -198,7 +211,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 094FF7632E0F269B00A212F7 /* Build configuration list for PBXProject "A_E_Charting" */;
+			buildConfigurationList = 094FF7632E0F269B00A212F7 /* Build configuration list for PBXProject "Pluckr" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -215,9 +228,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				094FF7672E0F269B00A212F7 /* A_E_Charting */,
-				094FF7742E0F269D00A212F7 /* A_E_ChartingTests */,
-				094FF77E2E0F269D00A212F7 /* A_E_ChartingUITests */,
+				094FF7672E0F269B00A212F7 /* Pluckr */,
+				094FF7742E0F269D00A212F7 /* PluckrTests */,
+				094FF77E2E0F269D00A212F7 /* PluckrUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -273,12 +286,12 @@
 /* Begin PBXTargetDependency section */
 		094FF7772E0F269D00A212F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 094FF7672E0F269B00A212F7 /* A_E_Charting */;
+			target = 094FF7672E0F269B00A212F7 /* Pluckr */;
 			targetProxy = 094FF7762E0F269D00A212F7 /* PBXContainerItemProxy */;
 		};
 		094FF7812E0F269D00A212F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 094FF7672E0F269B00A212F7 /* A_E_Charting */;
+			target = 094FF7672E0F269B00A212F7 /* Pluckr */;
 			targetProxy = 094FF7802E0F269D00A212F7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -336,6 +349,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/A_E_Charting/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -393,6 +407,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/A_E_Charting/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -410,8 +425,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/A_E_Charting/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -437,8 +454,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/A_E_Charting/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -471,7 +490,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/A_E_Charting.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/A_E_Charting";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pluckr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pluckr";
 			};
 			name = Debug;
 		};
@@ -489,7 +508,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/A_E_Charting.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/A_E_Charting";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pluckr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pluckr";
 			};
 			name = Release;
 		};
@@ -528,7 +547,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		094FF7632E0F269B00A212F7 /* Build configuration list for PBXProject "A_E_Charting" */ = {
+		094FF7632E0F269B00A212F7 /* Build configuration list for PBXProject "Pluckr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				094FF7872E0F269D00A212F7 /* Debug */,
@@ -537,7 +556,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		094FF7892E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "A_E_Charting" */ = {
+		094FF7892E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "Pluckr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				094FF78A2E0F269D00A212F7 /* Debug */,
@@ -546,7 +565,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		094FF78C2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "A_E_ChartingTests" */ = {
+		094FF78C2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				094FF78D2E0F269D00A212F7 /* Debug */,
@@ -555,7 +574,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		094FF78F2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "A_E_ChartingUITests" */ = {
+		094FF78F2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				094FF7902E0F269D00A212F7 /* Debug */,
