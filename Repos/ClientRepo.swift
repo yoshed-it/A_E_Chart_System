@@ -130,5 +130,18 @@ final class ClientRepository {
             }
         }
     }
+    func fetchCharts(for clientId: String, completion: @escaping (Result<[ChartEntry], Error>) -> Void) {
+        let db = Firestore.firestore()
+        db.collection("clients").document(clientId).collection("charts").order(by: "date", descending: true).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                let charts = snapshot?.documents.compactMap { doc in
+                    ChartEntry(id: doc.documentID, data: doc.data())
+                } ?? []
+                completion(.success(charts))
+            }
+        }
+    }
 }
 
