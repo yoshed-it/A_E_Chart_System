@@ -1,4 +1,6 @@
 import FirebaseStorage
+import Foundation
+import UIKit
 
 extension StorageReference {
     func putDataAsync(_ uploadData: Data, metadata: StorageMetadata?) async throws -> StorageMetadata {
