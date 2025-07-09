@@ -10,6 +10,40 @@
 		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
 		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
 		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
+		0982B3482E1DCE3600DB6C1A /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33A2E1DCE3600DB6C1A /* ClientInfoModal.swift */; };
+		0982B3492E1DCE3600DB6C1A /* ClientsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */; };
+		0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */; };
+		0982B34B2E1DCE3600DB6C1A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33C2E1DCE3600DB6C1A /* ContentView.swift */; };
+		0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */; };
+		0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */; };
+		0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3322E1DCE3600DB6C1A /* AddClientView.swift */; };
+		0982B34F2E1DCE3600DB6C1A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3402E1DCE3600DB6C1A /* LoginView.swift */; };
+		0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */; };
+		0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */; };
+		0982B3522E1DCE3600DB6C1A /* NewChartEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3412E1DCE3600DB6C1A /* NewChartEntryView.swift */; };
+		0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */; };
+		0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */; };
+		0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */; };
+		0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */; };
+		0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */; };
+		0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */; };
+		0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */; };
+		0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */; };
+		0982B35B2E1DCE3600DB6C1A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3462E1DCE3600DB6C1A /* README.md */; };
+		0982B35C2E1DCE3600DB6C1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */; };
+		0982B35D2E1DCE3600DB6C1A /* .gitignore 2 in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3312E1DCE3600DB6C1A /* .gitignore 2 */; };
+		0982B35F2E1DCE3600DB6C1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3332E1DCE3600DB6C1A /* Assets.xcassets */; };
+		0982B3682E1DCE5400DB6C1A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 0982B3672E1DCE5400DB6C1A /* AlertToast */; };
+		0982B36B2E1DCEA400DB6C1A /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */; };
+		0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3732E1DD11500DB6C1A /* Theme.swift */; };
+		0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */; };
+		0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B37A2E1DD47100DB6C1A /* Client.swift */; };
+		0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */; };
+		0982B3802E1DDFFE00DB6C1A /* ClientRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B37F2E1DDFFE00DB6C1A /* ClientRepo.swift */; };
+		0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3812E1DE06800DB6C1A /* ClientInput.swift */; };
+		0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */; };
+		0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */; };
+		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,38 +67,40 @@
 		094FF7682E0F269B00A212F7 /* Pluckr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluckr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF7752E0F269D00A212F7 /* PluckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntry.swift; sourceTree = "<group>"; };
+		0982B3312E1DCE3600DB6C1A /* .gitignore 2 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".gitignore 2"; sourceTree = "<group>"; };
+		0982B3322E1DCE3600DB6C1A /* AddClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientView.swift; sourceTree = "<group>"; };
+		0982B3332E1DCE3600DB6C1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
+		0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDetailView.swift; sourceTree = "<group>"; };
+		0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormView.swift; sourceTree = "<group>"; };
+		0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRowView.swift; sourceTree = "<group>"; };
+		0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListView.swift; sourceTree = "<group>"; };
+		0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailView.swift; sourceTree = "<group>"; };
+		0982B33A2E1DCE3600DB6C1A /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
+		0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListView.swift; sourceTree = "<group>"; };
+		0982B33C2E1DCE3600DB6C1A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientView.swift; sourceTree = "<group>"; };
+		0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0982B33F2E1DCE3600DB6C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0982B3402E1DCE3600DB6C1A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0982B3412E1DCE3600DB6C1A /* NewChartEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChartEntryView.swift; sourceTree = "<group>"; };
+		0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluckrApp.swift; sourceTree = "<group>"; };
+		0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeRouter.swift; sourceTree = "<group>"; };
+		0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeView.swift; sourceTree = "<group>"; };
+		0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderProfileSetupView.swift; sourceTree = "<group>"; };
+		0982B3462E1DCE3600DB6C1A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToDeleteView.swift; sourceTree = "<group>"; };
+		0982B3732E1DD11500DB6C1A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListViewModel.swift; sourceTree = "<group>"; };
+		0982B37A2E1DD47100DB6C1A /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeViewModel.swift; sourceTree = "<group>"; };
+		0982B37F2E1DDFFE00DB6C1A /* ClientRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepo.swift; sourceTree = "<group>"; };
+		0982B3812E1DE06800DB6C1A /* ClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInput.swift; sourceTree = "<group>"; };
+		0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientViewModel.swift; sourceTree = "<group>"; };
+		0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailViewModel.swift; sourceTree = "<group>"; };
+		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0992633E2E14B1A6004C1952 /* Exceptions for "A_E_Charting" folder in "Pluckr" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 094FF7672E0F269B00A212F7 /* Pluckr */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		094FF76A2E0F269B00A212F7 /* A_E_Charting */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0992633E2E14B1A6004C1952 /* Exceptions for "A_E_Charting" folder in "Pluckr" target */,
-			);
-			path = A_E_Charting;
-			sourceTree = "<group>";
-		};
-		094FF7782E0F269D00A212F7 /* A_E_ChartingTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = A_E_ChartingTests;
-			sourceTree = "<group>";
-		};
-		094FF7822E0F269D00A212F7 /* A_E_ChartingUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = A_E_ChartingUITests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		094FF7652E0F269B00A212F7 /* Frameworks */ = {
@@ -72,7 +108,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */,
+				0982B3682E1DCE5400DB6C1A /* AlertToast in Frameworks */,
 				094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */,
+				0982B36B2E1DCEA400DB6C1A /* SwiftUIIntrospect in Frameworks */,
 				094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,10 +135,21 @@
 		094FF75F2E0F269B00A212F7 = {
 			isa = PBXGroup;
 			children = (
-				094FF76A2E0F269B00A212F7 /* A_E_Charting */,
-				094FF7782E0F269D00A212F7 /* A_E_ChartingTests */,
-				094FF7822E0F269D00A212F7 /* A_E_ChartingUITests */,
+				0982B37E2E1DDFE000DB6C1A /* Repos */,
+				0982B3772E1DD2E500DB6C1A /* ViewModels */,
+				0982B3762E1DD1CC00DB6C1A /* Routing */,
+				0982B3752E1DD15F00DB6C1A /* Components */,
+				0982B3712E1DD03900DB6C1A /* Utils */,
+				0982B3702E1DD02800DB6C1A /* Resources */,
+				0982B36E2E1DD00000DB6C1A /* Models */,
+				0982B36C2E1DCFEB00DB6C1A /* Views */,
+				0982B3332E1DCE3600DB6C1A /* Assets.xcassets */,
+				0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */,
+				0982B33F2E1DCE3600DB6C1A /* Info.plist */,
+				0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */,
+				0982B3462E1DCE3600DB6C1A /* README.md */,
 				094FF7692E0F269B00A212F7 /* Products */,
+				0982B3312E1DCE3600DB6C1A /* .gitignore 2 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +161,89 @@
 				094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3322E1DCE3600DB6C1A /* AddClientView.swift */,
+				0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */,
+				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
+				0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */,
+				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
+				0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */,
+				0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */,
+				0982B33C2E1DCE3600DB6C1A /* ContentView.swift */,
+				0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */,
+				0982B3402E1DCE3600DB6C1A /* LoginView.swift */,
+				0982B3412E1DCE3600DB6C1A /* NewChartEntryView.swift */,
+				0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */,
+				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
+				0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0982B36E2E1DD00000DB6C1A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3812E1DE06800DB6C1A /* ClientInput.swift */,
+				0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */,
+				0982B37A2E1DD47100DB6C1A /* Client.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0982B3702E1DD02800DB6C1A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3732E1DD11500DB6C1A /* Theme.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0982B3712E1DD03900DB6C1A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3872E1DE31600DB6C1A /* Binding.swift */,
+				0982B33A2E1DCE3600DB6C1A /* ClientInfoModal.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0982B3752E1DD15F00DB6C1A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		0982B3762E1DD1CC00DB6C1A /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */,
+			);
+			path = Routing;
+			sourceTree = "<group>";
+		};
+		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */,
+				0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */,
+				0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */,
+				0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0982B37E2E1DDFE000DB6C1A /* Repos */ = {
+			isa = PBXGroup;
+			children = (
+				0982B37F2E1DDFFE00DB6C1A /* ClientRepo.swift */,
+			);
+			path = Repos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,14 +261,13 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				094FF76A2E0F269B00A212F7 /* A_E_Charting */,
-			);
 			name = Pluckr;
 			packageProductDependencies = (
 				094FF7952E0F2AC100A212F7 /* FirebaseAuth */,
 				094FF7972E0F2AC100A212F7 /* FirebaseFirestore */,
 				094FF7992E0F2AC100A212F7 /* FirebaseStorage */,
+				0982B3672E1DCE5400DB6C1A /* AlertToast */,
+				0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */,
 			);
 			productName = A_E_Charting;
 			productReference = 094FF7682E0F269B00A212F7 /* Pluckr.app */;
@@ -154,9 +285,6 @@
 			);
 			dependencies = (
 				094FF7772E0F269D00A212F7 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				094FF7782E0F269D00A212F7 /* A_E_ChartingTests */,
 			);
 			name = PluckrTests;
 			packageProductDependencies = (
@@ -177,9 +305,6 @@
 			);
 			dependencies = (
 				094FF7812E0F269D00A212F7 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				094FF7822E0F269D00A212F7 /* A_E_ChartingUITests */,
 			);
 			name = PluckrUITests;
 			packageProductDependencies = (
@@ -222,6 +347,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */,
+				0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 094FF7692E0F269B00A212F7 /* Products */;
@@ -240,6 +367,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0982B35B2E1DCE3600DB6C1A /* README.md in Resources */,
+				0982B35C2E1DCE3600DB6C1A /* GoogleService-Info.plist in Resources */,
+				0982B35D2E1DCE3600DB6C1A /* .gitignore 2 in Resources */,
+				0982B35F2E1DCE3600DB6C1A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +395,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0982B3482E1DCE3600DB6C1A /* ClientInfoModal.swift in Sources */,
+				0982B3492E1DCE3600DB6C1A /* ClientsListView.swift in Sources */,
+				0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */,
+				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
+				0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */,
+				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
+				0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */,
+				0982B34B2E1DCE3600DB6C1A /* ContentView.swift in Sources */,
+				0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */,
+				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
+				0982B3802E1DDFFE00DB6C1A /* ClientRepo.swift in Sources */,
+				0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */,
+				0982B34F2E1DCE3600DB6C1A /* LoginView.swift in Sources */,
+				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
+				0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */,
+				0982B3522E1DCE3600DB6C1A /* NewChartEntryView.swift in Sources */,
+				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
+				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
+				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
+				0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */,
+				0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */,
+				0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */,
+				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
+				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
+				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
+				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
+				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,
+				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,7 +587,7 @@
 				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/A_E_Charting/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -457,7 +616,7 @@
 				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/A_E_Charting/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -594,6 +753,22 @@
 				minimumVersion = 11.15.0;
 			};
 		};
+		0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
+		0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -611,6 +786,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		0982B3672E1DCE5400DB6C1A /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+		0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

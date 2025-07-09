@@ -12,7 +12,7 @@ struct ClientInfoModal: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text(client.name)
+            Text(client.fullName)
                 .font(.largeTitle)
                 .bold()
 

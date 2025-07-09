@@ -17,10 +17,10 @@ struct EditClientView: View {
     let pronounOptions = ["She/Her", "He/Him", "They/Them", "Other"]
 
     init(client: Client, onSave: @escaping () -> Void) {
-        self.clientID = client.id
-        self._firstName = State(initialValue: client.name.components(separatedBy: " ").first ?? "")
-        self._lastName = State(initialValue: client.name.components(separatedBy: " ").dropFirst().joined(separator: " "))
-        self._pronouns = State(initialValue: client.pronouns)
+        self.clientID = client.id ?? ""
+        self._firstName = State(initialValue: client.fullName.components(separatedBy: " ").first ?? "")
+        self._lastName = State(initialValue: client.fullName.components(separatedBy: " ").dropFirst().joined(separator: " "))
+        self._pronouns = State(initialValue: client.pronouns ?? "")
         self._phone = State(initialValue: "")  // Fetched onAppear
         self.onSave = onSave
     }
