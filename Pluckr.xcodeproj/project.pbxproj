@@ -10,7 +10,6 @@
 		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
 		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
 		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
-		0982B3482E1DCE3600DB6C1A /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33A2E1DCE3600DB6C1A /* ClientInfoModal.swift */; };
 		0982B3492E1DCE3600DB6C1A /* ClientsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */; };
 		0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */; };
 		0982B34B2E1DCE3600DB6C1A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33C2E1DCE3600DB6C1A /* ContentView.swift */; };
@@ -44,6 +43,7 @@
 		0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */; };
 		0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */; };
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
+		09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +77,6 @@
 		0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRowView.swift; sourceTree = "<group>"; };
 		0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListView.swift; sourceTree = "<group>"; };
 		0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailView.swift; sourceTree = "<group>"; };
-		0982B33A2E1DCE3600DB6C1A /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 		0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListView.swift; sourceTree = "<group>"; };
 		0982B33C2E1DCE3600DB6C1A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientView.swift; sourceTree = "<group>"; };
@@ -100,6 +99,7 @@
 		0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientViewModel.swift; sourceTree = "<group>"; };
 		0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailViewModel.swift; sourceTree = "<group>"; };
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +166,7 @@
 		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				09E0287E2E1DEFE40095BA77 /* Shared */,
 				0982B3322E1DCE3600DB6C1A /* AddClientView.swift */,
 				0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */,
 				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
@@ -206,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				0982B3872E1DE31600DB6C1A /* Binding.swift */,
-				0982B33A2E1DCE3600DB6C1A /* ClientInfoModal.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -244,6 +244,14 @@
 				0982B37F2E1DDFFE00DB6C1A /* ClientRepo.swift */,
 			);
 			path = Repos;
+			sourceTree = "<group>";
+		};
+		09E0287E2E1DEFE40095BA77 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,7 +403,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0982B3482E1DCE3600DB6C1A /* ClientInfoModal.swift in Sources */,
 				0982B3492E1DCE3600DB6C1A /* ClientsListView.swift in Sources */,
 				0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */,
 				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
@@ -414,6 +421,7 @@
 				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
 				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
 				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
+				09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */,
 				0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */,
 				0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */,
 				0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */,
