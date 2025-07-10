@@ -3,6 +3,7 @@
 import SwiftUI
 import PhotosUI
 
+
 struct ChartEntryFormView: View {
     // MARK: - Properties
     @StateObject var viewModel: ChartEntryFormViewModel
