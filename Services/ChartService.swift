@@ -4,56 +4,14 @@ import FirebaseStorage
 import FirebaseAuth
 import UIKit
 
-struct ChartEntryData {
-    var modality: String
-    var rfLevel: Double
-    var dcLevel: Double
-    var probe: String
-    var probeIsOnePiece: Bool
-    var treatmentArea: String
-    var notes: String
-    var imageURLs: [String]
-    var createdAt: Date
-    var createdBy: String
-    var createdByName: String
-    var clientChosenName: String
-    var clientLegalName: String
-    var lastEditedAt: Date? = nil
-    var lastEditedBy: String? = nil
-
-    var asDictionary: [String: Any] {
-        var dict: [String: Any] = [
-            "modality": modality,
-            "rfLevel": rfLevel,
-            "dcLevel": dcLevel,
-            "probe": probe,
-            "probeIsOnePiece": probeIsOnePiece,
-            "treatmentArea": treatmentArea,
-            "notes": notes,
-            "imageURLs": imageURLs,
-            "createdAt": Timestamp(date: createdAt),
-            "createdBy": createdBy,
-            "createdByName": createdByName,
-            "clientChosenName": clientChosenName,
-            "clientLegalName": clientLegalName
-        ]
-        if let lastEditedAt = lastEditedAt {
-            dict["lastEditedAt"] = Timestamp(date: lastEditedAt)
-        }
-        if let lastEditedBy = lastEditedBy {
-            dict["lastEditedBy"] = lastEditedBy
-        }
-        return dict
-    }
-}
-
 class ChartService {
     static let shared = ChartService()
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
 
     private init() {}
-
+    
+    // MARK: - Save Chart Entry
     func saveChartEntry(for clientId: String, chartData: ChartEntryData, chartId: String?, completion: @escaping (Result<Void, Error>) -> Void) {
         let chartRef = db.collection("clients").document(clientId).collection("charts")
         let docRef = chartId == nil ? chartRef.document() : chartRef.document(chartId!)
@@ -76,6 +34,7 @@ class ChartService {
         }
     }
 
+    // MARK: - Upload Single Image
     func uploadImage(_ image: UIImage, clientId: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let imageData = image.jpegData(compressionQuality: 0.7) else {
             completion(.failure(NSError(domain: "compression", code: -1, userInfo: nil)))
@@ -101,6 +60,7 @@ class ChartService {
         }
     }
 
+    // MARK: - Upload Multiple Images
     func uploadMultipleImages(_ images: [UIImage], clientId: String, completion: @escaping ([String]) -> Void) {
         var uploadedURLs: [String] = []
         let group = DispatchGroup()
@@ -120,3 +80,5 @@ class ChartService {
         }
     }
 }
+
+

@@ -49,6 +49,18 @@
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
 		099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
+		099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */; };
+		099AC4E62E1F2C9800F62820 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DC2E1EF53F00F62820 /* StorageService.swift */; };
+		099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E52E1F2C1C00F62820 /* ChartService.swift */; };
+		099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */; };
+		099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */; };
+		099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */; };
+		099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */; };
+		099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */; };
+		099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */; };
+		099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F42E1F2E7800F62820 /* ErrorView.swift */; };
+		099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */; };
+		099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F82E1F30C700F62820 /* ImageView.swift */; };
 		09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */; };
 /* End PBXBuildFile section */
 
@@ -109,11 +121,21 @@
 		099AC4D42E1DF8B800F62820 /* RFLevelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFLevelPicker.swift; sourceTree = "<group>"; };
 		099AC4D62E1DF8C200F62820 /* DCLevelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCLevelPicker.swift; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
-		099AC4DB2E1EF53700F62820 /* ChartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartService.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		099AC4DD2E1EF54800F62820 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOptions.swift; sourceTree = "<group>"; };
 		099AC4E12E1F099E00F62820 /* CameraUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUploader.swift; sourceTree = "<group>"; };
+		099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryData.swift; sourceTree = "<group>"; };
+		099AC4E52E1F2C1C00F62820 /* ChartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartService.swift; sourceTree = "<group>"; };
+		099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalityPickerView.swift; sourceTree = "<group>"; };
+		099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSettingsView.swift; sourceTree = "<group>"; };
+		099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbePickerView.swift; sourceTree = "<group>"; };
+		099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentAreaField.swift; sourceTree = "<group>"; };
+		099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesFieldView.swift; sourceTree = "<group>"; };
+		099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
+		099AC4F42E1F2E7800F62820 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
+		099AC4F82E1F30C700F62820 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -203,6 +225,7 @@
 		0982B36E2E1DD00000DB6C1A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */,
 				0982B3812E1DE06800DB6C1A /* ClientInput.swift */,
 				0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */,
 				0982B37A2E1DD47100DB6C1A /* Client.swift */,
@@ -232,6 +255,15 @@
 		0982B3752E1DD15F00DB6C1A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				099AC4F82E1F30C700F62820 /* ImageView.swift */,
+				099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */,
+				099AC4F42E1F2E7800F62820 /* ErrorView.swift */,
+				099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */,
+				099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */,
+				099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */,
+				099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */,
+				099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */,
+				099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */,
 				099AC4D62E1DF8C200F62820 /* DCLevelPicker.swift */,
 				099AC4D42E1DF8B800F62820 /* RFLevelPicker.swift */,
 				0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */,
@@ -271,9 +303,9 @@
 		099AC4DA2E1EF51700F62820 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				099AC4E52E1F2C1C00F62820 /* ChartService.swift */,
 				099AC4DD2E1EF54800F62820 /* AuthService.swift */,
 				099AC4DC2E1EF53F00F62820 /* StorageService.swift */,
-				099AC4DB2E1EF53700F62820 /* ChartService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -448,26 +480,38 @@
 				0982B3802E1DDFFE00DB6C1A /* ClientRepo.swift in Sources */,
 				099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */,
 				0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */,
+				099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */,
+				099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */,
 				0982B34F2E1DCE3600DB6C1A /* LoginView.swift in Sources */,
+				099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */,
 				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
 				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
 				099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */,
 				0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */,
 				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
 				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
+				099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */,
 				099AC4D72E1DF8C600F62820 /* DCLevelPicker.swift in Sources */,
+				099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */,
 				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
 				09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */,
 				0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */,
 				0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */,
+				099AC4E62E1F2C9800F62820 /* StorageService.swift in Sources */,
 				0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */,
 				099AC4CF2E1DF22D00F62820 /* ChartslistViewModel.swift in Sources */,
+				099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */,
+				099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */,
+				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
 				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
 				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
+				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
+				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
 				099AC4D52E1DF8BE00F62820 /* RFLevelPicker.swift in Sources */,
 				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
 				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,
+				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

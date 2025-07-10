@@ -1,130 +1,91 @@
-import Foundation
-import FirebaseAuth
-import FirebaseFirestore
-import FirebaseStorage
+// MARK: - ChartEntryFormViewModel.swift
 import SwiftUI
 import PhotosUI
+import Firebase
+import FirebaseAuth
 
 @MainActor
-class ChartEntryFormViewModel: ObservableObject {
-    // MARK: - Input Properties
-    @Published var selectedModality: String = "Thermolysis"
-    @Published var rfLevel: Double = 4.0    // Range: 0–8 W
-    @Published var dcLevel: Double = 1.5    // Range: 0–3 mA
+final class ChartEntryFormViewModel: ObservableObject {
+    // MARK: - Published Properties
+    @Published var selectedModality: String = ""
+    @Published var rfLevel: Double = 0.0
+    @Published var dcLevel: Double = 0.0
     @Published var usingOnePiece: Bool = true
-    @Published var selectedOnePieceProbe: String = ProbeOptions.onePieceProbes.first ?? ""
-    @Published var selectedTwoPieceProbe: String = ProbeOptions.twoPieceProbes.first ?? ""
+    @Published var selectedOnePieceProbe: String = ""
+    @Published var selectedTwoPieceProbe: String = ""
     @Published var treatmentArea: String = ""
     @Published var notes: String = ""
     @Published var uploadedImageURLs: [String] = []
-
-    // MARK: - State & UI
+    @Published var errorMessage: String? = nil
     @Published var isSaving: Bool = false
-    @Published var errorMessage: String = ""
-    @Published var showRfPicker = false
-    @Published var showDcPicker = false
-    @Published var showCamera = false
-    @Published var probeIsOnePiece: Bool
-
-    // MARK: - Constants
-    let modalities = ["Thermolysis", "Galvanic", "Blend"]
-    let onePieceProbes = ProbeOptions.onePieceProbes
-    let twoPieceProbes = ProbeOptions.twoPieceProbes
-
-    // MARK: - Internal State
-    private var clientId: String
-    private var existingChart: ChartEntry?
-    private var onSave: () -> Void
-
-    var chartId: String? { existingChart?.id }
+    @Published var imageUploadErrorMessage: String? = nil
 
     // MARK: - Init
-    init(clientId: String, chart: ChartEntry? = nil, onSave: @escaping () -> Void) {
-        self.clientId = clientId
-        self.existingChart = chart
-        self.onSave = onSave
+    init() {}
 
-        if let chart = chart {
-            selectedModality = chart.modality
-            rfLevel = chart.rfLevel
-            dcLevel = chart.dcLevel
-            treatmentArea = chart.treatmentArea
-            notes = chart.notes
-            uploadedImageURLs = chart.imageURLs
-            usingOnePiece = chart.probeIsOnePiece
-            if chart.probeIsOnePiece {
-                selectedOnePieceProbe = chart.probe
-            } else {
-                selectedTwoPieceProbe = chart.probe
-            }
-        }
-    }
-
-    // MARK: - Public Methods
-    func uploadCameraImage(_ image: UIImage) async {
-        guard let url = await CameraUploader.uploadImage(image: image, clientId: clientId) else {
-            errorMessage = "Failed to upload image."
-            return
-        }
-        uploadedImageURLs.append(url)
-    }
-
-    func uploadImagesThenSave() {
-        saveChart(for: clientId) { success in
-            if success {
-                self.onSave()
-            }
-        }
-    }
-
-    func takePhoto() {
-        showCamera = true
-    }
-
-    func saveChart(for clientId: String, onComplete: @escaping (Bool) -> Void) {
-        guard let user = Auth.auth().currentUser else {
-            errorMessage = "You must be logged in."
-            onComplete(false)
-            return
-        }
-
+    // MARK: - Upload Selected Images
+    func uploadSelectedImages(from selections: [PhotosPickerItem], clientId: String) async {
         isSaving = true
+        var uploadedURLs: [String] = []
 
-        let chartData: [String: Any] = [
-            "modality": selectedModality,
-            "rfLevel": rfLevel,
-            "dcLevel": dcLevel,
-            "probe": usingOnePiece ? selectedOnePieceProbe : selectedTwoPieceProbe,
-            "probeIsOnePiece": usingOnePiece,
-            "treatmentArea": treatmentArea,
-            "notes": notes,
-            "imageURLs": uploadedImageURLs,
-            "createdBy": user.uid,
-            "createdAt": existingChart?.createdAt ?? FieldValue.serverTimestamp(),
-            "updatedAt": FieldValue.serverTimestamp()
-        ]
-
-        let db = Firestore.firestore()
-        let chartRef = db.collection("clients").document(clientId).collection("charts")
-
-        if let existingId = existingChart?.id {
-            chartRef.document(existingId).updateData(chartData) { error in
-                self.isSaving = false
-                if let error = error {
-                    self.errorMessage = "Update failed: \(error.localizedDescription)"
-                    onComplete(false)
-                } else {
-                    onComplete(true)
+        for item in selections {
+            do {
+                if let data = try await item.loadTransferable(type: Data.self),
+                   let uiImage = UIImage(data: data),
+                   let url = await CameraUploader.uploadImage(image: uiImage, clientId: clientId) {
+                    uploadedURLs.append(url)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.errorMessage = "Failed to upload image: \(error.localizedDescription)"
                 }
             }
-        } else {
-            chartRef.addDocument(data: chartData) { error in
-                self.isSaving = false
-                if let error = error {
-                    self.errorMessage = "Save failed: \(error.localizedDescription)"
-                    onComplete(false)
-                } else {
-                    onComplete(true)
+        }
+
+        DispatchQueue.main.async {
+            self.uploadedImageURLs.append(contentsOf: uploadedURLs)
+            self.isSaving = false
+        }
+    }
+
+    // MARK: - Save Chart
+    func saveChart(for clientId: String, completion: @escaping (Bool) -> Void) {
+        isSaving = true
+
+        guard let userId = Auth.auth().currentUser?.uid,
+              let userName = Auth.auth().currentUser?.displayName else {
+            self.errorMessage = "Unable to identify provider."
+            completion(false)
+            return
+        }
+
+        let chartData = ChartEntryData(
+            modality: selectedModality,
+            rfLevel: rfLevel,
+            dcLevel: dcLevel,
+            probe: usingOnePiece ? selectedOnePieceProbe : selectedTwoPieceProbe,
+            probeIsOnePiece: usingOnePiece,
+            treatmentArea: treatmentArea,
+            notes: notes,
+            imageURLs: uploadedImageURLs,
+            createdAt: Date(),
+            createdBy: userId,
+            createdByName: userName,
+            clientChosenName: nil,
+            clientLegalName: nil,
+            lastEditedAt: Date(),
+            lastEditedBy: userName
+        )
+
+        ChartService.shared.saveChartEntry(for: clientId, chartData: chartData, chartId: nil) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isSaving = false
+                switch result {
+                case .success:
+                    completion(true)
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                    completion(false)
                 }
             }
         }
