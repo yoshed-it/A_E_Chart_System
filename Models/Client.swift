@@ -1,7 +1,7 @@
 import Foundation
 import Firebase
 
-struct Client: Identifiable, Codable, Equatable {
+struct Client: Identifiable, Hashable, Codable, Equatable {
     var id: String?             // Firestore Document ID
     var firstName: String
     var lastName: String

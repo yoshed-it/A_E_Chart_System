@@ -3,7 +3,6 @@
 import SwiftUI
 import PhotosUI
 
-
 struct ChartEntryFormView: View {
     // MARK: - Properties
     @StateObject var viewModel: ChartEntryFormViewModel
@@ -17,23 +16,6 @@ struct ChartEntryFormView: View {
     @State private var showRfPicker = false
     @State private var showDcPicker = false
 
-    // MARK: - Camera Binding
-    private var cameraBinding: Binding<UIImage?> {
-        Binding<UIImage?>(
-            get: { nil },
-            set: { newImage in
-                guard let newImage else { return }
-                Task {
-                    if let url = await CameraUploader.uploadImage(image: newImage, clientId: clientId) {
-                        viewModel.uploadedImageURLs.append(url)
-                    } else {
-                        viewModel.imageUploadErrorMessage = "Upload failed."
-                    }
-                }
-            }
-        )
-    }
-
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -41,32 +23,30 @@ struct ChartEntryFormView: View {
                 .navigationTitle(chartId == nil ? "New Chart" : "Edit Chart")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") { dismiss() }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
                     }
                 }
         }
         .sheet(isPresented: $showCamera) {
-            CameraCaptureView(image: cameraBinding)
+            CameraCaptureView { image in
+                handleImageCapture(image)
+            }
         }
         .sheet(isPresented: $showRfPicker) {
-            RFLevelPicker(title: "RF Level", level: $viewModel.rfLevel) {
-                showRfPicker = false
-            }
+            RFLevelPicker(value: $viewModel.rfLevel)
         }
         .sheet(isPresented: $showDcPicker) {
-            DCLevelPicker(title: "DC Level", level: $viewModel.dcLevel) {
-                showDcPicker = false
-            }
+            DCLevelPicker(value: $viewModel.dcLevel)
         }
-        .onChange(of: imageSelections) { newSelections in
-            Task(priority: .userInitiated) {
-                await viewModel.uploadSelectedImages(from: newSelections, clientId: clientId)
-            }
+        .onChange(of: imageSelections) {
+            handleImageUpload($0)
         }
     }
 
-    // MARK: - Form Content (as method to avoid scope issues)
+    // MARK: - Form Content
     private func formContent() -> some View {
         Form {
             ModalityPickerView(selectedModality: $viewModel.selectedModality)
@@ -105,6 +85,27 @@ struct ChartEntryFormView: View {
                         onSave()
                         dismiss()
                     }
+                }
+            }
+        }
+    }
+
+    // MARK: - Helpers
+    private func handleImageUpload(_ selections: [PhotosPickerItem]) {
+        Task {
+            await viewModel.uploadSelectedImages(from: selections, clientId: clientId)
+        }
+    }
+
+    private func handleImageCapture(_ image: UIImage) {
+        Task {
+            if let url = await CameraUploader.uploadImage(image: image, clientId: clientId) {
+                await MainActor.run {
+                    viewModel.uploadedImageURLs.append(url)
+                }
+            } else {
+                await MainActor.run {
+                    viewModel.imageUploadErrorMessage = "Upload failed."
                 }
             }
         }

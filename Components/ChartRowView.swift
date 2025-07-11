@@ -24,12 +24,11 @@ struct ChartRowView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
 
-            if !chart.treatmentArea.isEmpty {
-                Text("Area: \(chart.treatmentArea)")
+            if let area = chart.treatmentArea, !area.isEmpty {
+                Text("Area: \(area)")
                     .font(.caption2)
                     .foregroundColor(.gray)
             }
-
             if !chart.notes.isEmpty {
                 Text(chart.notes)
                     .lineLimit(1)

@@ -3,6 +3,7 @@ import FirebaseFirestore
 
 class ClientsListViewModel: ObservableObject {
     @Published var clients: [Client] = []
+    @Published var searchText: String = ""
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
@@ -44,5 +45,14 @@ class ClientsListViewModel: ObservableObject {
 
     func refresh() {
         fetchClients()
+    }
+    var filteredClients: [Client] {
+        if searchText.isEmpty {
+            return clients
+        } else {
+            return clients.filter {
+                $0.fullName.localizedCaseInsensitiveContains(searchText)
+            }
+        }
     }
 }

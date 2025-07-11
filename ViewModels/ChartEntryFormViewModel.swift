@@ -69,12 +69,13 @@ final class ChartEntryFormViewModel: ObservableObject {
             notes: notes,
             imageURLs: uploadedImageURLs,
             createdAt: Date(),
+            lastEditedAt: Date(),
+            lastEditedBy: userName,
             createdBy: userId,
             createdByName: userName,
             clientChosenName: nil,
             clientLegalName: nil,
-            lastEditedAt: Date(),
-            lastEditedBy: userName
+            
         )
 
         ChartService.shared.saveChartEntry(for: clientId, chartData: chartData, chartId: nil) { [weak self] result in

@@ -40,7 +40,7 @@ struct ChartDetailView: View {
                         Text("Treatment Area:")
                             .bold()
                         Spacer()
-                        Text(chart.treatmentArea)
+                        Text(chart.treatmentArea ?? "")
                     }
                 }
                 

@@ -10,9 +10,8 @@
 		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
 		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
 		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
-		0982B3492E1DCE3600DB6C1A /* ClientsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */; };
+		0982B3492E1DCE3600DB6C1A /* ClientJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */; };
 		0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */; };
-		0982B34B2E1DCE3600DB6C1A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33C2E1DCE3600DB6C1A /* ContentView.swift */; };
 		0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */; };
 		0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */; };
 		0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3322E1DCE3600DB6C1A /* AddClientView.swift */; };
@@ -61,6 +60,10 @@
 		099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F42E1F2E7800F62820 /* ErrorView.swift */; };
 		099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */; };
 		099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F82E1F30C700F62820 /* ImageView.swift */; };
+		099AC5042E20876D00F62820 /* ChartEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5032E20876D00F62820 /* ChartEntryCard.swift */; };
+		099AC5062E2087A400F62820 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5052E2087A400F62820 /* TagView.swift */; };
+		099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5072E20887900F62820 /* ChartEntryService.swift */; };
+		099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5092E208E9C00F62820 /* ClientListView.swift */; };
 		09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,8 +98,7 @@
 		0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRowView.swift; sourceTree = "<group>"; };
 		0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListView.swift; sourceTree = "<group>"; };
 		0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailView.swift; sourceTree = "<group>"; };
-		0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListView.swift; sourceTree = "<group>"; };
-		0982B33C2E1DCE3600DB6C1A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalView.swift; sourceTree = "<group>"; };
 		0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientView.swift; sourceTree = "<group>"; };
 		0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0982B33F2E1DCE3600DB6C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +138,10 @@
 		099AC4F42E1F2E7800F62820 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
 		099AC4F82E1F30C700F62820 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		099AC5032E20876D00F62820 /* ChartEntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryCard.swift; sourceTree = "<group>"; };
+		099AC5052E2087A400F62820 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		099AC5072E20887900F62820 /* ChartEntryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryService.swift; sourceTree = "<group>"; };
+		099AC5092E208E9C00F62820 /* ClientListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientListView.swift; sourceTree = "<group>"; };
 		09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,16 +211,11 @@
 		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0982B3322E1DCE3600DB6C1A /* AddClientView.swift */,
-				0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */,
-				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
-				0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */,
-				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
-				0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */,
-				0982B33B2E1DCE3600DB6C1A /* ClientsListView.swift */,
-				0982B33C2E1DCE3600DB6C1A /* ContentView.swift */,
-				0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */,
-				0982B3402E1DCE3600DB6C1A /* LoginView.swift */,
+				099AC5022E20867300F62820 /* ClientEdit */,
+				099AC4FF2E20863600F62820 /* Camera */,
+				099AC4FD2E20861300F62820 /* Charts */,
+				099AC4FC2E20860100F62820 /* Clients */,
+				099AC5002E20865500F62820 /* Auth */,
 				0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */,
 				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
 				0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */,
@@ -303,6 +304,7 @@
 		099AC4DA2E1EF51700F62820 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				099AC5072E20887900F62820 /* ChartEntryService.swift */,
 				099AC4E52E1F2C1C00F62820 /* ChartService.swift */,
 				099AC4DD2E1EF54800F62820 /* AuthService.swift */,
 				099AC4DC2E1EF53F00F62820 /* StorageService.swift */,
@@ -316,6 +318,53 @@
 				099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		099AC4FC2E20860100F62820 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */,
+				0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */,
+				099AC5032E20876D00F62820 /* ChartEntryCard.swift */,
+				099AC5052E2087A400F62820 /* TagView.swift */,
+				099AC5092E208E9C00F62820 /* ClientListView.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		099AC4FD2E20861300F62820 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
+				0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */,
+				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		099AC4FF2E20863600F62820 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		099AC5002E20865500F62820 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3402E1DCE3600DB6C1A /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		099AC5022E20867300F62820 /* ClientEdit */ = {
+			isa = PBXGroup;
+			children = (
+				0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */,
+				0982B3322E1DCE3600DB6C1A /* AddClientView.swift */,
+			);
+			path = ClientEdit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -467,15 +516,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0982B3492E1DCE3600DB6C1A /* ClientsListView.swift in Sources */,
+				0982B3492E1DCE3600DB6C1A /* ClientJournalView.swift in Sources */,
 				0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */,
 				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
 				0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */,
 				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
 				0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */,
-				0982B34B2E1DCE3600DB6C1A /* ContentView.swift in Sources */,
 				099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */,
 				0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */,
+				099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */,
+				099AC5062E2087A400F62820 /* TagView.swift in Sources */,
 				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
 				0982B3802E1DDFFE00DB6C1A /* ClientRepo.swift in Sources */,
 				099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */,
@@ -501,10 +551,12 @@
 				0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */,
 				099AC4CF2E1DF22D00F62820 /* ChartslistViewModel.swift in Sources */,
 				099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */,
+				099AC5042E20876D00F62820 /* ChartEntryCard.swift in Sources */,
 				099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */,
 				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
 				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
+				099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */,
 				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
 				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
 				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
