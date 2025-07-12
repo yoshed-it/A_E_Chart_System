@@ -2,7 +2,7 @@ import Foundation
 import Firebase
 
 struct Client: Identifiable, Hashable, Codable, Equatable {
-    var id: String?             // Firestore Document ID
+    var id: String            // Firestore Document ID
     var firstName: String
     var lastName: String
     var phone: String?
@@ -29,7 +29,7 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         lastSeenAt: Date? = nil,
         createdAt: Date? = nil
     ) {
-        self.id = id
+        self.id = id ?? ""
         self.firstName = firstName
         self.lastName = lastName
         self.phone = phone
@@ -47,7 +47,7 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
             return nil
         }
 
-        self.id = id
+        self.id = id ?? ""
         self.firstName = firstName
         self.lastName = lastName
         self.phone = data["phone"] as? String
@@ -58,4 +58,5 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         self.createdAt = (data["createdAt"] as? Timestamp)?.dateValue()
         self.lastSeenAt = (data["lastSeenAt"] as? Timestamp)?.dateValue()
     }
+    
 }

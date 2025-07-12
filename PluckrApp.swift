@@ -22,7 +22,7 @@ struct PluckrApp: App {
 
   var body: some Scene {
     WindowGroup {
-      NavigationView {
+      NavigationStack {
 //        LoginView()
           ProviderHomeView()
       }

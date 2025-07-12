@@ -10,7 +10,7 @@ struct AddClientView: View {
     let pronounOptions = ["She/Her", "He/Him", "They/Them", "Other"]
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Client Info")) {
                     TextField("First Name", text: $viewModel.firstName)

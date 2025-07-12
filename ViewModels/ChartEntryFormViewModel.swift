@@ -8,8 +8,8 @@ import FirebaseAuth
 final class ChartEntryFormViewModel: ObservableObject {
     // MARK: - Published Properties
     @Published var selectedModality: String = ""
-    @Published var rfLevel: Double = 0.0
-    @Published var dcLevel: Double = 0.0
+    @Published var rfLevel: Double = 0.1
+    @Published var dcLevel: Double = 0.1
     @Published var usingOnePiece: Bool = true
     @Published var selectedOnePieceProbe: String = ""
     @Published var selectedTwoPieceProbe: String = ""
@@ -19,15 +19,15 @@ final class ChartEntryFormViewModel: ObservableObject {
     @Published var errorMessage: String? = nil
     @Published var isSaving: Bool = false
     @Published var imageUploadErrorMessage: String? = nil
-
+    
     // MARK: - Init
     init() {}
-
+    
     // MARK: - Upload Selected Images
     func uploadSelectedImages(from selections: [PhotosPickerItem], clientId: String) async {
         isSaving = true
         var uploadedURLs: [String] = []
-
+        
         for item in selections {
             do {
                 if let data = try await item.loadTransferable(type: Data.self),
@@ -41,24 +41,18 @@ final class ChartEntryFormViewModel: ObservableObject {
                 }
             }
         }
-
+        
         DispatchQueue.main.async {
             self.uploadedImageURLs.append(contentsOf: uploadedURLs)
             self.isSaving = false
         }
     }
-
+    
     // MARK: - Save Chart
     func saveChart(for clientId: String, completion: @escaping (Bool) -> Void) {
+        print("📡 Attempting to save chart for clientId: \(clientId)")
         isSaving = true
-
-        guard let userId = Auth.auth().currentUser?.uid,
-              let userName = Auth.auth().currentUser?.displayName else {
-            self.errorMessage = "Unable to identify provider."
-            completion(false)
-            return
-        }
-
+        
         let chartData = ChartEntryData(
             modality: selectedModality,
             rfLevel: rfLevel,
@@ -70,22 +64,23 @@ final class ChartEntryFormViewModel: ObservableObject {
             imageURLs: uploadedImageURLs,
             createdAt: Date(),
             lastEditedAt: Date(),
-            lastEditedBy: userName,
-            createdBy: userId,
-            createdByName: userName,
+            lastEditedBy: Auth.auth().currentUser?.displayName ?? "Unknown",
+            createdBy: Auth.auth().currentUser?.uid ?? "Unknown",
+            createdByName: Auth.auth().currentUser?.displayName ?? "Unknown",
             clientChosenName: nil,
-            clientLegalName: nil,
-            
+            clientLegalName: nil
         )
-
+        
         ChartService.shared.saveChartEntry(for: clientId, chartData: chartData, chartId: nil) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isSaving = false
                 switch result {
                 case .success:
+                    print("✅ Chart saved successfully")
                     completion(true)
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
+                    print("❌ Failed to save chart: \(error.localizedDescription)")
                     completion(false)
                 }
             }

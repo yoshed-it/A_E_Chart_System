@@ -6,7 +6,7 @@ struct ProviderHomeView: View {
     @State private var selectedClient: Client? = nil
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Welcome, \(viewModel.providerName)")
                     .font(.largeTitle)
@@ -75,8 +75,8 @@ struct ProviderHomeView: View {
                     providerDisplayName: viewModel.providerName
                 )
             }
-            .sheet(item: $selectedClient) { client in
-                ClientDetailView(client: client, onUpdated: {})
+            .navigationDestination(item: $selectedClient) { client in
+                ClientJournalView(client: client)
             }
             .onAppear {
                 viewModel.fetchProviderName()

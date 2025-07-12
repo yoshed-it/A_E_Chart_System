@@ -6,31 +6,31 @@ final class ClientRepository {
     private let db = Firestore.firestore()
     private var listener: ListenerRegistration?
 
-        func observeClients(onUpdate: @escaping ([Client]) -> Void) {
-            listener?.remove() // Clear any existing listener before attaching a new one
+    func observeClients(onUpdate: @escaping ([Client]) -> Void) {
+        listener?.remove()
 
-            listener = db.collection("clients")
-                .order(by: "lastSeenAt", descending: true)
-                .addSnapshotListener { snapshot, error in
-                    guard let docs = snapshot?.documents else {
-                        print("⚠️ Failed to observe clients: \(error?.localizedDescription ?? "Unknown error")")
-                        onUpdate([])
-                        return
-                    }
-
-                    let clients = docs.compactMap { doc in
-                        Client(data: doc.data(), id: doc.documentID)
-                    }
-
-                    onUpdate(clients)
+        listener = db.collection("clients")
+            .order(by: "lastSeenAt", descending: true)
+            .addSnapshotListener { snapshot, error in
+                guard let docs = snapshot?.documents else {
+                    print("⚠️ Failed to observe clients: \(error?.localizedDescription ?? "Unknown error")")
+                    onUpdate([])
+                    return
                 }
-        }
 
-        func stopObservingClients() {
-            listener?.remove()
-            listener = nil
-        }
-    
+                let clients = docs.compactMap { doc in
+                    Client(data: doc.data(), id: doc.documentID)
+                }
+
+                onUpdate(clients)
+            }
+    }
+
+    func stopObservingClients() {
+        listener?.remove()
+        listener = nil
+    }
+
     func fetchClients(completion: @escaping ([Client]) -> Void) {
         db.collection("clients")
             .order(by: "lastSeenAt", descending: true)
@@ -40,21 +40,21 @@ final class ClientRepository {
                     completion([])
                     return
                 }
-                
+
                 let clients = snapshot?.documents.compactMap { doc in
                     Client(data: doc.data(), id: doc.documentID)
                 } ?? []
-                
+
                 completion(clients)
             }
     }
-    
+
     func fetchProviderName(completion: @escaping (String) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else {
             completion("")
             return
         }
-        
+
         db.collection("providers").document(uid).getDocument { snapshot, error in
             if let data = snapshot?.data(),
                let name = data["name"] as? String {
@@ -64,7 +64,7 @@ final class ClientRepository {
             }
         }
     }
-    
+
     func createClient(from input: ClientInput, completion: @escaping (Bool) -> Void) {
         let data: [String: Any] = [
             "firstName": input.firstName,
@@ -77,7 +77,7 @@ final class ClientRepository {
             "createdAt": Timestamp(date: input.createdAt),
             "lastSeenAt": Timestamp(date: input.createdAt)
         ]
-        
+
         db.collection("clients").addDocument(data: data) { error in
             if let error = error {
                 print("❌ Failed to create client: \(error.localizedDescription)")
@@ -87,12 +87,9 @@ final class ClientRepository {
             }
         }
     }
+
     func updateClient(_ client: Client, completion: @escaping (Bool) -> Void) {
-        guard let id = client.id else {
-            print("❌ Missing client ID.")
-            completion(false)
-            return
-        }
+        let id = client.id
 
         let data: [String: Any] = [
             "firstName": client.firstName,
@@ -112,14 +109,11 @@ final class ClientRepository {
             }
         }
     }
-    func archiveClient(_ client: Client, completion: @escaping (Bool) -> Void) {
-        guard let id = client.id else {
-            completion(false)
-            return
-        }
 
-        let docRef = db.collection("clients").document(id)
-        docRef.updateData([
+    func archiveClient(_ client: Client, completion: @escaping (Bool) -> Void) {
+        let id = client.id
+
+        db.collection("clients").document(id).updateData([
             "deletedAt": FieldValue.serverTimestamp()
         ]) { error in
             if let error = error {
@@ -130,18 +124,21 @@ final class ClientRepository {
             }
         }
     }
+
     func fetchCharts(for clientId: String, completion: @escaping (Result<[ChartEntry], Error>) -> Void) {
-        let db = Firestore.firestore()
-        db.collection("clients").document(clientId).collection("charts").order(by: "date", descending: true).getDocuments { snapshot, error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                let charts = snapshot?.documents.compactMap { doc in
-                    ChartEntry(id: doc.documentID, data: doc.data())
-                } ?? []
-                completion(.success(charts))
+        db.collection("clients")
+            .document(clientId)
+            .collection("charts")
+            .order(by: "date", descending: true)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    let charts = snapshot?.documents.compactMap { doc in
+                        ChartEntry(id: doc.documentID, data: doc.data())
+                    } ?? []
+                    completion(.success(charts))
+                }
             }
-        }
     }
 }
-

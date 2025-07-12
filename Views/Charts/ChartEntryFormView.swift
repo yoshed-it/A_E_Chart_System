@@ -13,8 +13,8 @@ struct ChartEntryFormView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var imageSelections: [PhotosPickerItem] = []
     @State private var showCamera = false
-    @State private var showRfPicker = false
-    @State private var showDcPicker = false
+    @State private var showRfWheel = false
+    @State private var showDcWheel = false
 
     // MARK: - Body
     var body: some View {
@@ -29,17 +29,34 @@ struct ChartEntryFormView: View {
                         }
                     }
                 }
+                .overlay {
+                    Group {
+                        if showRfWheel {
+                            BottomPickerDrawer(
+                                title: "RF Level",
+                                isPresented: $showRfWheel,
+                                value: $viewModel.rfLevel,
+                                range: 0.1...300.0,
+                                unit: "MHz"
+                            )
+                        }
+
+                        if showDcWheel {
+                            BottomPickerDrawer(
+                                title: "DC Level",
+                                isPresented: $showDcWheel,
+                                value: $viewModel.dcLevel,
+                                range: 0.1...300.0,
+                                unit: "mA"
+                            )
+                        }
+                    }
+                }
         }
         .sheet(isPresented: $showCamera) {
             CameraCaptureView { image in
                 handleImageCapture(image)
             }
-        }
-        .sheet(isPresented: $showRfPicker) {
-            RFLevelPicker(value: $viewModel.rfLevel)
-        }
-        .sheet(isPresented: $showDcPicker) {
-            DCLevelPicker(value: $viewModel.dcLevel)
         }
         .onChange(of: imageSelections) {
             handleImageUpload($0)
@@ -54,8 +71,8 @@ struct ChartEntryFormView: View {
             MachineSettingsView(
                 rfLevel: $viewModel.rfLevel,
                 dcLevel: $viewModel.dcLevel,
-                showRfPicker: $showRfPicker,
-                showDcPicker: $showDcPicker
+                showRfPicker: $showRfWheel,
+                showDcPicker: $showDcWheel
             )
 
             ProbePickerView(

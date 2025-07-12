@@ -4,46 +4,66 @@ struct ChartEntryCard: View {
     let entry: ChartEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
+            // Date
             Text(entry.createdAt, style: .date)
                 .font(.caption)
                 .foregroundColor(.secondary)
 
-            VStack(alignment: .leading, spacing: 4) {
+            // Main details
+            VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Text("RF")
+                    Text("RF:")
+                    Text(entry.rfLevel.formatted(.number.precision(.fractionLength(1)))) + Text(" MHz")
+                    
                     Spacer()
-                    Text("\(entry.rfLevel)")
-                    Text("|")
-                    Text("\(entry.dcLevel)")
+                    
+                    Text("DC:")
+                    Text(entry.dcLevel.formatted(.number.precision(.fractionLength(1)))) + Text(" mA")
                 }
-                
+
                 HStack {
-                    Text("Probe")
+                    Text("Probe:")
                     Spacer()
                     Text(entry.probe)
                 }
-                
+
                 if let area = entry.treatmentArea {
-                    Text("Treatment Area: \(area)")
+                    HStack {
+                        Text("Treatment Area:")
+                        Spacer()
+                        Text(area)
+                    }
                 }
-                
+
                 if let condition = entry.skinCondition {
-                    Text("Skin Condition: \(condition)")
+                    HStack {
+                        Text("Skin Condition:")
+                        Spacer()
+                        Text(condition)
+                    }
                 }
-                
+
                 if !entry.notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    Text("Notes: \(entry.notes)")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Notes:")
+                            .fontWeight(.semibold)
+                        Text(entry.notes)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
             }
             .font(.subheadline)
 
+            // Image
             if let image = entry.image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 60, height: 60)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .frame(height: 120)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .cornerRadius(10)
             }
         }
         .padding()

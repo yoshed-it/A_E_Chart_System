@@ -43,8 +43,6 @@
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 		099AC4CF2E1DF22D00F62820 /* ChartslistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4CE2E1DF22500F62820 /* ChartslistViewModel.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
-		099AC4D52E1DF8BE00F62820 /* RFLevelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D42E1DF8B800F62820 /* RFLevelPicker.swift */; };
-		099AC4D72E1DF8C600F62820 /* DCLevelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D62E1DF8C200F62820 /* DCLevelPicker.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
 		099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
@@ -64,6 +62,7 @@
 		099AC5062E2087A400F62820 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5052E2087A400F62820 /* TagView.swift */; };
 		099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5072E20887900F62820 /* ChartEntryService.swift */; };
 		099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5092E208E9C00F62820 /* ClientListView.swift */; };
+		099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */; };
 		09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */; };
 /* End PBXBuildFile section */
 
@@ -120,8 +119,6 @@
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		099AC4CE2E1DF22500F62820 /* ChartslistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartslistViewModel.swift; sourceTree = "<group>"; };
 		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
-		099AC4D42E1DF8B800F62820 /* RFLevelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFLevelPicker.swift; sourceTree = "<group>"; };
-		099AC4D62E1DF8C200F62820 /* DCLevelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCLevelPicker.swift; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		099AC4DD2E1EF54800F62820 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -142,6 +139,7 @@
 		099AC5052E2087A400F62820 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		099AC5072E20887900F62820 /* ChartEntryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryService.swift; sourceTree = "<group>"; };
 		099AC5092E208E9C00F62820 /* ClientListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientListView.swift; sourceTree = "<group>"; };
+		099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPickerDrawer.swift; sourceTree = "<group>"; };
 		09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,9 +263,8 @@
 				099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */,
 				099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */,
 				099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */,
-				099AC4D62E1DF8C200F62820 /* DCLevelPicker.swift */,
-				099AC4D42E1DF8B800F62820 /* RFLevelPicker.swift */,
 				0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */,
+				099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -537,11 +534,11 @@
 				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
 				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
 				099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */,
+				099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */,
 				0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */,
 				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
 				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
 				099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */,
-				099AC4D72E1DF8C600F62820 /* DCLevelPicker.swift in Sources */,
 				099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */,
 				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
 				09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */,
@@ -560,7 +557,6 @@
 				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
 				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
 				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
-				099AC4D52E1DF8BE00F62820 /* RFLevelPicker.swift in Sources */,
 				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
 				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,

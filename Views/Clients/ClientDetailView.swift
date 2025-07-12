@@ -13,7 +13,7 @@ struct ClientDetailView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Client Info")) {
                     TextField("First Name", text: viewModel.firstNameBinding)
