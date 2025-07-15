@@ -10,6 +10,9 @@ struct ClientJournalView: View {
     @State private var showEditSheet = false
     @State private var deletingChart: ChartEntry? = nil
     @State private var showDeleteAlert = false
+    @StateObject private var editFormViewModel = ChartEntryFormViewModel()
+    @State private var selectedChartId: String? = nil
+    @State private var activeSheet: ActiveSheet? = nil
 
     init(client: Client) {
         self.client = client
@@ -24,7 +27,7 @@ struct ClientJournalView: View {
                     .font(.system(size: 34, weight: .bold, design: .serif))
 
                 if let lastSeen = client.lastSeenAt {
-                    Text("Last Seen: \(formattedDate(from: lastSeen))")
+                    Text("Last Seen: \(relativeDaysAgo(from: lastSeen))")
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                 }
@@ -42,23 +45,33 @@ struct ClientJournalView: View {
             if viewModel.isLoading {
                 ProgressView("Loading charts...")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if viewModel.entries.isEmpty {
+                Text("No chart entries yet.")
+                    .foregroundColor(.secondary)
+                    .padding()
             } else {
                 List {
                     ForEach(viewModel.entries) { entry in
                         ChartEntryCard(entry: entry)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                editingChart = entry
-                                showEditSheet = true
+                                PluckrLogger.info("Tapped chart \(entry.id) for detail view")
+                                activeSheet = .detail(entry)
                             }
                             .swipeActions(edge: .trailing) {
                                 Button {
-                                    editingChart = entry
-                                    showEditSheet = true
+                                    PluckrLogger.info("Editing chart \(entry.id) via swipe")
+                                    Task {
+                                        editFormViewModel.isLoading = true
+                                        await editFormViewModel.loadChart(for: client.id, chartId: entry.id)
+                                        selectedChartId = entry.id
+                                        activeSheet = .editEntry
+                                    }
                                 } label: {
                                     Label("Edit", systemImage: "pencil")
                                 }.tint(.blue)
                                 Button(role: .destructive) {
+                                    PluckrLogger.info("Deleting chart \(entry.id)")
                                     deletingChart = entry
                                     showDeleteAlert = true
                                 } label: {
@@ -76,7 +89,7 @@ struct ClientJournalView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    showNewEntry = true
+                    activeSheet = .newEntry
                 } label: {
                     Text("New Entry")
                         .fontWeight(.semibold)
@@ -88,31 +101,43 @@ struct ClientJournalView: View {
                 }
             }
         }
-        .sheet(isPresented: $showNewEntry) {
-            ChartEntryFormView(
-                viewModel: ChartEntryFormViewModel(),
-                clientId: client.id,
-                chartId: nil,
-                onSave: {
-                    Task {
-                        await viewModel.loadEntries()
-                    }
-                }
-            )
-        }
-        .sheet(isPresented: $showEditSheet) {
-            if let chart = editingChart {
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .newEntry:
                 ChartEntryFormView(
                     viewModel: ChartEntryFormViewModel(),
                     clientId: client.id,
-                    chartId: chart.id,
+                    chartId: nil,
                     onSave: {
                         Task {
                             await viewModel.loadEntries()
                         }
-                        showEditSheet = false
+                        activeSheet = nil
                     }
                 )
+            case .editEntry:
+                if let chartId = selectedChartId {
+                    ChartEntryFormView(
+                        viewModel: editFormViewModel,
+                        clientId: client.id,
+                        chartId: chartId,
+                        onSave: {
+                            Task {
+                                await viewModel.loadEntries()
+                            }
+                            activeSheet = nil
+                        }
+                    )
+                }
+            case .detail(let chart):
+                ChartDetailView(chart: chart, onEdit: {
+                    Task {
+                        editFormViewModel.isLoading = true
+                        await editFormViewModel.loadChart(for: client.id, chartId: chart.id)
+                        selectedChartId = chart.id
+                        activeSheet = .editEntry
+                    }
+                })
             }
         }
         .alert("Delete Chart?", isPresented: $showDeleteAlert, presenting: deletingChart) { chart in
@@ -136,5 +161,30 @@ struct ClientJournalView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter.string(from: date)
+    }
+
+    func relativeDaysAgo(from date: Date) -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return formatter.localizedString(for: date, relativeTo: Date())
+    }
+}
+
+enum ActiveSheet: Identifiable, Equatable {
+    case newEntry, editEntry, detail(ChartEntry)
+    var id: String {
+        switch self {
+        case .newEntry: return "newEntry"
+        case .editEntry: return "editEntry"
+        case .detail(let chart): return chart.id
+        }
+    }
+    static func == (lhs: ActiveSheet, rhs: ActiveSheet) -> Bool {
+        switch (lhs, rhs) {
+        case (.newEntry, .newEntry): return true
+        case (.editEntry, .editEntry): return true
+        case let (.detail(a), .detail(b)): return a.id == b.id
+        default: return false
+        }
     }
 }

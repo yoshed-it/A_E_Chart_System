@@ -73,6 +73,11 @@ final class ChartEntryFormViewModel: ObservableObject {
         PluckrLogger.info("Attempting to save chart for clientId: \(clientId)")
         isSaving = true
         
+        if let chartId = chartId {
+            print("[ChartEntryFormViewModel] Updating existing chart with ID: \(chartId)")
+        } else {
+            print("[ChartEntryFormViewModel] Creating new chart entry")
+        }
         let chartData = ChartEntryData(
             modality: selectedModality,
             rfLevel: rfLevel,

@@ -30,6 +30,8 @@ struct ChartEntryFormView: View {
     @State private var showCamera = false
     @State private var showRfWheel = false
     @State private var showDcWheel = false
+    @State private var showSuccessAlert = false
+    @State private var showErrorAlert = false
 
     // MARK: - Body
     var body: some View {
@@ -40,7 +42,7 @@ struct ChartEntryFormView: View {
                     .ignoresSafeArea()
                 
                 if viewModel.isLoading {
-                    ProgressView("Loading...")
+                    ProgressView("Loading…")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     ScrollView {
@@ -63,6 +65,16 @@ struct ChartEntryFormView: View {
                         .padding(.horizontal, PluckrTheme.padding)
                     }
                 }
+
+                // Saving overlay
+                if viewModel.isSaving {
+                    Color.black.opacity(0.2)
+                        .ignoresSafeArea()
+                    ProgressView("Saving...")
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
+                        .shadow(radius: 10)
+                }
             }
             .navigationTitle(chartId == nil ? "New Chart" : "Edit Chart")
             .navigationBarTitleDisplayMode(.inline)
@@ -84,11 +96,23 @@ struct ChartEntryFormView: View {
                     .disabled(viewModel.isSaving || viewModel.treatmentArea.isEmpty)
                 }
             }
-            .onAppear {
-                if let chartId = chartId {
-                    Task {
-                        await viewModel.loadChart(for: clientId, chartId: chartId)
-                    }
+            .alert("Success", isPresented: $showSuccessAlert) {
+                Button("OK") {
+                    showSuccessAlert = false
+                }
+            } message: {
+                Text(chartId == nil ? "Chart entry created successfully." : "Chart entry updated successfully.")
+            }
+            .alert("Error", isPresented: $showErrorAlert) {
+                Button("OK") {
+                    showErrorAlert = false
+                }
+            } message: {
+                Text(viewModel.errorMessage ?? "An error occurred.")
+            }
+            .onChange(of: viewModel.errorMessage) { _, newValue in
+                if let newValue = newValue, !newValue.isEmpty {
+                    showErrorAlert = true
                 }
             }
             .overlay {
@@ -122,6 +146,14 @@ struct ChartEntryFormView: View {
         }
         .onChange(of: imageSelections) { _, newValue in
             handleImageUpload(newValue)
+        }
+        .onAppear {
+            if let chartId = chartId, chartId != viewModel.chartId {
+                PluckrLogger.info("Loading chart for editing: \(chartId)")
+                Task {
+                    await viewModel.loadChart(for: clientId, chartId: chartId)
+                }
+            }
         }
     }
 
@@ -206,10 +238,16 @@ struct ChartEntryFormView: View {
 
     // MARK: - Actions
     private func saveChart() {
+        PluckrLogger.info("Saving chart (chartId: \(chartId ?? "new"))")
         viewModel.saveChart(for: clientId, chartId: chartId) { success in
             if success {
+                PluckrLogger.info("Chart saved successfully (chartId: \(chartId ?? "new"))")
+                showSuccessAlert = true
                 onSave()
                 dismiss()
+            } else {
+                PluckrLogger.info("Chart save failed (chartId: \(chartId ?? "new"))")
+                showErrorAlert = true
             }
         }
     }
