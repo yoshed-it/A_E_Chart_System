@@ -1,2 +1,71 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# macOS metadata
+.Spotlight-V100
+.Trashes
+
+# Xcode
+*.xcuserstate
+*.xcworkspace/xcuserdata
+*.xcuserdatad
+*.xcscmblueprint
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+
+# Build
+build/
+DerivedData/
+*.xcarchive
+
+# Swift Package Manager
+/.build
+/Packages
+/Package.pins
+/Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# SwiftPM
+.swiftpm/
+.idea/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Firebase / GoogleService
 GoogleService-Info.plist
-GoogleService-Info.plist
+
+# Environment
+.env
+.env.*
+
+# Xcode Previews
+*.preview-thumbnails
+
+# Logs & Temporary
+*.log
+*.swp
+*.tmp
+*.lock
+
+# Testing
+*.xctest
+*.xctestrun
+
+# Other IDEs
+.vscode/
+.idea/
