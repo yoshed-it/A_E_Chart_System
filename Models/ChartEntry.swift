@@ -20,6 +20,7 @@ struct ChartEntry: Identifiable {
     var createdByName: String
     var clientChosenName: String
     var clientLegalName: String
+    var tags: [ChartTag]
 
     // Local-only (not from Firestore)
     var image: UIImage?
@@ -43,6 +44,13 @@ struct ChartEntry: Identifiable {
         self.createdByName = data["createdByName"] as? String ?? ""
         self.clientChosenName = data["clientChosenName"] as? String ?? ""
         self.clientLegalName = data["clientLegalName"] as? String ?? ""
+        let tagsData = data["tags"] as? [[String: String]] ?? []
+        self.tags = tagsData.compactMap { dict in
+            if let label = dict["label"] {
+                return ChartTag(label: label)
+            }
+            return nil
+        }
         self.image = nil
     }
 
@@ -60,7 +68,8 @@ struct ChartEntry: Identifiable {
             "createdBy": createdBy,
             "createdByName": createdByName,
             "clientChosenName": clientChosenName,
-            "clientLegalName": clientLegalName
+            "clientLegalName": clientLegalName,
+            "tags": tags.map { ["label": $0.label] }
         ]
 
         // Optional fields

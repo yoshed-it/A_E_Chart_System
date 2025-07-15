@@ -21,6 +21,21 @@ final class ChartEntryFormViewModel: ObservableObject {
     @Published var imageUploadErrorMessage: String? = nil
     @Published var chartId: String? = nil // Track current chartId
     @Published var isLoading: Bool = false
+    @Published var tags: [ChartTag] = []
+    let availableTags: [ChartTag] = [
+        ChartTag(label: "Sensitive"),
+        ChartTag(label: "Consult"),
+        ChartTag(label: "Phalloplasty Prep"),
+        ChartTag(label: "Healing Well"),
+        ChartTag(label: "Allergic Response")
+    ]
+    func addTag(_ tag: ChartTag) {
+        guard !tags.contains(tag) else { return }
+        tags.append(tag)
+    }
+    func removeTag(_ tag: ChartTag) {
+        tags.removeAll { $0 == tag }
+    }
     
     // MARK: - Init
     init() {}

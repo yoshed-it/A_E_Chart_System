@@ -232,6 +232,34 @@ struct ChartEntryFormView: View {
                 ErrorView(error: errorMessage)
             }
             
+            // Tag pills UI
+            HStack {
+                ForEach(viewModel.tags, id: \.self) { tag in
+                    HStack(spacing: 4) {
+                        Text(tag.label)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(16)
+                        Button(action: { viewModel.removeTag(tag) }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .padding(.trailing, 4)
+                }
+            }
+            // Tag picker menu
+            Menu("Add Tag") {
+                ForEach(viewModel.availableTags, id: \.self) { tag in
+                    Button(action: { viewModel.addTag(tag) }) {
+                        Text(tag.label)
+                    }
+                    .disabled(viewModel.tags.contains(tag))
+                }
+            }
+            .padding(.top, 8)
+            
             Spacer(minLength: 100)
         }
     }

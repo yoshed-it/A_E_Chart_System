@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		093A0AEB2E270F900097A6DA /* ChartTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0AEA2E270F900097A6DA /* ChartTag.swift */; };
+		093A0AED2E2711030097A6DA /* TagPickerModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0AEC2E2711030097A6DA /* TagPickerModal.swift */; };
 		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
 		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
 		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
@@ -96,6 +98,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		093A0AEA2E270F900097A6DA /* ChartTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTag.swift; sourceTree = "<group>"; };
+		093A0AEC2E2711030097A6DA /* TagPickerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPickerModal.swift; sourceTree = "<group>"; };
 		094FF7682E0F269B00A212F7 /* Pluckr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluckr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF7752E0F269D00A212F7 /* PluckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -247,6 +251,7 @@
 		0982B36E2E1DD00000DB6C1A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				093A0AEA2E270F900097A6DA /* ChartTag.swift */,
 				099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */,
 				0982B3812E1DE06800DB6C1A /* ClientInput.swift */,
 				0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */,
@@ -357,6 +362,7 @@
 		099AC4FD2E20861300F62820 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				093A0AEC2E2711030097A6DA /* TagPickerModal.swift */,
 				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
 				0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */,
 				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
@@ -566,6 +572,7 @@
 				0982B3492E1DCE3600DB6C1A /* ClientJournalView.swift in Sources */,
 				0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */,
 				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
+				093A0AEB2E270F900097A6DA /* ChartTag.swift in Sources */,
 				0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */,
 				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
 				099AC5222E25FB2800F62820 /* Validation.swift in Sources */,
@@ -609,6 +616,7 @@
 				099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */,
 				099AC5042E20876D00F62820 /* ChartEntryCard.swift in Sources */,
 				099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */,
+				093A0AED2E2711030097A6DA /* TagPickerModal.swift in Sources */,
 				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
 				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
