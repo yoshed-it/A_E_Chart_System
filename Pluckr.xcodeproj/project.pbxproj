@@ -1,0 +1,1009 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
+		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
+		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
+		0982B3492E1DCE3600DB6C1A /* ClientJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */; };
+		0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */; };
+		0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */; };
+		0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */; };
+		0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3322E1DCE3600DB6C1A /* AddClientView.swift */; };
+		0982B34F2E1DCE3600DB6C1A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3402E1DCE3600DB6C1A /* LoginView.swift */; };
+		0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */; };
+		0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */; };
+		0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */; };
+		0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */; };
+		0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */; };
+		0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */; };
+		0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */; };
+		0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */; };
+		0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */; };
+		0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */; };
+		0982B35B2E1DCE3600DB6C1A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3462E1DCE3600DB6C1A /* README.md */; };
+		0982B35C2E1DCE3600DB6C1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */; };
+		0982B35D2E1DCE3600DB6C1A /* .gitignore 2 in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3312E1DCE3600DB6C1A /* .gitignore 2 */; };
+		0982B35F2E1DCE3600DB6C1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3332E1DCE3600DB6C1A /* Assets.xcassets */; };
+		0982B3682E1DCE5400DB6C1A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 0982B3672E1DCE5400DB6C1A /* AlertToast */; };
+		0982B36B2E1DCEA400DB6C1A /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */; };
+		0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3732E1DD11500DB6C1A /* Theme.swift */; };
+		0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */; };
+		0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B37A2E1DD47100DB6C1A /* Client.swift */; };
+		0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */; };
+		0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3812E1DE06800DB6C1A /* ClientInput.swift */; };
+		0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */; };
+		0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */; };
+		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
+		099AC4CF2E1DF22D00F62820 /* ChartslistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4CE2E1DF22500F62820 /* ChartslistViewModel.swift */; };
+		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
+		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
+		099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */; };
+		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
+		099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */; };
+		099AC4E62E1F2C9800F62820 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DC2E1EF53F00F62820 /* StorageService.swift */; };
+		099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E52E1F2C1C00F62820 /* ChartService.swift */; };
+		099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */; };
+		099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */; };
+		099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */; };
+		099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */; };
+		099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */; };
+		099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */; };
+		099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F42E1F2E7800F62820 /* ErrorView.swift */; };
+		099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */; };
+		099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F82E1F30C700F62820 /* ImageView.swift */; };
+		099AC5042E20876D00F62820 /* ChartEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5032E20876D00F62820 /* ChartEntryCard.swift */; };
+		099AC5062E2087A400F62820 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5052E2087A400F62820 /* TagView.swift */; };
+		099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5072E20887900F62820 /* ChartEntryService.swift */; };
+		099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5092E208E9C00F62820 /* ClientListView.swift */; };
+		099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */; };
+		099AC5132E25E29100F62820 /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5112E25E29100F62820 /* ClientRepository.swift */; };
+		099AC5162E25E2EB00F62820 /* Documentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5142E25E2EB00F62820 /* Documentation.swift */; };
+		099AC5172E25E2EB00F62820 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5152E25E2EB00F62820 /* Logger.swift */; };
+		099AC5182E25E31600F62820 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DD2E1EF54800F62820 /* AuthService.swift */; };
+		099AC51A2E25E4A500F62820 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5192E25E4A500F62820 /* SignUpView.swift */; };
+		099AC51D2E25EAC400F62820 /* ClientCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC51B2E25EAC400F62820 /* ClientCardView.swift */; };
+		099AC51E2E25EAC400F62820 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC51C2E25EAC400F62820 /* LoadingView.swift */; };
+		099AC5202E25F35100F62820 /* ClientJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */; };
+		099AC5222E25FB2800F62820 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5212E25FB2400F62820 /* Validation.swift */; };
+		099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5232E25FBF400F62820 /* EditClientViewModel.swift */; };
+		099AC5272E26F50B00F62820 /* OrgEncryptionKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */; };
+		099AC5282E26F50B00F62820 /* ChartImageDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */; };
+		099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5292E26F7D400F62820 /* ImageConstants.swift */; };
+		099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */; };
+		09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		094FF7762E0F269D00A212F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 094FF7602E0F269B00A212F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 094FF7672E0F269B00A212F7;
+			remoteInfo = A_E_Charting;
+		};
+		094FF7802E0F269D00A212F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 094FF7602E0F269B00A212F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 094FF7672E0F269B00A212F7;
+			remoteInfo = A_E_Charting;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		094FF7682E0F269B00A212F7 /* Pluckr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluckr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		094FF7752E0F269D00A212F7 /* PluckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntry.swift; sourceTree = "<group>"; };
+		0982B3312E1DCE3600DB6C1A /* .gitignore 2 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".gitignore 2"; sourceTree = "<group>"; };
+		0982B3322E1DCE3600DB6C1A /* AddClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientView.swift; sourceTree = "<group>"; };
+		0982B3332E1DCE3600DB6C1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
+		0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDetailView.swift; sourceTree = "<group>"; };
+		0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormView.swift; sourceTree = "<group>"; };
+		0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRowView.swift; sourceTree = "<group>"; };
+		0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListView.swift; sourceTree = "<group>"; };
+		0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailView.swift; sourceTree = "<group>"; };
+		0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalView.swift; sourceTree = "<group>"; };
+		0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientView.swift; sourceTree = "<group>"; };
+		0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0982B33F2E1DCE3600DB6C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0982B3402E1DCE3600DB6C1A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluckrApp.swift; sourceTree = "<group>"; };
+		0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeRouter.swift; sourceTree = "<group>"; };
+		0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeView.swift; sourceTree = "<group>"; };
+		0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderProfileSetupView.swift; sourceTree = "<group>"; };
+		0982B3462E1DCE3600DB6C1A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToDeleteView.swift; sourceTree = "<group>"; };
+		0982B3732E1DD11500DB6C1A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListViewModel.swift; sourceTree = "<group>"; };
+		0982B37A2E1DD47100DB6C1A /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeViewModel.swift; sourceTree = "<group>"; };
+		0982B3812E1DE06800DB6C1A /* ClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInput.swift; sourceTree = "<group>"; };
+		0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientViewModel.swift; sourceTree = "<group>"; };
+		0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailViewModel.swift; sourceTree = "<group>"; };
+		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		099AC4CE2E1DF22500F62820 /* ChartslistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartslistViewModel.swift; sourceTree = "<group>"; };
+		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
+		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
+		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		099AC4DD2E1EF54800F62820 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOptions.swift; sourceTree = "<group>"; };
+		099AC4E12E1F099E00F62820 /* CameraUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUploader.swift; sourceTree = "<group>"; };
+		099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryData.swift; sourceTree = "<group>"; };
+		099AC4E52E1F2C1C00F62820 /* ChartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartService.swift; sourceTree = "<group>"; };
+		099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalityPickerView.swift; sourceTree = "<group>"; };
+		099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSettingsView.swift; sourceTree = "<group>"; };
+		099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbePickerView.swift; sourceTree = "<group>"; };
+		099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentAreaField.swift; sourceTree = "<group>"; };
+		099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesFieldView.swift; sourceTree = "<group>"; };
+		099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
+		099AC4F42E1F2E7800F62820 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
+		099AC4F82E1F30C700F62820 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		099AC5032E20876D00F62820 /* ChartEntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryCard.swift; sourceTree = "<group>"; };
+		099AC5052E2087A400F62820 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		099AC5072E20887900F62820 /* ChartEntryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryService.swift; sourceTree = "<group>"; };
+		099AC5092E208E9C00F62820 /* ClientListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientListView.swift; sourceTree = "<group>"; };
+		099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPickerDrawer.swift; sourceTree = "<group>"; };
+		099AC5112E25E29100F62820 /* ClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepository.swift; sourceTree = "<group>"; };
+		099AC5142E25E2EB00F62820 /* Documentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documentation.swift; sourceTree = "<group>"; };
+		099AC5152E25E2EB00F62820 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		099AC5192E25E4A500F62820 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		099AC51B2E25EAC400F62820 /* ClientCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientCardView.swift; sourceTree = "<group>"; };
+		099AC51C2E25EAC400F62820 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalViewModel.swift; sourceTree = "<group>"; };
+		099AC5212E25FB2400F62820 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		099AC5232E25FBF400F62820 /* EditClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientViewModel.swift; sourceTree = "<group>"; };
+		099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageDecryptor.swift; sourceTree = "<group>"; };
+		099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgEncryptionKeyManager.swift; sourceTree = "<group>"; };
+		099AC5292E26F7D400F62820 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
+		099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageCryptoTests.swift; sourceTree = "<group>"; };
+		09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		094FF7652E0F269B00A212F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */,
+				0982B3682E1DCE5400DB6C1A /* AlertToast in Frameworks */,
+				094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */,
+				0982B36B2E1DCEA400DB6C1A /* SwiftUIIntrospect in Frameworks */,
+				094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094FF7722E0F269D00A212F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094FF77C2E0F269D00A212F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		094FF75F2E0F269B00A212F7 = {
+			isa = PBXGroup;
+			children = (
+				099AC5302E27007700F62820 /* PluckrTests */,
+				099AC4E02E1EF88600F62820 /* Constants */,
+				099AC4DA2E1EF51700F62820 /* Services */,
+				0982B3772E1DD2E500DB6C1A /* ViewModels */,
+				0982B3762E1DD1CC00DB6C1A /* Routing */,
+				0982B3752E1DD15F00DB6C1A /* Components */,
+				0982B3712E1DD03900DB6C1A /* Utils */,
+				0982B3702E1DD02800DB6C1A /* Resources */,
+				0982B36E2E1DD00000DB6C1A /* Models */,
+				0982B36C2E1DCFEB00DB6C1A /* Views */,
+				0982B3332E1DCE3600DB6C1A /* Assets.xcassets */,
+				0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */,
+				0982B33F2E1DCE3600DB6C1A /* Info.plist */,
+				0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */,
+				0982B3462E1DCE3600DB6C1A /* README.md */,
+				094FF7692E0F269B00A212F7 /* Products */,
+				0982B3312E1DCE3600DB6C1A /* .gitignore 2 */,
+				099AC5122E25E29100F62820 /* Repositories */,
+			);
+			sourceTree = "<group>";
+		};
+		094FF7692E0F269B00A212F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				094FF7682E0F269B00A212F7 /* Pluckr.app */,
+				094FF7752E0F269D00A212F7 /* PluckrTests.xctest */,
+				094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5022E20867300F62820 /* ClientEdit */,
+				099AC4FF2E20863600F62820 /* Camera */,
+				099AC4FD2E20861300F62820 /* Charts */,
+				099AC4FC2E20860100F62820 /* Clients */,
+				099AC5002E20865500F62820 /* Auth */,
+				0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */,
+				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
+				0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0982B36E2E1DD00000DB6C1A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */,
+				0982B3812E1DE06800DB6C1A /* ClientInput.swift */,
+				0982B32F2E1DCE3600DB6C1A /* ChartEntry.swift */,
+				0982B37A2E1DD47100DB6C1A /* Client.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0982B3702E1DD02800DB6C1A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3732E1DD11500DB6C1A /* Theme.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0982B3712E1DD03900DB6C1A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */,
+				099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */,
+				099AC5212E25FB2400F62820 /* Validation.swift */,
+				099AC4E12E1F099E00F62820 /* CameraUploader.swift */,
+				099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */,
+				09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */,
+				099AC5142E25E2EB00F62820 /* Documentation.swift */,
+				099AC5152E25E2EB00F62820 /* Logger.swift */,
+				0982B3872E1DE31600DB6C1A /* Binding.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0982B3752E1DD15F00DB6C1A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				099AC51B2E25EAC400F62820 /* ClientCardView.swift */,
+				099AC51C2E25EAC400F62820 /* LoadingView.swift */,
+				099AC4F82E1F30C700F62820 /* ImageView.swift */,
+				099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */,
+				099AC4F42E1F2E7800F62820 /* ErrorView.swift */,
+				099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */,
+				099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */,
+				099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */,
+				099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */,
+				099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */,
+				099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */,
+				0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */,
+				099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		0982B3762E1DD1CC00DB6C1A /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */,
+			);
+			path = Routing;
+			sourceTree = "<group>";
+		};
+		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5232E25FBF400F62820 /* EditClientViewModel.swift */,
+				099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */,
+				099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */,
+				099AC4CE2E1DF22500F62820 /* ChartslistViewModel.swift */,
+				0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */,
+				0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */,
+				0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */,
+				0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		099AC4DA2E1EF51700F62820 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5072E20887900F62820 /* ChartEntryService.swift */,
+				099AC4E52E1F2C1C00F62820 /* ChartService.swift */,
+				099AC4DD2E1EF54800F62820 /* AuthService.swift */,
+				099AC4DC2E1EF53F00F62820 /* StorageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		099AC4E02E1EF88600F62820 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5292E26F7D400F62820 /* ImageConstants.swift */,
+				099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		099AC4FC2E20860100F62820 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */,
+				0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */,
+				099AC5032E20876D00F62820 /* ChartEntryCard.swift */,
+				099AC5052E2087A400F62820 /* TagView.swift */,
+				099AC5092E208E9C00F62820 /* ClientListView.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		099AC4FD2E20861300F62820 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
+				0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */,
+				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		099AC4FF2E20863600F62820 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3342E1DCE3600DB6C1A /* CameraCaptureView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		099AC5002E20865500F62820 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5192E25E4A500F62820 /* SignUpView.swift */,
+				0982B3402E1DCE3600DB6C1A /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		099AC5022E20867300F62820 /* ClientEdit */ = {
+			isa = PBXGroup;
+			children = (
+				0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */,
+				0982B3322E1DCE3600DB6C1A /* AddClientView.swift */,
+			);
+			path = ClientEdit;
+			sourceTree = "<group>";
+		};
+		099AC5122E25E29100F62820 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				099AC5112E25E29100F62820 /* ClientRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		099AC52F2E27007700F62820 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		099AC5302E27007700F62820 /* PluckrTests */ = {
+			isa = PBXGroup;
+			children = (
+				099AC52F2E27007700F62820 /* Utils */,
+			);
+			path = PluckrTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		094FF7672E0F269B00A212F7 /* Pluckr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 094FF7892E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "Pluckr" */;
+			buildPhases = (
+				094FF7642E0F269B00A212F7 /* Sources */,
+				094FF7652E0F269B00A212F7 /* Frameworks */,
+				094FF7662E0F269B00A212F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pluckr;
+			packageProductDependencies = (
+				094FF7952E0F2AC100A212F7 /* FirebaseAuth */,
+				094FF7972E0F2AC100A212F7 /* FirebaseFirestore */,
+				094FF7992E0F2AC100A212F7 /* FirebaseStorage */,
+				0982B3672E1DCE5400DB6C1A /* AlertToast */,
+				0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */,
+			);
+			productName = A_E_Charting;
+			productReference = 094FF7682E0F269B00A212F7 /* Pluckr.app */;
+			productType = "com.apple.product-type.application";
+		};
+		094FF7742E0F269D00A212F7 /* PluckrTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 094FF78C2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrTests" */;
+			buildPhases = (
+				094FF7712E0F269D00A212F7 /* Sources */,
+				094FF7722E0F269D00A212F7 /* Frameworks */,
+				094FF7732E0F269D00A212F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				094FF7772E0F269D00A212F7 /* PBXTargetDependency */,
+			);
+			name = PluckrTests;
+			packageProductDependencies = (
+			);
+			productName = A_E_ChartingTests;
+			productReference = 094FF7752E0F269D00A212F7 /* PluckrTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		094FF77E2E0F269D00A212F7 /* PluckrUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 094FF78F2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrUITests" */;
+			buildPhases = (
+				094FF77B2E0F269D00A212F7 /* Sources */,
+				094FF77C2E0F269D00A212F7 /* Frameworks */,
+				094FF77D2E0F269D00A212F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				094FF7812E0F269D00A212F7 /* PBXTargetDependency */,
+			);
+			name = PluckrUITests;
+			packageProductDependencies = (
+			);
+			productName = A_E_ChartingUITests;
+			productReference = 094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		094FF7602E0F269B00A212F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					094FF7672E0F269B00A212F7 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					094FF7742E0F269D00A212F7 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 094FF7672E0F269B00A212F7;
+					};
+					094FF77E2E0F269D00A212F7 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 094FF7672E0F269B00A212F7;
+					};
+				};
+			};
+			buildConfigurationList = 094FF7632E0F269B00A212F7 /* Build configuration list for PBXProject "Pluckr" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 094FF75F2E0F269B00A212F7;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */,
+				0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 094FF7692E0F269B00A212F7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				094FF7672E0F269B00A212F7 /* Pluckr */,
+				094FF7742E0F269D00A212F7 /* PluckrTests */,
+				094FF77E2E0F269D00A212F7 /* PluckrUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		094FF7662E0F269B00A212F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0982B35B2E1DCE3600DB6C1A /* README.md in Resources */,
+				0982B35C2E1DCE3600DB6C1A /* GoogleService-Info.plist in Resources */,
+				0982B35D2E1DCE3600DB6C1A /* .gitignore 2 in Resources */,
+				0982B35F2E1DCE3600DB6C1A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094FF7732E0F269D00A212F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094FF77D2E0F269D00A212F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		094FF7642E0F269B00A212F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099AC5132E25E29100F62820 /* ClientRepository.swift in Sources */,
+				0982B3492E1DCE3600DB6C1A /* ClientJournalView.swift in Sources */,
+				0982B3792E1DD2F900DB6C1A /* ClientsListViewModel.swift in Sources */,
+				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
+				0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */,
+				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
+				099AC5222E25FB2800F62820 /* Validation.swift in Sources */,
+				099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */,
+				0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */,
+				099AC51D2E25EAC400F62820 /* ClientCardView.swift in Sources */,
+				099AC51E2E25EAC400F62820 /* LoadingView.swift in Sources */,
+				099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */,
+				099AC51A2E25E4A500F62820 /* SignUpView.swift in Sources */,
+				0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */,
+				099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */,
+				099AC5062E2087A400F62820 /* TagView.swift in Sources */,
+				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
+				099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */,
+				0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */,
+				099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */,
+				099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */,
+				0982B34F2E1DCE3600DB6C1A /* LoginView.swift in Sources */,
+				099AC5162E25E2EB00F62820 /* Documentation.swift in Sources */,
+				099AC5172E25E2EB00F62820 /* Logger.swift in Sources */,
+				099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */,
+				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
+				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
+				099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */,
+				099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */,
+				0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */,
+				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
+				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
+				099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */,
+				099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */,
+				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
+				099AC5272E26F50B00F62820 /* OrgEncryptionKeyManager.swift in Sources */,
+				099AC5282E26F50B00F62820 /* ChartImageDecryptor.swift in Sources */,
+				09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */,
+				0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */,
+				0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */,
+				099AC4E62E1F2C9800F62820 /* StorageService.swift in Sources */,
+				099AC5202E25F35100F62820 /* ClientJournalViewModel.swift in Sources */,
+				0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */,
+				099AC4CF2E1DF22D00F62820 /* ChartslistViewModel.swift in Sources */,
+				099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */,
+				099AC5042E20876D00F62820 /* ChartEntryCard.swift in Sources */,
+				099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */,
+				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
+				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
+				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
+				099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */,
+				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
+				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
+				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
+				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
+				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,
+				099AC5182E25E31600F62820 /* AuthService.swift in Sources */,
+				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
+				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
+				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094FF7712E0F269D00A212F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094FF77B2E0F269D00A212F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		094FF7772E0F269D00A212F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 094FF7672E0F269B00A212F7 /* Pluckr */;
+			targetProxy = 094FF7762E0F269D00A212F7 /* PBXContainerItemProxy */;
+		};
+		094FF7812E0F269D00A212F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 094FF7672E0F269B00A212F7 /* Pluckr */;
+			targetProxy = 094FF7802E0F269D00A212F7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		094FF7872E0F269D00A212F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		094FF7882E0F269D00A212F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		094FF78A2E0F269D00A212F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aestheticsandelectrology.A-E-Charting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		094FF78B2E0F269D00A212F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aestheticsandelectrology.A-E-Charting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		094FF78D2E0F269D00A212F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aestheticsandelectrology.A-E-ChartingTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pluckr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pluckr";
+			};
+			name = Debug;
+		};
+		094FF78E2E0F269D00A212F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aestheticsandelectrology.A-E-ChartingTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pluckr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pluckr";
+			};
+			name = Release;
+		};
+		094FF7902E0F269D00A212F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aestheticsandelectrology.A-E-ChartingUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = A_E_Charting;
+			};
+			name = Debug;
+		};
+		094FF7912E0F269D00A212F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aestheticsandelectrology.A-E-ChartingUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = A_E_Charting;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		094FF7632E0F269B00A212F7 /* Build configuration list for PBXProject "Pluckr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094FF7872E0F269D00A212F7 /* Debug */,
+				094FF7882E0F269D00A212F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		094FF7892E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "Pluckr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094FF78A2E0F269D00A212F7 /* Debug */,
+				094FF78B2E0F269D00A212F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		094FF78C2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094FF78D2E0F269D00A212F7 /* Debug */,
+				094FF78E2E0F269D00A212F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		094FF78F2E0F269D00A212F7 /* Build configuration list for PBXNativeTarget "PluckrUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094FF7902E0F269D00A212F7 /* Debug */,
+				094FF7912E0F269D00A212F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.15.0;
+			};
+		};
+		0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
+		0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		094FF7952E0F2AC100A212F7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		094FF7972E0F2AC100A212F7 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		094FF7992E0F2AC100A212F7 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		0982B3672E1DCE5400DB6C1A /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+		0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 094FF7602E0F269B00A212F7 /* Project object */;
+}
