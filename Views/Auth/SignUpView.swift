@@ -1,19 +1,13 @@
-//
-//  LoginView.swift
-//  A_E_Charting
-//
-//  Created by Yoah Nebe on 6/27/25.
-//
-
 import SwiftUI
-import FirebaseAuth
 
-struct LoginView: View {
+struct SignUpView: View {
     @StateObject private var authService = AuthService()
     @State private var email = ""
     @State private var password = ""
-    @State private var showSignUp = false
-
+    @State private var confirmPassword = ""
+    @State private var displayName = ""
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -24,24 +18,31 @@ struct LoginView: View {
                 VStack(spacing: PluckrTheme.spacing * 3) {
                     // Header
                     VStack(spacing: PluckrTheme.spacing) {
-                        Text("Pluckr")
+                        Text("Create Account")
                             .font(.journalTitle)
                             .foregroundColor(PluckrTheme.primaryColor)
                         
-                        Text("Clinical Journal")
+                        Text("Join Pluckr")
                             .font(.journalSubtitle)
                             .foregroundColor(PluckrTheme.secondaryColor)
                     }
-                    .padding(.top, 60)
+                    .padding(.top, 40)
                     
-                    // Login Form
+                    // Sign Up Form
                     VStack(spacing: PluckrTheme.spacing * 2) {
+                        TextField("Full Name", text: $displayName)
+                            .textFieldStyle(PluckrTextFieldStyle())
+                            .autocapitalization(.words)
+                        
                         TextField("Email", text: $email)
                             .textFieldStyle(PluckrTextFieldStyle())
                             .autocapitalization(.none)
                             .keyboardType(.emailAddress)
                         
                         SecureField("Password", text: $password)
+                            .textFieldStyle(PluckrTextFieldStyle())
+                        
+                        SecureField("Confirm Password", text: $confirmPassword)
                             .textFieldStyle(PluckrTextFieldStyle())
                         
                         if let errorMessage = authService.errorMessage {
@@ -52,40 +53,57 @@ struct LoginView: View {
                                 .padding(.horizontal)
                         }
                         
-                        Button(action: signIn) {
+                        Button(action: signUp) {
                             if authService.isLoading {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             } else {
-                                Text("Sign In")
+                                Text("Create Account")
                                     .font(.journalSubtitle)
                                     .fontWeight(.semibold)
                             }
                         }
                         .buttonStyle(PluckrButtonStyle())
-                        .disabled(authService.isLoading || email.isEmpty || password.isEmpty)
-                        
-                        Button("Create Account") {
-                            showSignUp = true
-                        }
-                        .font(.journalCaption)
-                        .foregroundColor(PluckrTheme.accentColor)
-                        .padding(.top, PluckrTheme.spacing)
+                        .disabled(!isFormValid || authService.isLoading)
+                        .opacity(isFormValid ? 1.0 : 0.6)
                     }
                     .padding(.horizontal, PluckrTheme.padding)
                     
                     Spacer()
                 }
             }
-            .navigationDestination(isPresented: $showSignUp) {
-                SignUpView()
+            .navigationTitle("Sign Up")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundColor(PluckrTheme.accentColor)
+                }
             }
         }
     }
     
-    private func signIn() {
+    private var isFormValid: Bool {
+        !email.isEmpty && 
+        !password.isEmpty && 
+        !displayName.isEmpty && 
+        password == confirmPassword && 
+        password.count >= 6
+    }
+    
+    private func signUp() {
         Task {
-            await authService.signIn(email: email, password: password)
+            let success = await authService.createUser(
+                email: email, 
+                password: password, 
+                displayName: displayName
+            )
+            
+            if success {
+                dismiss()
+            }
         }
     }
-}
+} 

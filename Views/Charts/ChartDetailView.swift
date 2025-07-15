@@ -65,13 +65,6 @@ struct ChartDetailView: View {
                     if let lastEdited = chart.lastEditedAt {
                         Text("Edited on \(lastEdited.formatted(.dateTime))")
                     }
-                    
-                    Button("Edit Chart") {
-                        onEdit()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top)
                 }
                 .padding()
             }

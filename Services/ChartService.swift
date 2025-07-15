@@ -14,7 +14,13 @@ class ChartService {
     // MARK: - Save Chart Entry
     func saveChartEntry(for clientId: String, chartData: ChartEntryData, chartId: String?, completion: @escaping (Result<Void, Error>) -> Void) {
         let chartRef = db.collection("clients").document(clientId).collection("charts")
-        let docRef = chartId == nil ? chartRef.document() : chartRef.document(chartId!)
+        let docRef: DocumentReference
+        
+        if let chartId = chartId {
+            docRef = chartRef.document(chartId)
+        } else {
+            docRef = chartRef.document()
+        }
 
         var data = chartData.asDictionary
 
@@ -78,6 +84,15 @@ class ChartService {
         group.notify(queue: .main) {
             completion(uploadedURLs)
         }
+    }
+
+    // MARK: - Load Single Chart Entry
+    /// Loads a single chart entry by chartId for a given clientId
+    func loadChartEntry(for clientId: String, chartId: String) async throws -> ChartEntry? {
+        let docRef = db.collection("clients").document(clientId).collection("charts").document(chartId)
+        let snapshot = try await docRef.getDocument()
+        guard let data = snapshot.data() else { return nil }
+        return ChartEntry(id: snapshot.documentID, data: data)
     }
 }
 

@@ -19,12 +19,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct PluckrApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+  @StateObject private var authService = AuthService()
 
   var body: some Scene {
     WindowGroup {
       NavigationStack {
-//        LoginView()
+        if authService.isAuthenticated {
           ProviderHomeView()
+        } else {
+          LoginView()
+        }
       }
     }
   }

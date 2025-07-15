@@ -17,9 +17,22 @@ struct ChartEntryService {
                 results.append(entry)
             }
         } catch {
-            print("Error loading chart entries: \(error.localizedDescription)")
+            PluckrLogger.error("Error loading chart entries: \(error.localizedDescription)")
         }
 
         return results
+    }
+
+    static func deleteEntry(for clientId: String, chartId: String) async {
+        let docRef = Firestore.firestore()
+            .collection("clients")
+            .document(clientId)
+            .collection("charts")
+            .document(chartId)
+        do {
+            try await docRef.delete()
+        } catch {
+            PluckrLogger.error("Error deleting chart entry: \(error.localizedDescription)")
+        }
     }
 }

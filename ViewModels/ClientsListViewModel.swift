@@ -8,7 +8,11 @@ class ClientsListViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let db = Firestore.firestore()
-    private let orgId = "defaultOrg" // 🔧 TODO: Replace with dynamic orgId from AuthViewModel
+    private let orgId: String
+    
+    init(orgId: String = "defaultOrg") {
+        self.orgId = orgId
+    }
 
     func fetchClients() {
         isLoading = true

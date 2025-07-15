@@ -19,6 +19,7 @@ final class ChartEntryFormViewModel: ObservableObject {
     @Published var errorMessage: String? = nil
     @Published var isSaving: Bool = false
     @Published var imageUploadErrorMessage: String? = nil
+    @Published var chartId: String? = nil // Track current chartId
     
     // MARK: - Init
     init() {}
@@ -36,21 +37,39 @@ final class ChartEntryFormViewModel: ObservableObject {
                     uploadedURLs.append(url)
                 }
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Failed to upload image: \(error.localizedDescription)"
-                }
+                errorMessage = "Failed to upload image: \(error.localizedDescription)"
             }
         }
         
-        DispatchQueue.main.async {
-            self.uploadedImageURLs.append(contentsOf: uploadedURLs)
-            self.isSaving = false
+        uploadedImageURLs.append(contentsOf: uploadedURLs)
+        isSaving = false
+    }
+    
+    // MARK: - Load Chart For Editing
+    func loadChart(for clientId: String, chartId: String) async {
+        isSaving = true
+        defer { isSaving = false }
+        do {
+            if let entry = try await ChartService.shared.loadChartEntry(for: clientId, chartId: chartId) {
+                self.selectedModality = entry.modality
+                self.rfLevel = entry.rfLevel
+                self.dcLevel = entry.dcLevel
+                self.usingOnePiece = entry.probeIsOnePiece
+                self.selectedOnePieceProbe = entry.probeIsOnePiece ? entry.probe : ""
+                self.selectedTwoPieceProbe = entry.probeIsOnePiece ? "" : entry.probe
+                self.treatmentArea = entry.treatmentArea ?? ""
+                self.notes = entry.notes
+                self.uploadedImageURLs = entry.imageURLs
+                self.chartId = chartId
+            }
+        } catch {
+            self.errorMessage = "Failed to load chart: \(error.localizedDescription)"
         }
     }
     
     // MARK: - Save Chart
-    func saveChart(for clientId: String, completion: @escaping (Bool) -> Void) {
-        print("📡 Attempting to save chart for clientId: \(clientId)")
+    func saveChart(for clientId: String, chartId: String? = nil, completion: @escaping (Bool) -> Void) {
+        PluckrLogger.info("Attempting to save chart for clientId: \(clientId)")
         isSaving = true
         
         let chartData = ChartEntryData(
@@ -71,16 +90,16 @@ final class ChartEntryFormViewModel: ObservableObject {
             clientLegalName: nil
         )
         
-        ChartService.shared.saveChartEntry(for: clientId, chartData: chartData, chartId: nil) { [weak self] result in
-            DispatchQueue.main.async {
+        ChartService.shared.saveChartEntry(for: clientId, chartData: chartData, chartId: chartId) { [weak self] result in
+            Task { @MainActor in
                 self?.isSaving = false
                 switch result {
                 case .success:
-                    print("✅ Chart saved successfully")
+                    PluckrLogger.success("Chart saved successfully")
                     completion(true)
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print("❌ Failed to save chart: \(error.localizedDescription)")
+                    PluckrLogger.error("Failed to save chart: \(error.localizedDescription)")
                     completion(false)
                 }
             }

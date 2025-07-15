@@ -26,4 +26,24 @@ class ChartsListViewModel: ObservableObject {
             }
         }
     }
+
+    func deleteChart(for clientId: String, chartId: String, completion: @escaping (Bool) -> Void) {
+        isLoading = true
+        errorMessage = nil
+        let db = Firestore.firestore()
+        let docRef = db.collection("clients").document(clientId).collection("charts").document(chartId)
+        docRef.delete { [weak self] error in
+            Task { @MainActor in
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                    completion(false)
+                } else {
+                    // Remove from local list
+                    self?.charts.removeAll { $0.id == chartId }
+                    completion(true)
+                }
+                self?.isLoading = false
+            }
+        }
+    }
 }
