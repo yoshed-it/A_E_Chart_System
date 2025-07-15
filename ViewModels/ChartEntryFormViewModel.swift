@@ -20,6 +20,7 @@ final class ChartEntryFormViewModel: ObservableObject {
     @Published var isSaving: Bool = false
     @Published var imageUploadErrorMessage: String? = nil
     @Published var chartId: String? = nil // Track current chartId
+    @Published var isLoading: Bool = false
     
     // MARK: - Init
     init() {}
@@ -47,8 +48,8 @@ final class ChartEntryFormViewModel: ObservableObject {
     
     // MARK: - Load Chart For Editing
     func loadChart(for clientId: String, chartId: String) async {
-        isSaving = true
-        defer { isSaving = false }
+        isLoading = true
+        defer { isLoading = false }
         do {
             if let entry = try await ChartService.shared.loadChartEntry(for: clientId, chartId: chartId) {
                 self.selectedModality = entry.modality

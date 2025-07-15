@@ -39,24 +39,29 @@ struct ChartEntryFormView: View {
                 PluckrTheme.backgroundColor
                     .ignoresSafeArea()
                 
-                ScrollView {
-                    VStack(spacing: PluckrTheme.spacing * 2) {
-                        // Header
-                        VStack(spacing: PluckrTheme.spacing) {
-                            Text(chartId == nil ? "New Chart Entry" : "Edit Chart Entry")
-                                .font(.journalTitle)
-                                .foregroundColor(PluckrTheme.primaryColor)
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ScrollView {
+                        VStack(spacing: PluckrTheme.spacing * 2) {
+                            // Header
+                            VStack(spacing: PluckrTheme.spacing) {
+                                Text(chartId == nil ? "New Chart Entry" : "Edit Chart Entry")
+                                    .font(.journalTitle)
+                                    .foregroundColor(PluckrTheme.primaryColor)
+                                
+                                Text("Record treatment details")
+                                    .font(.journalCaption)
+                                    .foregroundColor(PluckrTheme.secondaryColor)
+                            }
+                            .padding(.top, PluckrTheme.padding)
                             
-                            Text("Record treatment details")
-                                .font(.journalCaption)
-                                .foregroundColor(PluckrTheme.secondaryColor)
+                            // Form Content
+                            formContent()
                         }
-                        .padding(.top, PluckrTheme.padding)
-                        
-                        // Form Content
-                        formContent()
+                        .padding(.horizontal, PluckrTheme.padding)
                     }
-                    .padding(.horizontal, PluckrTheme.padding)
                 }
             }
             .navigationTitle(chartId == nil ? "New Chart" : "Edit Chart")

@@ -70,6 +70,8 @@
 		099AC51D2E25EAC400F62820 /* ClientCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC51B2E25EAC400F62820 /* ClientCardView.swift */; };
 		099AC51E2E25EAC400F62820 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC51C2E25EAC400F62820 /* LoadingView.swift */; };
 		099AC5202E25F35100F62820 /* ClientJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */; };
+		099AC5222E25FB2800F62820 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5212E25FB2400F62820 /* Validation.swift */; };
+		099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5232E25FBF400F62820 /* EditClientViewModel.swift */; };
 		09E0287D2E1DEF6F0095BA77 /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +155,8 @@
 		099AC51B2E25EAC400F62820 /* ClientCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientCardView.swift; sourceTree = "<group>"; };
 		099AC51C2E25EAC400F62820 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalViewModel.swift; sourceTree = "<group>"; };
+		099AC5212E25FB2400F62820 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		099AC5232E25FBF400F62820 /* EditClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientViewModel.swift; sourceTree = "<group>"; };
 		09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -256,6 +260,7 @@
 		0982B3712E1DD03900DB6C1A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				099AC5212E25FB2400F62820 /* Validation.swift */,
 				099AC4E12E1F099E00F62820 /* CameraUploader.swift */,
 				099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */,
 				09E0287C2E1DEF6F0095BA77 /* ClientInfoModal.swift */,
@@ -297,6 +302,7 @@
 		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				099AC5232E25FBF400F62820 /* EditClientViewModel.swift */,
 				099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */,
 				099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */,
 				099AC4CE2E1DF22500F62820 /* ChartslistViewModel.swift */,
@@ -538,6 +544,7 @@
 				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
 				0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */,
 				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
+				099AC5222E25FB2800F62820 /* Validation.swift in Sources */,
 				0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */,
 				099AC51D2E25EAC400F62820 /* ClientCardView.swift in Sources */,
 				099AC51E2E25EAC400F62820 /* LoadingView.swift in Sources */,
@@ -587,6 +594,7 @@
 				099AC5182E25E31600F62820 /* AuthService.swift in Sources */,
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
+				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

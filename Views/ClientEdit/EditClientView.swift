@@ -1,27 +1,14 @@
 import SwiftUI
-import FirebaseFirestore
 
 struct EditClientView: View {
     @Environment(\.dismiss) var dismiss
-
-    @State private var firstName: String
-    @State private var lastName: String
-    @State private var pronouns: String
-    @State private var phone: String
-    @State private var isSaving = false
-    @State private var errorMessage = ""
-
-    let clientID: String
+    @StateObject private var viewModel: EditClientViewModel
     let onSave: () -> Void
 
     let pronounOptions = ["She/Her", "He/Him", "They/Them", "Other"]
 
     init(client: Client, onSave: @escaping () -> Void) {
-        self.clientID = client.id ?? ""
-        self._firstName = State(initialValue: client.fullName.components(separatedBy: " ").first ?? "")
-        self._lastName = State(initialValue: client.fullName.components(separatedBy: " ").dropFirst().joined(separator: " "))
-        self._pronouns = State(initialValue: client.pronouns ?? "")
-        self._phone = State(initialValue: "")  // Fetched onAppear
+        _viewModel = StateObject(wrappedValue: EditClientViewModel(client: client))
         self.onSave = onSave
     }
 
@@ -29,22 +16,22 @@ struct EditClientView: View {
         NavigationStack {
             Form {
                 Section(header: Text("Edit Client")) {
-                    TextField("First Name", text: $firstName)
-                    TextField("Last Name", text: $lastName)
-
-                    Picker("Pronouns", selection: $pronouns) {
+                    TextField("First Name", text: $viewModel.firstName)
+                    TextField("Last Name", text: $viewModel.lastName)
+                    TextField("Email", text: $viewModel.email)
+                        .keyboardType(.emailAddress)
+                    Picker("Pronouns", selection: $viewModel.pronouns) {
                         ForEach(pronounOptions, id: \.self) { option in
                             Text(option).tag(option)
                         }
                     }
-
-                    TextField("Phone Number", text: $phone)
+                    TextField("Phone Number", text: $viewModel.phone)
                         .keyboardType(.phonePad)
                 }
 
-                if !errorMessage.isEmpty {
+                if !viewModel.errorMessage.isEmpty {
                     Section {
-                        Text(errorMessage)
+                        Text(viewModel.errorMessage)
                             .foregroundColor(.red)
                     }
                 }
@@ -52,53 +39,32 @@ struct EditClientView: View {
             .navigationTitle("Edit Client")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        updateClient()
+                    Button {
+                        viewModel.saveChanges()
+                    } label: {
+                        if viewModel.isSaving {
+                            ProgressView()
+                        } else {
+                            Text("Save")
+                        }
                     }
-                    .disabled(firstName.isEmpty || lastName.isEmpty || pronouns.isEmpty)
+                    .disabled(viewModel.isSaving || viewModel.firstName.isEmpty || viewModel.lastName.isEmpty || viewModel.pronouns.isEmpty)
                 }
-
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }
                 }
             }
-            .onAppear(perform: loadPhone)
-        }
-    }
-
-    private func loadPhone() {
-        let db = Firestore.firestore()
-        db.collection("clients").document(clientID).getDocument { snapshot, error in
-            if let data = snapshot?.data(), let fetchedPhone = data["phone"] as? String {
-                self.phone = fetchedPhone
+            .onChange(of: viewModel.errorMessage) { _, newValue in
+                // Optionally handle error changes (e.g., show alert)
             }
-        }
-    }
-
-    private func updateClient() {
-        let db = Firestore.firestore()
-        let name = "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
-
-        let updatedData: [String: Any] = [
-            "firstName": firstName,
-            "lastName": lastName,
-            "name": name,
-            "pronouns": pronouns,
-            "phone": phone,
-            "lastSeenAt": Timestamp(date: Date())
-        ]
-
-        isSaving = true
-        db.collection("clients").document(clientID).updateData(updatedData) { error in
-            isSaving = false
-            if let error = error {
-                errorMessage = "Failed to save: \(error.localizedDescription)"
-            } else {
-                print("✅ Client updated.")
-                onSave()
-                dismiss()
+            .onChange(of: viewModel.isSaving) { _, newValue in
+                if !newValue && viewModel.errorMessage.isEmpty {
+                    // Save successful, dismiss and call onSave
+                    onSave()
+                    dismiss()
+                }
             }
         }
     }
