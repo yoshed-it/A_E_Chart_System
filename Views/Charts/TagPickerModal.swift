@@ -1,59 +1,140 @@
 import SwiftUI
 
 struct TagPickerModal: View {
-    @Binding var selectedTags: [ChartTag]
-    let availableTags: [ChartTag]
+    @Binding var selectedTags: [Tag]
+    let availableTags: [Tag]
+    let context: TagContext
     @Environment(\.dismiss) var dismiss
+    
+    @State private var showingCustomTagSheet = false
+    @State private var customTagLabel = ""
+    @State private var customTagColor = Tag.randomPastelColor()
+    @State private var saveToLibrary = false
+    @State private var allAvailableTags: [Tag] = []
+    @State private var isLoading = false
+    
+    enum TagContext {
+        case client
+        case chart
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            Capsule()
-                .frame(width: 40, height: 6)
-                .foregroundColor(Color(.systemGray4))
-                .padding(.top, 8)
-            Text("Select Tags")
-                .font(.headline)
-                .padding(.top, 16)
-            ScrollView(.vertical) {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
-                    ForEach(availableTags, id: \.self) { tag in
-                        Button(action: {
-                            if selectedTags.contains(tag) {
-                                selectedTags.removeAll { $0 == tag }
-                            } else {
-                                selectedTags.append(tag)
-                            }
-                        }) {
-                            HStack {
-                                Text(tag.label)
-                                    .foregroundColor(selectedTags.contains(tag) ? .white : .primary)
+            // Header
+            VStack(spacing: 16) {
+                Capsule()
+                    .frame(width: 40, height: 6)
+                    .foregroundColor(Color(.systemGray4))
+                    .padding(.top, 8)
+                
+                HStack {
+                    Text("Select Tags")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                    
+                    Button("Add Custom") {
+                        showingCustomTagSheet = true
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.accentColor)
+                }
+                .padding(.horizontal)
+            }
+            
+            // Tags Grid
+            if isLoading {
+                ProgressView("Loading tags...")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
+                        ForEach(allAvailableTags) { tag in
+                            TagView(tag: tag, isSelected: selectedTags.contains(tag)) {
+                                // Haptic feedback for better UX
+                                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                                impactFeedback.impactOccurred()
+                                
                                 if selectedTags.contains(tag) {
-                                    Image(systemName: "checkmark")
+                                    selectedTags.removeAll { $0 == tag }
+                                } else {
+                                    selectedTags.append(tag)
                                 }
                             }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(selectedTags.contains(tag) ? Color.accentColor : Color.gray.opacity(0.2))
-                            .cornerRadius(20)
-                            .shadow(color: selectedTags.contains(tag) ? Color.accentColor.opacity(0.2) : .clear, radius: 6, x: 0, y: 2)
                         }
-                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding()
+                }
+            }
+            
+            // Action Buttons
+            VStack(spacing: 12) {
+                Button("Done") { dismiss() }
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Color.accentColor)
+                    .cornerRadius(16)
+                
+                if !selectedTags.isEmpty {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.caption)
+                        Text("\(selectedTags.count) tag\(selectedTags.count == 1 ? "" : "s") selected")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                 }
-                .padding()
             }
-            Button("Done") { dismiss() }
-                .font(.headline)
-                .padding(.vertical, 16)
-                .frame(maxWidth: .infinity)
-                .background(Color(.systemGray6))
-                .cornerRadius(16)
-                .padding([.horizontal, .bottom])
+            .padding()
         }
         .background(
             RoundedRectangle(cornerRadius: 24)
                 .fill(Color(.systemBackground))
                 .shadow(radius: 16)
         )
+        .sheet(isPresented: $showingCustomTagSheet) {
+            CustomTagSheet(
+                tagLabel: $customTagLabel,
+                tagColor: $customTagColor,
+                saveToLibrary: $saveToLibrary,
+                context: context,
+                onSave: { newTag in
+                    selectedTags.append(newTag)
+                    showingCustomTagSheet = false
+                    customTagLabel = ""
+                    customTagColor = Tag.randomPastelColor()
+                    
+                    // Reload available tags if this was a client tag
+                    if context == .client {
+                        Task {
+                            await loadAvailableTags()
+                        }
+                    }
+                }
+            )
+        }
+        .onAppear {
+            Task {
+                await loadAvailableTags()
+            }
+        }
     }
-} 
+    
+    // MARK: - Load Available Tags
+    private func loadAvailableTags() async {
+        isLoading = true
+        
+        if context == .client {
+            allAvailableTags = await ClientTagService.shared.getAvailableClientTags()
+        } else {
+            allAvailableTags = availableTags
+        }
+        
+        isLoading = false
+    }
+}
+

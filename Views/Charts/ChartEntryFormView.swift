@@ -32,6 +32,7 @@ struct ChartEntryFormView: View {
     @State private var showDcWheel = false
     @State private var showSuccessAlert = false
     @State private var showErrorAlert = false
+    @State private var showingChartTagPicker = false
 
     // MARK: - Body
     var body: some View {
@@ -144,6 +145,13 @@ struct ChartEntryFormView: View {
                 handleImageCapture(image)
             }
         }
+        .sheet(isPresented: $showingChartTagPicker) {
+            TagPickerModal(
+                selectedTags: $viewModel.chartTags,
+                availableTags: TagConstants.defaultChartTags,
+                context: .chart
+            )
+        }
         .onChange(of: imageSelections) { _, newValue in
             handleImageUpload(newValue)
         }
@@ -214,6 +222,38 @@ struct ChartEntryFormView: View {
                 NotesFieldView(notes: $viewModel.notes)
             }
             
+            // Chart Tags
+            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+                HStack {
+                    Text("Chart Tags")
+                        .font(.journalSubtitle)
+                        .foregroundColor(PluckrTheme.primaryColor)
+                    
+                    Spacer()
+                    
+                    Button {
+                        showingChartTagPicker = true
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(PluckrTheme.accentColor)
+                            .font(.title3)
+                    }
+                }
+                
+                if viewModel.chartTags.isEmpty {
+                    Text("No tags added yet")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .italic()
+                } else {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 8) {
+                        ForEach(viewModel.chartTags) { tag in
+                            TagView(tag: tag)
+                        }
+                    }
+                }
+            }
+            
             // Image Upload
             VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
                 Text("Treatment Images")
@@ -231,34 +271,6 @@ struct ChartEntryFormView: View {
             if let errorMessage = viewModel.imageUploadErrorMessage {
                 ErrorView(error: errorMessage)
             }
-            
-            // Tag pills UI
-            HStack {
-                ForEach(viewModel.tags, id: \.self) { tag in
-                    HStack(spacing: 4) {
-                        Text(tag.label)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(16)
-                        Button(action: { viewModel.removeTag(tag) }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .padding(.trailing, 4)
-                }
-            }
-            // Tag picker menu
-            Menu("Add Tag") {
-                ForEach(viewModel.availableTags, id: \.self) { tag in
-                    Button(action: { viewModel.addTag(tag) }) {
-                        Text(tag.label)
-                    }
-                    .disabled(viewModel.tags.contains(tag))
-                }
-            }
-            .padding(.top, 8)
             
             Spacer(minLength: 100)
         }

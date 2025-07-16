@@ -19,7 +19,7 @@ struct ChartEntryData {
     var createdByName: String
     var clientChosenName: String?
     var clientLegalName: String?
-    var tags: [ChartTag] = []
+    var chartTags: [Tag] = []
 
     var asDictionary: [String: Any] {
         var dict: [String: Any] = [
@@ -35,7 +35,7 @@ struct ChartEntryData {
             "createdByName": createdByName,
             "clientChosenName": clientChosenName ?? "",
             "clientLegalName": clientLegalName ?? "",
-            "tags": tags.map { ["label": $0.label] }
+            "chartTags": chartTags.map { $0.toDict() }
         ]
 
         // Optional fields

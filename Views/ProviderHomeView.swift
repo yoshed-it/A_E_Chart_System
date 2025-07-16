@@ -83,7 +83,10 @@ struct ProviderHomeView: View {
                 )
             }
             .navigationDestination(item: $selectedClient) { client in
-                ClientJournalView(client: client)
+                ClientJournalView(client: client, isActive: Binding(
+                    get: { selectedClient != nil },
+                    set: { newValue in if !newValue { selectedClient = nil } }
+                ))
             }
             .onAppear {
                 viewModel.fetchProviderName()

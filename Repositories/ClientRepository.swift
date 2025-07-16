@@ -168,6 +168,52 @@ final class ClientRepository {
     }
     
     /**
+     *Deletes a client and all associated data*
+     
+     This method permanently deletes a client and all their chart entries.
+     This is a destructive operation and should be used with caution.
+     
+     - Parameter client: The client to delete
+     - Parameter completion: Closure called with the result of the deletion
+     */
+    func deleteClient(_ client: Client, completion: @escaping (Bool) -> Void) {
+        let clientRef = db.collection("clients").document(client.id)
+        
+        // First, delete all chart entries for this client
+        clientRef.collection("charts").getDocuments { snapshot, error in
+            if let error = error {
+                PluckrLogger.error("Failed to fetch charts for deletion: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            let batch = self.db.batch()
+            
+            // Delete all chart documents
+            if let documents = snapshot?.documents {
+                for document in documents {
+                    batch.deleteDocument(document.reference)
+                }
+                PluckrLogger.info("Deleting \(documents.count) chart entries for client \(client.id)")
+            }
+            
+            // Delete the client document
+            batch.deleteDocument(clientRef)
+            
+            // Commit the batch
+            batch.commit { error in
+                if let error = error {
+                    PluckrLogger.error("Failed to delete client: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    PluckrLogger.success("Client and all associated data deleted successfully")
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    /**
      *Fetches chart entries for a specific client*
      
      - Parameter clientId: The ID of the client

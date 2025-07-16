@@ -44,6 +44,7 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
     var createdByName: String?
     var lastSeenAt: Date?
     var createdAt: Date?
+    var clientTags: [Tag]
 
     /// Computed property that returns the client's full name
     /// - Returns: A string combining first and last name
@@ -75,7 +76,8 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         createdBy: String? = nil,
         createdByName: String? = nil,
         lastSeenAt: Date? = nil,
-        createdAt: Date? = nil
+        createdAt: Date? = nil,
+        clientTags: [Tag] = []
     ) {
         self.id = id
         self.firstName = firstName
@@ -87,6 +89,7 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         self.createdByName = createdByName
         self.lastSeenAt = lastSeenAt
         self.createdAt = createdAt
+        self.clientTags = clientTags
     }
 
     /**
@@ -123,6 +126,12 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         self.createdByName = data["createdByName"] as? String
         self.createdAt = (data["createdAt"] as? Timestamp)?.dateValue()
         self.lastSeenAt = (data["lastSeenAt"] as? Timestamp)?.dateValue()
+        
+        // Parse client tags
+        let tagsData = data["clientTags"] as? [[String: Any]] ?? []
+        self.clientTags = tagsData.compactMap { dict in
+            Tag(data: dict, id: UUID().uuidString)
+        }
     }
     
 }

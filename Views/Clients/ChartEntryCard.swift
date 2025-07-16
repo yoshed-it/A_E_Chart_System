@@ -52,6 +52,20 @@ struct ChartEntryCard: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
+                
+                // Chart Tags
+                if !entry.chartTags.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Tags:")
+                            .fontWeight(.semibold)
+                        
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 6) {
+                            ForEach(entry.chartTags) { tag in
+                                TagView(tag: tag)
+                            }
+                        }
+                    }
+                }
             }
             .font(.subheadline)
 

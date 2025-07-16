@@ -59,4 +59,30 @@ class ClientsListViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: - Client Deletion
+    
+    private let clientRepository = ClientRepository()
+    
+    func deleteClient(_ client: Client, completion: @escaping (Bool) -> Void) {
+        isLoading = true
+        errorMessage = nil
+        
+        clientRepository.deleteClient(client) { [weak self] success in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                
+                if success {
+                    // Remove the client from the local array
+                    self?.clients.removeAll { $0.id == client.id }
+                    PluckrLogger.success("Client deleted successfully")
+                } else {
+                    self?.errorMessage = "Failed to delete client"
+                    PluckrLogger.error("Failed to delete client")
+                }
+                
+                completion(success)
+            }
+        }
+    }
 }
