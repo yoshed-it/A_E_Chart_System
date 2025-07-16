@@ -27,6 +27,8 @@ struct ProviderProfileSetupView: View {
 
             TextField("Phone Number", text: $phone)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.phonePad)
+                .phoneNumberFormatting(text: $phone)
 
             if !errorMessage.isEmpty {
                 Text(errorMessage)

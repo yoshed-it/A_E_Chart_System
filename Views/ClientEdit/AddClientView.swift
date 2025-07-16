@@ -66,9 +66,16 @@ struct AddClientView: View {
                                         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                                     }
                                     
+                                    TextField("Email Address", text: $viewModel.email)
+                                        .textFieldStyle(PluckrTextFieldStyle())
+                                        .keyboardType(.emailAddress)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
+                                    
                                     TextField("Phone Number", text: $viewModel.phone)
                                         .textFieldStyle(PluckrTextFieldStyle())
                                         .keyboardType(.phonePad)
+                                        .phoneNumberFormatting(text: $viewModel.phone)
                                 }
                                 .padding(.horizontal, PluckrTheme.padding)
                             }

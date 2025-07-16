@@ -148,7 +148,7 @@ struct ChartEntryFormView: View {
         .sheet(isPresented: $showingChartTagPicker) {
             TagPickerModal(
                 selectedTags: $viewModel.chartTags,
-                availableTags: TagConstants.defaultChartTags,
+                availableTags: [], // This will be loaded dynamically by TagPickerModal
                 context: .chart
             )
         }

@@ -14,6 +14,7 @@ import FirebaseAuth
  - Client creation, updates, and archiving
  - Provider name fetching
  - Firestore integration
+ - Organization-based data isolation
  
  ## Usage
  ```swift
@@ -39,58 +40,106 @@ final class ClientRepository {
     private let db = Firestore.firestore()
     private var listener: ListenerRegistration?
 
-        /**
-         *Starts real-time observation of all clients*
-         
-         This method sets up a Firestore listener that automatically updates
-         when client data changes. The listener is ordered by last seen date
-         in descending order.
-         
-         - Parameter onUpdate: Closure called with updated client array
-         - Note: Automatically removes any existing listener before creating a new one
-         - Note: Logs errors using Logger utility
-         */
-        func observeClients(onUpdate: @escaping ([Client]) -> Void) {
-            listener?.remove() // Clear any existing listener before attaching a new one
+    /**
+     *Starts real-time observation of all clients*
+     
+     This method sets up a Firestore listener that automatically updates
+     when client data changes. The listener is ordered by last seen date
+     in descending order.
+     
+     - Parameter onUpdate: Closure called with updated client array
+     - Note: Automatically removes any existing listener before creating a new one
+     - Note: Logs errors using Logger utility
+     */
+    func observeClients(onUpdate: @escaping ([Client]) -> Void) {
+        listener?.remove() // Clear any existing listener before attaching a new one
 
-            listener = db.collection("clients")
-                .order(by: "lastSeenAt", descending: true)
-                .addSnapshotListener { snapshot, error in
-                                    guard let docs = snapshot?.documents else {
-                    PluckrLogger.error("Failed to observe clients: \(error?.localizedDescription ?? "Unknown error")")
-                    onUpdate([])
-                    return
-                }
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                self.listener = self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .order(by: "lastSeenAt", descending: true)
+                    .addSnapshotListener { snapshot, error in
+                        guard let docs = snapshot?.documents else {
+                            PluckrLogger.error("Failed to observe clients in org \(orgId): \(error?.localizedDescription ?? "Unknown error")")
+                            onUpdate([])
+                            return
+                        }
 
-                    let clients = docs.compactMap { doc in
-                        Client(data: doc.data(), id: doc.documentID)
+                        let clients = docs.compactMap { doc in
+                            Client(data: doc.data(), id: doc.documentID)
+                        }
+
+                        onUpdate(clients)
                     }
+            } else {
+                // Fallback to root-level structure
+                self.listener = self.db.collection("clients")
+                    .order(by: "lastSeenAt", descending: true)
+                    .addSnapshotListener { snapshot, error in
+                        guard let docs = snapshot?.documents else {
+                            PluckrLogger.error("Failed to observe clients at root level: \(error?.localizedDescription ?? "Unknown error")")
+                            onUpdate([])
+                            return
+                        }
 
-                    onUpdate(clients)
-                }
-        }
+                        let clients = docs.compactMap { doc in
+                            Client(data: doc.data(), id: doc.documentID)
+                        }
 
-        func stopObservingClients() {
-            listener?.remove()
-            listener = nil
+                        onUpdate(clients)
+                    }
+            }
         }
+    }
+
+    func stopObservingClients() {
+        listener?.remove()
+        listener = nil
+    }
     
     func fetchClients(completion: @escaping ([Client]) -> Void) {
-        db.collection("clients")
-            .order(by: "lastSeenAt", descending: true)
-            .getDocuments { snapshot, error in
-                            if let error = error {
-                PluckrLogger.error("Error fetching clients: \(error.localizedDescription)")
-                completion([])
-                return
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .order(by: "lastSeenAt", descending: true)
+                    .getDocuments { snapshot, error in
+                        if let error = error {
+                            PluckrLogger.error("Error fetching clients from org \(orgId): \(error.localizedDescription)")
+                            completion([])
+                            return
+                        }
+                        
+                        let clients = snapshot?.documents.compactMap { doc in
+                            Client(data: doc.data(), id: doc.documentID)
+                        } ?? []
+                        
+                        completion(clients)
+                    }
+            } else {
+                // Fallback to root-level structure
+                self.db.collection("clients")
+                    .order(by: "lastSeenAt", descending: true)
+                    .getDocuments { snapshot, error in
+                        if let error = error {
+                            PluckrLogger.error("Error fetching clients from root level: \(error.localizedDescription)")
+                            completion([])
+                            return
+                        }
+                        
+                        let clients = snapshot?.documents.compactMap { doc in
+                            Client(data: doc.data(), id: doc.documentID)
+                        } ?? []
+                        
+                        completion(clients)
+                    }
             }
-                
-                let clients = snapshot?.documents.compactMap { doc in
-                    Client(data: doc.data(), id: doc.documentID)
-                } ?? []
-                
-                completion(clients)
-            }
+        }
     }
     
     func fetchProviderName(completion: @escaping (String) -> Void) {
@@ -122,16 +171,36 @@ final class ClientRepository {
             "lastSeenAt": Timestamp(date: input.createdAt)
         ]
         
-        db.collection("clients").addDocument(data: data) { error in
-            if let error = error {
-                PluckrLogger.error("Failed to create client: \(error.localizedDescription)")
-                completion(false)
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .addDocument(data: data) { error in
+                        if let error = error {
+                            PluckrLogger.error("Failed to create client in org \(orgId): \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            PluckrLogger.success("Client created successfully in org \(orgId)")
+                            completion(true)
+                        }
+                    }
             } else {
-                PluckrLogger.success("Client created successfully")
-                completion(true)
+                // Fallback to root-level structure
+                self.db.collection("clients").addDocument(data: data) { error in
+                    if let error = error {
+                        PluckrLogger.error("Failed to create client at root level: \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        PluckrLogger.success("Client created successfully at root level")
+                        completion(true)
+                    }
+                }
             }
         }
     }
+    
     func updateClient(_ client: Client, completion: @escaping (Bool) -> Void) {
         let data: [String: Any] = [
             "firstName": client.firstName,
@@ -142,27 +211,71 @@ final class ClientRepository {
             "lastSeenAt": Timestamp(date: client.lastSeenAt ?? Date())
         ]
 
-        db.collection("clients").document(client.id).updateData(data) { error in
-            if let error = error {
-                PluckrLogger.error("Failed to update client: \(error.localizedDescription)")
-                completion(false)
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .document(client.id)
+                    .updateData(data) { error in
+                        if let error = error {
+                            PluckrLogger.error("Failed to update client in org \(orgId): \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            PluckrLogger.success("Client updated successfully in org \(orgId)")
+                            completion(true)
+                        }
+                    }
             } else {
-                PluckrLogger.success("Client updated successfully")
-                completion(true)
+                // Fallback to root-level structure
+                self.db.collection("clients").document(client.id).updateData(data) { error in
+                    if let error = error {
+                        PluckrLogger.error("Failed to update client at root level: \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        PluckrLogger.success("Client updated successfully at root level")
+                        completion(true)
+                    }
+                }
             }
         }
     }
+    
     func archiveClient(_ client: Client, completion: @escaping (Bool) -> Void) {
-        let docRef = db.collection("clients").document(client.id)
-        docRef.updateData([
-            "deletedAt": FieldValue.serverTimestamp()
-        ]) { error in
-            if let error = error {
-                PluckrLogger.error("Failed to archive client: \(error.localizedDescription)")
-                completion(false)
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                let docRef = self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .document(client.id)
+                
+                docRef.updateData([
+                    "deletedAt": FieldValue.serverTimestamp()
+                ]) { error in
+                    if let error = error {
+                        PluckrLogger.error("Failed to archive client in org \(orgId): \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        PluckrLogger.success("Client archived successfully in org \(orgId)")
+                        completion(true)
+                    }
+                }
             } else {
-                PluckrLogger.success("Client archived successfully")
-                completion(true)
+                // Fallback to root-level structure
+                let docRef = self.db.collection("clients").document(client.id)
+                docRef.updateData([
+                    "deletedAt": FieldValue.serverTimestamp()
+                ]) { error in
+                    if let error = error {
+                        PluckrLogger.error("Failed to archive client at root level: \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        PluckrLogger.success("Client archived successfully at root level")
+                        completion(true)
+                    }
+                }
             }
         }
     }
@@ -177,37 +290,81 @@ final class ClientRepository {
      - Parameter completion: Closure called with the result of the deletion
      */
     func deleteClient(_ client: Client, completion: @escaping (Bool) -> Void) {
-        let clientRef = db.collection("clients").document(client.id)
-        
-        // First, delete all chart entries for this client
-        clientRef.collection("charts").getDocuments { snapshot, error in
-            if let error = error {
-                PluckrLogger.error("Failed to fetch charts for deletion: \(error.localizedDescription)")
-                completion(false)
-                return
-            }
-            
-            let batch = self.db.batch()
-            
-            // Delete all chart documents
-            if let documents = snapshot?.documents {
-                for document in documents {
-                    batch.deleteDocument(document.reference)
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                let clientRef = self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .document(client.id)
+                
+                // First, delete all chart entries for this client
+                clientRef.collection("charts").getDocuments { snapshot, error in
+                    if let error = error {
+                        PluckrLogger.error("Failed to fetch charts for deletion in org \(orgId): \(error.localizedDescription)")
+                        completion(false)
+                        return
+                    }
+                    
+                    let batch = self.db.batch()
+                    
+                    // Delete all chart documents
+                    if let documents = snapshot?.documents {
+                        for document in documents {
+                            batch.deleteDocument(document.reference)
+                        }
+                        PluckrLogger.info("Deleting \(documents.count) chart entries for client \(client.id) in org \(orgId)")
+                    }
+                    
+                    // Delete the client document
+                    batch.deleteDocument(clientRef)
+                    
+                    // Commit the batch
+                    batch.commit { error in
+                        if let error = error {
+                            PluckrLogger.error("Failed to delete client in org \(orgId): \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            PluckrLogger.success("Client and all associated data deleted successfully in org \(orgId)")
+                            completion(true)
+                        }
+                    }
                 }
-                PluckrLogger.info("Deleting \(documents.count) chart entries for client \(client.id)")
-            }
-            
-            // Delete the client document
-            batch.deleteDocument(clientRef)
-            
-            // Commit the batch
-            batch.commit { error in
-                if let error = error {
-                    PluckrLogger.error("Failed to delete client: \(error.localizedDescription)")
-                    completion(false)
-                } else {
-                    PluckrLogger.success("Client and all associated data deleted successfully")
-                    completion(true)
+            } else {
+                // Fallback to root-level structure
+                let clientRef = self.db.collection("clients").document(client.id)
+                
+                // First, delete all chart entries for this client
+                clientRef.collection("charts").getDocuments { snapshot, error in
+                    if let error = error {
+                        PluckrLogger.error("Failed to fetch charts for deletion at root level: \(error.localizedDescription)")
+                        completion(false)
+                        return
+                    }
+                    
+                    let batch = self.db.batch()
+                    
+                    // Delete all chart documents
+                    if let documents = snapshot?.documents {
+                        for document in documents {
+                            batch.deleteDocument(document.reference)
+                        }
+                        PluckrLogger.info("Deleting \(documents.count) chart entries for client \(client.id) at root level")
+                    }
+                    
+                    // Delete the client document
+                    batch.deleteDocument(clientRef)
+                    
+                    // Commit the batch
+                    batch.commit { error in
+                        if let error = error {
+                            PluckrLogger.error("Failed to delete client at root level: \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            PluckrLogger.success("Client and all associated data deleted successfully at root level")
+                            completion(true)
+                        }
+                    }
                 }
             }
         }
@@ -220,22 +377,47 @@ final class ClientRepository {
      - Parameter completion: Closure called with the result containing chart entries or error
      */
     func fetchCharts(for clientId: String, completion: @escaping (Result<[ChartEntry], Error>) -> Void) {
-        db.collection("clients")
-            .document(clientId)
-            .collection("charts")
-            .order(by: "createdAt", descending: true)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    PluckrLogger.error("Failed to fetch charts: \(error.localizedDescription)")
-                    completion(.failure(error))
-                } else {
-                    let charts = snapshot?.documents.compactMap { doc in
-                        ChartEntry(id: doc.documentID, data: doc.data())
-                    } ?? []
-                    PluckrLogger.success("Fetched \(charts.count) charts for client \(clientId)")
-                    completion(.success(charts))
-                }
+        // Try organization-based structure first
+        Task {
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                self.db.collection("organizations")
+                    .document(orgId)
+                    .collection("clients")
+                    .document(clientId)
+                    .collection("charts")
+                    .order(by: "createdAt", descending: true)
+                    .getDocuments { snapshot, error in
+                        if let error = error {
+                            PluckrLogger.error("Failed to fetch charts from org \(orgId): \(error.localizedDescription)")
+                            completion(.failure(error))
+                        } else {
+                            let charts = snapshot?.documents.compactMap { doc in
+                                ChartEntry(id: doc.documentID, data: doc.data())
+                            } ?? []
+                            PluckrLogger.success("Fetched \(charts.count) charts for client \(clientId) from org \(orgId)")
+                            completion(.success(charts))
+                        }
+                    }
+            } else {
+                // Fallback to root-level structure
+                self.db.collection("clients")
+                    .document(clientId)
+                    .collection("charts")
+                    .order(by: "createdAt", descending: true)
+                    .getDocuments { snapshot, error in
+                        if let error = error {
+                            PluckrLogger.error("Failed to fetch charts at root level: \(error.localizedDescription)")
+                            completion(.failure(error))
+                        } else {
+                            let charts = snapshot?.documents.compactMap { doc in
+                                ChartEntry(id: doc.documentID, data: doc.data())
+                            } ?? []
+                            PluckrLogger.success("Fetched \(charts.count) charts for client \(clientId) at root level")
+                            completion(.success(charts))
+                        }
+                    }
             }
+        }
     }
 }
 

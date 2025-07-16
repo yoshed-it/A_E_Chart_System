@@ -39,12 +39,12 @@ struct CustomTagSheet: View {
                     }
                 }
                 
-                if context == .client {
+                if context == .client || context == .chart {
                     Section {
                         Toggle("Save to tag library for future use", isOn: $saveToLibrary)
                             .font(.subheadline)
                     } footer: {
-                        Text("This tag will be available for all clients in the future")
+                        Text("This tag will be available for all \(context == .client ? "clients" : "charts") in the future")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -71,19 +71,33 @@ struct CustomTagSheet: View {
                         Button("Save") {
                             let newTag = Tag(label: tagLabel, colorHex: tagColor)
                             
-                            // Save to library if requested and context is client
-                            if saveToLibrary && context == .client {
+                            // Save to library if requested
+                            if saveToLibrary {
                                 Task {
                                     do {
-                                        try await ClientTagService.shared.saveCustomTagToLibrary(tag: newTag)
+                                        try await TagService.shared.saveCustomTagToLibrary(tag: newTag, context: context)
+                                        PluckrLogger.success("Successfully saved custom tag '\(newTag.label)' to library")
+                                        
+                                        // Call onSave after successful save
+                                        await MainActor.run {
+                                            onSave(newTag)
+                                            dismiss()
+                                        }
                                     } catch {
                                         PluckrLogger.error("Failed to save tag to library: \(error.localizedDescription)")
+                                        
+                                        // Still call onSave even if library save fails
+                                        await MainActor.run {
+                                            onSave(newTag)
+                                            dismiss()
+                                        }
                                     }
                                 }
+                            } else {
+                                // If not saving to library, just call onSave immediately
+                                onSave(newTag)
+                                dismiss()
                             }
-                            
-                            onSave(newTag)
-                            dismiss()
                         }
                         .disabled(tagLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }

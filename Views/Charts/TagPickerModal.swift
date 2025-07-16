@@ -103,12 +103,20 @@ struct TagPickerModal: View {
                 saveToLibrary: $saveToLibrary,
                 context: context,
                 onSave: { newTag in
+                    // Add to selected tags
                     selectedTags.append(newTag)
+                    
+                    // Add to available tags immediately so it shows up
+                    allAvailableTags.append(newTag)
+                    
+                    // Sort the tags alphabetically
+                    allAvailableTags.sort { $0.label < $1.label }
+                    
                     showingCustomTagSheet = false
                     customTagLabel = ""
                     customTagColor = Tag.randomPastelColor()
                     
-                    // Reload available tags if this was a client tag
+                    // Reload available tags if this was a client tag (to get any library updates)
                     if context == .client {
                         Task {
                             await loadAvailableTags()
@@ -128,11 +136,7 @@ struct TagPickerModal: View {
     private func loadAvailableTags() async {
         isLoading = true
         
-        if context == .client {
-            allAvailableTags = await ClientTagService.shared.getAvailableClientTags()
-        } else {
-            allAvailableTags = availableTags
-        }
+        allAvailableTags = await TagService.shared.getAvailableTags(context: context)
         
         isLoading = false
     }

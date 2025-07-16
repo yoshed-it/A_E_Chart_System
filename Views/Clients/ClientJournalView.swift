@@ -32,6 +32,31 @@ struct ClientJournalView: View {
                 Text(client.fullName)
                     .font(.system(size: 34, weight: .bold, design: .serif))
 
+                // Contact Information
+                VStack(alignment: .leading, spacing: 2) {
+                    if let phone = client.phone, !phone.isEmpty {
+                        HStack(spacing: 4) {
+                            Image(systemName: "phone.fill")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(Validation.formatPhoneNumber(phone))
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    if let email = client.email, !email.isEmpty {
+                        HStack(spacing: 4) {
+                            Image(systemName: "envelope.fill")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(email)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+
                 if let lastSeen = client.lastSeenAt {
                     Text("Last Seen: \(relativeDaysAgo(from: lastSeen))")
                         .foregroundColor(.secondary)
@@ -248,12 +273,14 @@ struct ClientJournalView: View {
     private func deleteClient() {
         let clientRepository = ClientRepository()
         clientRepository.deleteClient(client) { success in
-            if success {
-                PluckrLogger.success("Client \(client.fullName) deleted successfully")
-                isActive = false // Pop the view
-            } else {
-                PluckrLogger.error("Failed to delete client \(client.fullName)")
-                // Could show an error alert here
+            DispatchQueue.main.async {
+                if success {
+                    PluckrLogger.success("Client \(client.fullName) deleted successfully")
+                    isActive = false // Pop the view on main thread
+                } else {
+                    PluckrLogger.error("Failed to delete client \(client.fullName)")
+                    // Could show an error alert here
+                }
             }
         }
     }

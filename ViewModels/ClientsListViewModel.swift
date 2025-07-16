@@ -8,19 +8,16 @@ class ClientsListViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let db = Firestore.firestore()
-    private let orgId: String
     
-    init(orgId: String = "defaultOrg") {
-        self.orgId = orgId
+    init() {
+        // No longer need orgId parameter since we're using root-level collections
     }
 
     func fetchClients() {
         isLoading = true
         errorMessage = nil
 
-        db.collection("organizations")
-            .document(orgId)
-            .collection("clients")
+        db.collection("clients")
             .order(by: "lastSeenAt", descending: true)
             .getDocuments { snapshot, error in
                 DispatchQueue.main.async {

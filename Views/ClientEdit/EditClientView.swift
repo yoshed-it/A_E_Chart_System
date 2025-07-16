@@ -27,6 +27,7 @@ struct EditClientView: View {
                     }
                     TextField("Phone Number", text: $viewModel.phone)
                         .keyboardType(.phonePad)
+                        .phoneNumberFormatting(text: $viewModel.phone)
                 }
 
                 if !viewModel.errorMessage.isEmpty {
