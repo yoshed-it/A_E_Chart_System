@@ -61,9 +61,7 @@ struct TagView: View {
                             .foregroundColor(textColor.opacity(0.8))
                             .offset(x: hPad, y: -vPad)
                     }
-                }, alignment: .topTrailing
+                }
             )
-            .scaleEffect(isSelected ? 1.05 : 1.0)
-            .animation(.easeInOut(duration: 0.15), value: isSelected)
     }
-}
+} 

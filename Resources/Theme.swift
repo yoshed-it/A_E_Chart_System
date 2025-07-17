@@ -88,6 +88,10 @@ struct PluckrTheme {
             .background(Color.black.opacity(0.07))
             .padding(.vertical, 4)
     }
+    static let spacing: CGFloat = 16
+    static let padding: CGFloat = 20
+    static let cornerRadius: CGFloat = 24 // 2xl, matches clinical iOS style
+    static let secondaryColor = Color("PluckrTagTan") // Adjust if you want a different secondary color
 }
 
 // MARK: - Color Extensions
@@ -230,5 +234,11 @@ extension Color {
         // Perceived brightness formula
         let brightness = (red * 299 + green * 587 + blue * 114) / 1000
         return brightness > 0.7
+    }
+}
+
+extension Font {
+    static var journalCaption: Font {
+        .system(size: 14, weight: .regular, design: .default)
     }
 }

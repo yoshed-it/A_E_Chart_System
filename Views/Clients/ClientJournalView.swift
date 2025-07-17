@@ -19,6 +19,7 @@ struct ClientJournalView: View {
     @State private var showDeleteClientAlert = false
     @State private var clientTags: [Tag] = []
     @State private var availableClientTags: [Tag] = []
+    @State private var showingConsentForm = false
     
     init(client: Client, isActive: Binding<Bool>) {
         self.client = client
@@ -29,12 +30,31 @@ struct ClientJournalView: View {
     var body: some View {
         VStack(spacing: 0) {
             headerSection
-            tagsSection
-            chartEntriesSection
+            ClientJournalTagsSection(
+                clientTags: clientTags,
+                onShowTagPicker: { showingClientTagPicker = true }
+            )
+            ClientJournalChartEntriesSection(
+                entries: viewModel.entries,
+                onEntryTap: { entry in
+                    editingChart = entry
+                    showEditSheet = true
+                }
+            )
         }
         .background(PluckrTheme.backgroundGradient.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Button("Image Consent Form") {
+                        showingConsentForm = true
+                    }
+                    // Future: Add more client options/settings here
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showNewEntry = true
@@ -104,6 +124,11 @@ struct ClientJournalView: View {
         .onChange(of: clientTags) { _, newTags in
             Task {
                 await saveClientTags(newTags)
+            }
+        }
+        .sheet(isPresented: $showingConsentForm) {
+            ImageConsentFormView(client: client) { updatedClient in
+                // TODO: Update client in Firestore and local state
             }
         }
     }

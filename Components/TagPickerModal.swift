@@ -17,7 +17,7 @@ struct TagPickerModal: View {
         case client
         case chart
     }
-
+    
     var body: some View {
         VStack(spacing: 0) {
             // Header
@@ -31,9 +31,7 @@ struct TagPickerModal: View {
                     Text("Select Tags")
                         .font(PluckrTheme.subheadingFont(size: 22))
                         .fontWeight(.semibold)
-                    
                     Spacer()
-                    
                     Button("Add Custom") {
                         showingCustomTagSheet = true
                     }
@@ -43,7 +41,6 @@ struct TagPickerModal: View {
                 }
                 .padding(.horizontal)
             }
-            
             // Tags Grid
             if isLoading {
                 ProgressView("Loading tags...")
@@ -67,79 +64,43 @@ struct TagPickerModal: View {
                     .padding()
                 }
             }
-            
             // Action Buttons
-            VStack(spacing: 12) {
+            HStack {
+                Button("Cancel") { dismiss() }
+                    .font(PluckrTheme.bodyFont())
+                    .foregroundColor(.red)
+                Spacer()
                 Button("Done") { dismiss() }
-                    .font(PluckrTheme.subheadingFont())
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(PluckrTheme.accent)
-                    .cornerRadius(PluckrTheme.buttonCornerRadius)
-                
-                if !selectedTags.isEmpty {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                            .font(.caption)
-                            .font(PluckrTheme.captionFont())
-                        Text("\(selectedTags.count) tag\(selectedTags.count == 1 ? "" : "s") selected")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
+                    .font(PluckrTheme.bodyFont())
+                    .foregroundColor(PluckrTheme.accent)
             }
             .padding()
         }
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(PluckrTheme.card)
-                .shadow(color: PluckrTheme.shadow, radius: 16, x: 0, y: 4)
-        )
+        .background(PluckrTheme.background)
+        .cornerRadius(24)
+        .onAppear { loadTags() }
         .sheet(isPresented: $showingCustomTagSheet) {
             CustomTagSheet(
                 tagLabel: $customTagLabel,
                 tagColor: $customTagColor,
                 saveToLibrary: $saveToLibrary,
                 context: context,
-                onSave: { newTag in
-                    // Add to selected tags
-                    selectedTags.append(newTag)
-                    
-                    // Add to available tags immediately so it shows up
-                    allAvailableTags.append(newTag)
-                    
-                    // Sort the tags alphabetically
-                    allAvailableTags.sort { $0.label < $1.label }
-                    
-                    showingCustomTagSheet = false
-                    customTagLabel = ""
-                    customTagColor = Tag.randomAssetColor()
-                    
-                    // Reload available tags if this was a client tag (to get any library updates)
-                    if context == .client {
-                        Task {
-                            await loadAvailableTags()
-                        }
-                    }
+                onSave: { tag in
+                    allAvailableTags.append(tag)
+                    selectedTags.append(tag)
                 }
             )
         }
-        .onAppear {
-            Task {
-                await loadAvailableTags()
+    }
+    
+    private func loadTags() {
+        isLoading = true
+        Task {
+            let tags = await TagService.shared.getAvailableTags(context: context)
+            await MainActor.run {
+                allAvailableTags = tags
+                isLoading = false
             }
         }
     }
-    
-    // MARK: - Load Available Tags
-    private func loadAvailableTags() async {
-        isLoading = true
-        
-        allAvailableTags = await TagService.shared.getAvailableTags(context: context)
-        
-        isLoading = false
-    }
-}
-
+} 

@@ -42,99 +42,76 @@ struct ChartEntryFormView: View {
             mainContent
                 .navigationTitle(chartId == nil ? "New Chart" : "Edit Chart")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button("Cancel") {
-                            dismiss()
-                        }
-                        .foregroundColor(PluckrTheme.accent)
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Save") {
-                            validateAndSave()
-                        }
-                        .foregroundColor(PluckrTheme.accent)
-                        .font(PluckrTheme.bodyFont())
-                        .disabled(viewModel.isSaving)
-                    }
-                }
-                .alert("Success", isPresented: $showSuccessAlert) {
-                    Button("OK") {
-                        showSuccessAlert = false
-                    }
-                } message: {
-                    Text(chartId == nil ? "Chart entry created successfully." : "Chart entry updated successfully.")
-                }
-                .alert("Error", isPresented: $showErrorAlert) {
-                    Button("OK") {
-                        showErrorAlert = false
-                    }
-                } message: {
-                    Text(viewModel.errorMessage ?? "An error occurred.")
-                }
-                .alert("Validation Error", isPresented: $showValidationAlert) {
-                    Button("OK") {
-                        showValidationAlert = false
-                    }
-                } message: {
-                    Text(validationMessage)
-                }
-                .onChange(of: viewModel.errorMessage) { _, newValue in
-                    if let newValue = newValue, !newValue.isEmpty {
-                        showErrorAlert = true
-                    }
-                }
-                .overlay {
-                    Group {
-                        if showRfWheel {
-                            BottomPickerDrawer(
-                                title: "RF Level",
-                                isPresented: $showRfWheel,
-                                value: $viewModel.rfLevel,
-                                range: 0.1...300.0,
-                                unit: "MHz"
-                            )
-                        }
-                        if showDcWheel {
-                            BottomPickerDrawer(
-                                title: "DC Level",
-                                isPresented: $showDcWheel,
-                                value: $viewModel.dcLevel,
-                                range: 0.1...300.0,
-                                unit: "mA"
-                            )
-                        }
-                    }
-                }
+                .toolbar { toolbarContent }
+                .alert("Success", isPresented: $showSuccessAlert) { Button("OK") { showSuccessAlert = false } } message: { Text(chartId == nil ? "Chart entry created successfully." : "Chart entry updated successfully.") }
+                .alert("Error", isPresented: $showErrorAlert) { Button("OK") { showErrorAlert = false } } message: { Text(viewModel.errorMessage ?? "An error occurred.") }
+                .alert("Validation Error", isPresented: $showValidationAlert) { Button("OK") { showValidationAlert = false } } message: { Text(validationMessage) }
+                .onChange(of: viewModel.errorMessage) { _, newValue in if let newValue = newValue, !newValue.isEmpty { showErrorAlert = true } }
+                .overlay { overlays }
         }
-        .sheet(isPresented: $showCamera) {
-            CameraCaptureView { image in
-                handleImageCapture(image)
+        .sheet(isPresented: $showCamera) { cameraSheet }
+        .sheet(isPresented: $showingChartTagPicker) { tagPickerSheet }
+        .onChange(of: imageSelections) { _, newValue in handleImageUpload(newValue) }
+        .onAppear { onAppearLogic() }
+    }
+
+    // MARK: - Toolbar
+    private var toolbarContent: some ToolbarContent {
+        Group{
+            
+            
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Cancel") { dismiss() }
+                    .foregroundColor(PluckrTheme.accent)
             }
-        }
-        .sheet(isPresented: $showingChartTagPicker) {
-            TagPickerModal(
-                selectedTags: $viewModel.chartTags,
-                availableTags: [], // This will be loaded dynamically by TagPickerModal
-                context: .chart
-            )
-        }
-        .onChange(of: imageSelections) { _, newValue in
-            handleImageUpload(newValue)
-        }
-        .onAppear {
-            if let chartId = chartId, chartId != viewModel.chartId {
-                PluckrLogger.info("Loading chart for editing: \(chartId)")
-                Task {
-                    await viewModel.loadChart(for: clientId, chartId: chartId)
-                }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Save") { validateAndSave() }
+                    .foregroundColor(PluckrTheme.accent)
+                    .font(PluckrTheme.bodyFont())
+                    .disabled(viewModel.isSaving)
             }
         }
     }
 
+    // MARK: - Overlays
+    private var overlays: some View {
+        Group {
+            if showRfWheel {
+                BottomPickerDrawer(
+                    title: "RF Level",
+                    isPresented: $showRfWheel,
+                    value: $viewModel.rfLevel,
+                    range: 0.1...300.0,
+                    unit: "MHz"
+                ).zIndex(2)
+            }
+            if showDcWheel {
+                BottomPickerDrawer(
+                    title: "DC Level",
+                    isPresented: $showDcWheel,
+                    value: $viewModel.dcLevel,
+                    range: 0.1...300.0,
+                    unit: "mA"
+                ).zIndex(2)
+            }
+        }
+    }
+
+    // MARK: - Sheets
+    private var cameraSheet: some View {
+        CameraCaptureView { image in handleImageCapture(image) }
+    }
+    private var tagPickerSheet: some View {
+        TagPickerModal(
+            selectedTags: $viewModel.chartTags,
+            availableTags: [],
+            context: .chart
+        )
+    }
+
     // MARK: - Main Content
     private var mainContent: some View {
-        ZStack {
+        return ZStack {
             PluckrTheme.background.ignoresSafeArea()
             if viewModel.isLoading {
                 ProgressView("Loading…")
@@ -142,25 +119,13 @@ struct ChartEntryFormView: View {
             } else {
                 ScrollView {
                     VStack(spacing: PluckrTheme.verticalPadding) {
-                        // Header
-                        VStack(spacing: 4) {
-                            Text(chartId == nil ? "New Chart Entry" : "Edit Chart Entry")
-                                .font(PluckrTheme.headingFont(size: 28))
-                                .foregroundColor(PluckrTheme.textPrimary)
-                            Text("Record treatment details")
-                                .font(PluckrTheme.captionFont())
-                                .foregroundColor(PluckrTheme.textSecondary)
-                        }
-                        .padding(.top, PluckrTheme.verticalPadding)
-                        .padding(.bottom, 8)
-                        // Form Content
-                        formContent()
+                        headerSection
+                        formContent
                     }
                     .padding(.horizontal, PluckrTheme.horizontalPadding)
                     .padding(.bottom, PluckrTheme.verticalPadding)
                 }
             }
-            // Saving overlay
             if viewModel.isSaving {
                 Color.black.opacity(0.2)
                     .ignoresSafeArea()
@@ -168,20 +133,43 @@ struct ChartEntryFormView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
                     .shadow(radius: 10)
+                    .zIndex(3)
             }
         }
     }
 
+    // MARK: - Header
+    private var headerSection: some View {
+        return VStack(spacing: 4) {
+            Text(chartId == nil ? "New Chart Entry" : "Edit Chart Entry")
+                .font(PluckrTheme.headingFont(size: 28))
+                .foregroundColor(PluckrTheme.textPrimary)
+            Text("Record treatment details")
+                .font(PluckrTheme.captionFont())
+                .foregroundColor(PluckrTheme.textSecondary)
+        }
+        .padding(.top, PluckrTheme.verticalPadding)
+        .padding(.bottom, 8)
+    }
+
     // MARK: - Form Content
-    private func formContent() -> some View {
-        VStack(spacing: PluckrTheme.verticalPadding) {
-            modalitySection
-            machineSettingsSection
-            probeSelectionSection
-            treatmentAreaSection
-            clinicalNotesSection
-            // Add image upload/camera section
-            ImageUploadView(
+    private var formContent: some View {
+        return VStack(spacing: PluckrTheme.verticalPadding) {
+            ChartModalitySection(selectedModality: $viewModel.selectedModality)
+            ChartMachineSettingsSection(
+                rfLevel: $viewModel.rfLevel,
+                dcLevel: $viewModel.dcLevel,
+                showRfPicker: $showRfWheel,
+                showDcPicker: $showDcWheel
+            )
+            ChartProbeSelectionSection(
+                usingOnePiece: $viewModel.usingOnePiece,
+                selectedOnePieceProbe: $viewModel.selectedOnePieceProbe,
+                selectedTwoPieceProbe: $viewModel.selectedTwoPieceProbe
+            )
+            ChartTreatmentAreaSection(treatmentArea: $viewModel.treatmentArea)
+            ChartNotesSection(notes: $viewModel.notes)
+            ChartImageUploadSection(
                 uploadedImageURLs: $viewModel.uploadedImageURLs,
                 showCamera: $showCamera,
                 errorMessage: Binding(
@@ -189,80 +177,19 @@ struct ChartEntryFormView: View {
                     set: { viewModel.imageUploadErrorMessage = $0 ?? "" }
                 )
             )
-            chartTagsSection
-        }
-    }
-
-    // MARK: - Section Components
-    private var modalitySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Treatment Modality")
-                .pluckrSectionHeader()
-            ModalityPickerView(selectedModality: $viewModel.selectedModality)
-        }
-    }
-
-    private var machineSettingsSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Machine Settings")
-                .pluckrSectionHeader()
-            MachineSettingsView(
-                rfLevel: $viewModel.rfLevel,
-                dcLevel: $viewModel.dcLevel,
-                showRfPicker: $showRfWheel,
-                showDcPicker: $showDcWheel
+            ChartTagsSection(
+                chartTags: viewModel.chartTags,
+                onShowTagPicker: { showingChartTagPicker = true }
             )
         }
     }
 
-    private var probeSelectionSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Probe Configuration")
-                .pluckrSectionHeader()
-            ProbePickerView(
-                usingOnePiece: $viewModel.usingOnePiece,
-                selectedOnePieceProbe: $viewModel.selectedOnePieceProbe,
-                selectedTwoPieceProbe: $viewModel.selectedTwoPieceProbe
-            )
-        }
-    }
-
-    private var treatmentAreaSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            TreatmentAreaField(treatmentArea: $viewModel.treatmentArea)
-        }
-    }
-
-    private var clinicalNotesSection: some View {
-        NotesFieldView(notes: $viewModel.notes)
-    }
-
-    private var chartTagsSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("Chart Tags")
-                    .pluckrSectionHeader()
-                Spacer()
-                Button {
-                    showingChartTagPicker = true
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .foregroundColor(.pluckrAccent)
-                        .font(PluckrTheme.subheadingFont(size: 22))
-                }
-            }
-            if viewModel.chartTags.isEmpty {
-                Text("No tags added yet")
-                    .font(PluckrTheme.captionFont())
-                    .foregroundColor(PluckrTheme.textSecondary)
-                    .italic()
-            } else {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120), spacing: 8)], spacing: 8) {
-                    ForEach(viewModel.chartTags) { tag in
-                        Text(tag.label)
-                            .pluckrTag(color: tag.color)
-                    }
-                }
+    // MARK: - Logic
+    private func onAppearLogic() {
+        if let chartId = chartId, chartId != viewModel.chartId {
+            PluckrLogger.info("Loading chart for editing: \(chartId)")
+            Task {
+                await viewModel.loadChart(for: clientId, chartId: chartId)
             }
         }
     }
