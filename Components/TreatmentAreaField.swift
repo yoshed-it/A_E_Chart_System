@@ -15,33 +15,18 @@ struct TreatmentAreaField: View {
     @Binding var treatmentArea: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+        VStack(alignment: .leading, spacing: 8) {
             Text("Treatment Area")
-                .font(.journalCaption)
-                .foregroundColor(PluckrTheme.secondaryColor)
-                .padding(.horizontal, PluckrTheme.padding)
+                .pluckrSectionHeader()
             
             TextField("e.g. Chin, Upper Lip, Bikini Line", text: $treatmentArea)
-                .font(.journalBody)
-                .textInputAutocapitalization(.words)
-                .padding(PluckrTheme.padding)
-                .background(Color.white)
-                .cornerRadius(PluckrTheme.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: PluckrTheme.cornerRadius)
-                        .stroke(PluckrTheme.borderColor, lineWidth: 1)
-                )
-                .padding(.horizontal, PluckrTheme.padding)
+                .pluckrTextField()
         }
-        .padding(.vertical, PluckrTheme.spacing)
-        .background(Color.white)
-        .cornerRadius(PluckrTheme.cornerRadius)
-        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
     }
 }
 
 #Preview {
     TreatmentAreaField(treatmentArea: .constant("Upper Lip"))
         .padding()
-        .background(PluckrTheme.backgroundColor)
+        .background(PluckrTheme.background)
 }

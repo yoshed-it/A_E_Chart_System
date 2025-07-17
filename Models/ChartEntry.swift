@@ -16,6 +16,7 @@ struct ChartEntry: Identifiable {
     var imageURLs: [String]
     var createdAt: Date
     var lastEditedAt: Date?
+    var lastEditedBy: String?
     var createdBy: String
     var createdByName: String
     var clientChosenName: String
@@ -40,6 +41,7 @@ struct ChartEntry: Identifiable {
         self.imageURLs = data["imageURLs"] as? [String] ?? []
         self.createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
         self.lastEditedAt = (data["lastEditedAt"] as? Timestamp)?.dateValue()
+        self.lastEditedBy = data["lastEditedBy"] as? String
         self.createdBy = data["createdBy"] as? String ?? ""
         self.createdByName = data["createdByName"] as? String ?? ""
         self.clientChosenName = data["clientChosenName"] as? String ?? ""

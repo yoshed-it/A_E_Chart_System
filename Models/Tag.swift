@@ -4,25 +4,31 @@ import SwiftUI
 struct Tag: Identifiable, Codable, Equatable, Hashable {
     let id: String
     var label: String
-    var colorHex: String
+    var colorNameOrHex: String
     
-    init(id: String = UUID().uuidString, label: String, colorHex: String = Tag.randomPastelColor()) {
+    init(id: String = UUID().uuidString, label: String, colorNameOrHex: String = Tag.randomAssetColor()) {
         self.id = id
         self.label = label
-        self.colorHex = colorHex
+        self.colorNameOrHex = colorNameOrHex
     }
     
     // MARK: - Color Management
     var color: Color {
-        Color(hex: colorHex) ?? .gray
+        // Try asset name first
+        if UIColor(named: colorNameOrHex) != nil {
+            return Color(colorNameOrHex)
+        }
+        // Fallback to hex
+        return Color(hex: colorNameOrHex) ?? .gray
     }
     
-    static func randomPastelColor() -> String {
-        let pastelColors = [
-            "#FFB3BA", "#BAFFC9", "#BAE1FF", "#FFFFBA", "#FFB3F7",
-            "#E6B3FF", "#B3FFE6", "#FFE6B3", "#B3E6FF", "#FFB3D9"
+    static func randomAssetColor() -> String {
+        let assetColors = [
+            "PluckrTagGreen", "PluckrTagBeige", "PluckrTagTan",
+            "PluckrTagRed", "PluckrTagYellow", "PluckrTagBlue",
+            "PluckrTagPurple", "PluckrTagTeal", "PluckrTagOrange"
         ]
-        return pastelColors.randomElement() ?? "#FFB3BA"
+        return assetColors.randomElement() ?? "PluckrTagGreen"
     }
     
     // MARK: - Firestore Integration
@@ -31,16 +37,15 @@ struct Tag: Identifiable, Codable, Equatable, Hashable {
               let documentId = id, !documentId.isEmpty else {
             return nil
         }
-        
         self.id = documentId
         self.label = label
-        self.colorHex = data["colorHex"] as? String ?? Tag.randomPastelColor()
+        self.colorNameOrHex = data["colorNameOrHex"] as? String ?? Tag.randomAssetColor()
     }
     
     func toDict() -> [String: Any] {
         return [
             "label": label,
-            "colorHex": colorHex
+            "colorNameOrHex": colorNameOrHex
         ]
     }
 }

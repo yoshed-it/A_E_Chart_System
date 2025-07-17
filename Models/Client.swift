@@ -135,3 +135,22 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
     }
     
 }
+
+extension Client {
+    func toDict() -> [String: Any] {
+        var dict: [String: Any] = [
+            "firstName": firstName,
+            "lastName": lastName,
+            "id": id
+        ]
+        if let phone = phone { dict["phone"] = phone }
+        if let email = email { dict["email"] = email }
+        if let pronouns = pronouns { dict["pronouns"] = pronouns }
+        if let createdBy = createdBy { dict["createdBy"] = createdBy }
+        if let createdByName = createdByName { dict["createdByName"] = createdByName }
+        if let lastSeenAt = lastSeenAt { dict["lastSeenAt"] = Timestamp(date: lastSeenAt) }
+        if let createdAt = createdAt { dict["createdAt"] = Timestamp(date: createdAt) }
+        if !clientTags.isEmpty { dict["clientTags"] = clientTags.map { $0.toDict() } }
+        return dict
+    }
+}

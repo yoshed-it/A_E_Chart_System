@@ -32,32 +32,26 @@ struct TagView: View {
     }
     
     private var tagContent: some View {
-        HStack(spacing: 4) {
-            Text(tag.label)
-                .font(.caption)
-                .fontWeight(.medium)
-                .lineLimit(1)
-            
-            if isSelected {
-                Image(systemName: "xmark")
-                    .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white.opacity(0.8))
-            }
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-        .background(
-            Capsule()
-                .fill(isSelected ? tag.color : Color(.systemGray6))
-                .overlay(
-                    Capsule()
-                        .stroke(isSelected ? tag.color : tag.color.opacity(0.3), lineWidth: isSelected ? 0 : 1)
-                )
-        )
-        .foregroundColor(isSelected ? .white : tag.color)
-        .shadow(color: isSelected ? tag.color.opacity(0.3) : .clear, radius: 2, x: 0, y: 1)
-        .scaleEffect(isSelected ? 1.05 : 1.0)
-        .animation(.easeInOut(duration: 0.15), value: isSelected)
+        let tagColor = tag.color
+        let textColor: Color = tagColor.isLight ? .primary : .white
+        return Text(tag.label)
+            .font(.system(size: 11, weight: .medium))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(tagColor.opacity(0.15))
+            .foregroundColor(textColor)
+            .cornerRadius(8)
+            .overlay(
+                Group {
+                    if isSelected {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 8, weight: .bold))
+                            .foregroundColor(textColor.opacity(0.8))
+                            .offset(x: 8, y: -6)
+                    }
+                }, alignment: .topTrailing
+            )
+            .scaleEffect(isSelected ? 1.05 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: isSelected)
     }
 }

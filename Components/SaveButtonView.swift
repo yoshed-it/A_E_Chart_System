@@ -24,28 +24,28 @@ struct SaveButtonView: View {
     let onSaveTapped: () -> Void
 
     var body: some View {
-        VStack(spacing: PluckrTheme.spacing) {
+        VStack(spacing: 12) {
             Button(action: onSaveTapped) {
                 if isSaving {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 } else {
                     Text(chartId == nil ? "Save Chart Entry" : "Update Chart")
-                        .font(.journalSubtitle)
-                        .fontWeight(.semibold)
+                        .font(PluckrTheme.bodyFont(size: 17))
+                        .foregroundColor(.white)
                 }
             }
-            .buttonStyle(PluckrButtonStyle())
+            .pluckrButton(small: true)
             .disabled(isSaving || treatmentArea.isEmpty)
             .opacity((isSaving || treatmentArea.isEmpty) ? 0.6 : 1.0)
             
             if treatmentArea.isEmpty {
                 Text("Please select a treatment area")
-                    .font(.journalCaption)
-                    .foregroundColor(PluckrTheme.secondaryColor)
+                    .font(PluckrTheme.captionFont())
+                    .foregroundColor(PluckrTheme.textSecondary)
             }
         }
-        .padding(.horizontal, PluckrTheme.padding)
+        .padding(.horizontal, 20)
     }
 }
 
@@ -76,5 +76,5 @@ struct SaveButtonView: View {
         }
     }
     .padding()
-    .background(PluckrTheme.backgroundColor)
+    .background(PluckrTheme.background)
 }

@@ -17,30 +17,32 @@ struct ModalityPickerView: View {
     let modalities = ["Thermolysis", "Galvanic", "Blend"]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+        VStack(alignment: .leading, spacing: 12) {
             Text("Select Modality")
-                .font(.journalCaption)
-                .foregroundColor(PluckrTheme.secondaryColor)
-                .padding(.horizontal, PluckrTheme.padding)
+                .pluckrSectionHeader()
             
             Picker("Modality", selection: $selectedModality) {
                 ForEach(modalities, id: \.self) { modality in
                     Text(modality)
-                        .font(.journalBody)
+                        .font(PluckrTheme.bodyFont())
                 }
             }
             .pickerStyle(.segmented)
-            .padding(.horizontal, PluckrTheme.padding)
         }
-        .padding(.vertical, PluckrTheme.spacing)
-        .background(Color.white)
-        .cornerRadius(PluckrTheme.cornerRadius)
-        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .background(PluckrTheme.card)
+        .cornerRadius(PluckrTheme.cardCornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                .stroke(PluckrTheme.borderColor, lineWidth: 1)
+        )
+        .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.shadowRadiusMedium, x: 0, y: PluckrTheme.shadowYMedium)
     }
 }
 
 #Preview {
     ModalityPickerView(selectedModality: .constant("Thermolysis"))
         .padding()
-        .background(PluckrTheme.backgroundColor)
+        .background(PluckrTheme.background)
 }

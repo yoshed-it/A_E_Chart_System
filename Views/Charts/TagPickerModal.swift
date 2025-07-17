@@ -8,7 +8,7 @@ struct TagPickerModal: View {
     
     @State private var showingCustomTagSheet = false
     @State private var customTagLabel = ""
-    @State private var customTagColor = Tag.randomPastelColor()
+    @State private var customTagColor = Tag.randomAssetColor()
     @State private var saveToLibrary = false
     @State private var allAvailableTags: [Tag] = []
     @State private var isLoading = false
@@ -29,7 +29,7 @@ struct TagPickerModal: View {
                 
                 HStack {
                     Text("Select Tags")
-                        .font(.title2)
+                        .font(PluckrTheme.subheadingFont(size: 22))
                         .fontWeight(.semibold)
                     
                     Spacer()
@@ -38,6 +38,7 @@ struct TagPickerModal: View {
                         showingCustomTagSheet = true
                     }
                     .font(.subheadline)
+                    .font(PluckrTheme.captionFont())
                     .foregroundColor(.accentColor)
                 }
                 .padding(.horizontal)
@@ -71,18 +72,19 @@ struct TagPickerModal: View {
             // Action Buttons
             VStack(spacing: 12) {
                 Button("Done") { dismiss() }
-                    .font(.headline)
+                    .font(PluckrTheme.subheadingFont())
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    .background(Color.accentColor)
-                    .cornerRadius(16)
+                    .background(PluckrTheme.accent)
+                    .cornerRadius(PluckrTheme.buttonCornerRadius)
                 
                 if !selectedTags.isEmpty {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
                             .font(.caption)
+                            .font(PluckrTheme.captionFont())
                         Text("\(selectedTags.count) tag\(selectedTags.count == 1 ? "" : "s") selected")
                             .font(.caption)
                             .foregroundColor(.secondary)
@@ -93,8 +95,8 @@ struct TagPickerModal: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 24)
-                .fill(Color(.systemBackground))
-                .shadow(radius: 16)
+                .fill(PluckrTheme.card)
+                .shadow(color: PluckrTheme.shadow, radius: 16, x: 0, y: 4)
         )
         .sheet(isPresented: $showingCustomTagSheet) {
             CustomTagSheet(
@@ -114,7 +116,7 @@ struct TagPickerModal: View {
                     
                     showingCustomTagSheet = false
                     customTagLabel = ""
-                    customTagColor = Tag.randomPastelColor()
+                    customTagColor = Tag.randomAssetColor()
                     
                     // Reload available tags if this was a client tag (to get any library updates)
                     if context == .client {

@@ -1,6 +1,7 @@
 // MARK: - ClientJournalView.swift
 
 import SwiftUI
+import SwiftUIIntrospect
 
 struct ClientJournalView: View {
     let client: Client
@@ -15,212 +16,65 @@ struct ClientJournalView: View {
     @State private var selectedChartId: String? = nil
     @State private var activeSheet: ActiveSheet? = nil
     @State private var showingClientTagPicker = false
-    @State private var clientTags: [Tag] = []
     @State private var showDeleteClientAlert = false
-
+    @State private var clientTags: [Tag] = []
+    @State private var availableClientTags: [Tag] = []
+    
     init(client: Client, isActive: Binding<Bool>) {
         self.client = client
         self._isActive = isActive
-        _viewModel = StateObject(wrappedValue: ClientJournalViewModel(clientId: client.id))
-        _clientTags = State(initialValue: client.clientTags)
+        self._viewModel = StateObject(wrappedValue: ClientJournalViewModel(clientId: client.id))
     }
-
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Header
-            VStack(alignment: .leading, spacing: 4) {
-                Text(client.fullName)
-                    .font(.system(size: 34, weight: .bold, design: .serif))
-
-                // Contact Information
-                VStack(alignment: .leading, spacing: 2) {
-                    if let phone = client.phone, !phone.isEmpty {
-                        HStack(spacing: 4) {
-                            Image(systemName: "phone.fill")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Text(Validation.formatPhoneNumber(phone))
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    
-                    if let email = client.email, !email.isEmpty {
-                        HStack(spacing: 4) {
-                            Image(systemName: "envelope.fill")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Text(email)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-
-                if let lastSeen = client.lastSeenAt {
-                    Text("Last Seen: \(relativeDaysAgo(from: lastSeen))")
-                        .foregroundColor(.secondary)
-                        .font(.subheadline)
-                }
-            }
-            .padding(.top)
-
-            // Client Tags
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("Client Tags")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    Button {
-                        showingClientTagPicker = true
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.accentColor)
-                            .font(.title3)
-                    }
-                }
-                
-                if clientTags.isEmpty {
-                    Text("No tags added yet")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .italic()
-                } else {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 8) {
-                        ForEach(clientTags) { tag in
-                            TagView(tag: tag)
-                        }
-                    }
-                }
-            }
-
-            // Chart Entries List
-            if viewModel.isLoading {
-                ProgressView("Loading charts...")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.entries.isEmpty {
-                Text("No chart entries yet.")
-                    .foregroundColor(.secondary)
-                    .padding()
-            } else {
-                List {
-                    ForEach(viewModel.entries) { entry in
-                        ChartEntryCard(entry: entry)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                PluckrLogger.info("Tapped chart \(entry.id) for detail view")
-                                activeSheet = .detail(entry)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                Button {
-                                    PluckrLogger.info("Editing chart \(entry.id) via swipe")
-                                    Task {
-                                        editFormViewModel.isLoading = true
-                                        await editFormViewModel.loadChart(for: client.id, chartId: entry.id)
-                                        selectedChartId = entry.id
-                                        activeSheet = .editEntry
-                                    }
-                                } label: {
-                                    Label("Edit", systemImage: "pencil")
-                                }.tint(.blue)
-                                Button(role: .destructive) {
-                                    PluckrLogger.info("Deleting chart \(entry.id)")
-                                    deletingChart = entry
-                                    showDeleteAlert = true
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                            }
-                    }
-                }
-                .listStyle(.plain)
-            }
+        VStack(spacing: 0) {
+            headerSection
+            tagsSection
+            chartEntriesSection
         }
-        .padding()
-        .navigationTitle("")
+        .background(PluckrTheme.backgroundGradient.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HStack {
-                    Button {
-                        activeSheet = .newEntry
-                    } label: {
-                        Text("New Entry")
-                            .fontWeight(.semibold)
-                            .padding(.horizontal)
-                            .padding(.vertical, 6)
-                            .background(Color.green.opacity(0.8))
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
-                    }
-                    
-                    Menu {
-                        Button(role: .destructive) {
-                            showDeleteClientAlert = true
-                        } label: {
-                            Label("Delete Client", systemImage: "trash")
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                            .foregroundColor(.secondary)
-                    }
+                Button {
+                    showNewEntry = true
+                } label: {
+                    Text("Add Chart")
+                        .font(PluckrTheme.bodyFont())
+                        .foregroundColor(PluckrTheme.accent)
                 }
             }
         }
-        .sheet(item: $activeSheet) { sheet in
-            switch sheet {
-            case .newEntry:
-                ChartEntryFormView(
-                    viewModel: ChartEntryFormViewModel(),
-                    clientId: client.id,
-                    chartId: nil,
-                    onSave: {
-                        Task {
-                            await viewModel.loadEntries()
-                        }
-                        activeSheet = nil
-                    }
-                )
-            case .editEntry:
-                if let chartId = selectedChartId {
-                    ChartEntryFormView(
-                        viewModel: editFormViewModel,
-                        clientId: client.id,
-                        chartId: chartId,
-                        onSave: {
-                            Task {
-                                await viewModel.loadEntries()
-                            }
-                            activeSheet = nil
-                        }
-                    )
+        .sheet(isPresented: $showNewEntry) {
+            ChartEntryFormView(
+                viewModel: ChartEntryFormViewModel(),
+                clientId: client.id,
+                chartId: nil
+            ) {
+                Task {
+                    await viewModel.loadEntries()
                 }
-            case .detail(let chart):
-                ChartDetailView(chart: chart, onEdit: {
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            if let editingChart = editingChart {
+                ChartEntryFormView(
+                    viewModel: editFormViewModel,
+                    clientId: client.id,
+                    chartId: editingChart.id
+                ) {
                     Task {
-                        editFormViewModel.isLoading = true
-                        await editFormViewModel.loadChart(for: client.id, chartId: chart.id)
-                        selectedChartId = chart.id
-                        activeSheet = .editEntry
+                        await viewModel.loadEntries()
                     }
-                })
+                }
             }
         }
         .sheet(isPresented: $showingClientTagPicker) {
             TagPickerModal(
                 selectedTags: $clientTags,
-                availableTags: TagConstants.defaultClientTags,
+                availableTags: availableClientTags,
                 context: .client
             )
-            .onDisappear {
-                Task {
-                    await updateClientTags()
-                }
-            }
         }
         .alert("Delete Chart?", isPresented: $showDeleteAlert, presenting: deletingChart) { chart in
             Button("Delete", role: .destructive) {
@@ -243,64 +97,159 @@ struct ClientJournalView: View {
         .onAppear {
             Task {
                 await viewModel.loadEntries()
+                await loadClientTags()
+                await loadAvailableClientTags()
+            }
+        }
+        .onChange(of: clientTags) { _, newTags in
+            Task {
+                await saveClientTags(newTags)
             }
         }
     }
 
-    func formattedDate(from date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
-    }
-
-    func relativeDaysAgo(from date: Date) -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .full
-        return formatter.localizedString(for: date, relativeTo: Date())
-    }
-    
-    // MARK: - Client Tag Management
-    private func updateClientTags() async {
-        do {
-            try await ClientTagService.shared.updateClientTags(clientId: client.id, tags: clientTags)
-            PluckrLogger.info("Successfully updated client tags")
-        } catch {
-            PluckrLogger.error("Failed to update client tags: \(error.localizedDescription)")
-        }
-    }
-    
-    // MARK: - Client Deletion
-    private func deleteClient() {
-        let clientRepository = ClientRepository()
-        clientRepository.deleteClient(client) { success in
-            DispatchQueue.main.async {
-                if success {
-                    PluckrLogger.success("Client \(client.fullName) deleted successfully")
-                    isActive = false // Pop the view on main thread
-                } else {
-                    PluckrLogger.error("Failed to delete client \(client.fullName)")
-                    // Could show an error alert here
+    // MARK: - Subviews
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(client.fullName)
+                .font(PluckrTheme.displayFont())
+                .foregroundColor(PluckrTheme.textPrimary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(alignment: .leading, spacing: 2) {
+                if let phone = client.phone, !phone.isEmpty {
+                    HStack(spacing: 4) {
+                        Image(systemName: "phone.fill")
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
+                        Text(phone)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
+                    }
+                }
+                if let email = client.email, !email.isEmpty {
+                    HStack(spacing: 4) {
+                        Image(systemName: "envelope.fill")
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
+                        Text(email)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
+                    }
                 }
             }
         }
+        .padding(.horizontal, PluckrTheme.horizontalPadding)
+        .padding(.top, PluckrTheme.verticalPadding)
+        .padding(.bottom, 16)
+    }
+
+    private var tagsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("CLIENT TAGS")
+                    .pluckrSectionHeader()
+                Spacer()
+                Button {
+                    showingClientTagPicker = true
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .foregroundColor(PluckrTheme.accent)
+                        .font(PluckrTheme.subheadingFont(size: 22))
+                }
+            }
+            if clientTags.isEmpty {
+                Text("No tags added yet")
+                    .font(PluckrTheme.captionFont())
+                    .foregroundColor(PluckrTheme.textSecondary)
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+            } else {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 6) {
+                    ForEach(clientTags) { tag in
+                        TagView(tag: tag)
+                    }
+                }
+                .padding(.horizontal, PluckrTheme.horizontalPadding)
+            }
+        }
+        .padding(.horizontal, PluckrTheme.horizontalPadding)
+        .padding(.vertical, PluckrTheme.verticalPadding)
+    }
+    
+    private var chartEntriesSection: some View {
+        List {
+            ForEach(viewModel.entries) { entry in
+                ChartEntryCard(entry: entry)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .swipeActions(edge: .trailing) {
+                        Button {
+                            editingChart = entry
+                            showEditSheet = true
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                                .font(PluckrTheme.captionFont())
+                                .fontWeight(.medium)
+                        }
+                        .tint(Color.gray.opacity(0.6))
+                        
+                        Button(role: .destructive) {
+                            deletingChart = entry
+                            showDeleteAlert = true
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                                .font(PluckrTheme.captionFont())
+                                .fontWeight(.medium)
+                        }
+                        .tint(Color.red.opacity(0.5))
+                    }
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    .padding(.vertical, 16)
+            }
+        }
+        .listStyle(.plain)
+        .background(Color.clear)
+    }
+    
+    // MARK: - Client Tag Management
+    private func loadClientTags() async {
+        // Load client tags from the client object or database
+        // For now, we'll use an empty array and implement this later
+        clientTags = []
+    }
+    
+    private func loadAvailableClientTags() async {
+        availableClientTags = await TagService.shared.getAvailableTags(context: .client)
+    }
+    
+    private func saveClientTags(_ tags: [Tag]) async {
+        do {
+            try await TagService.shared.updateClientTags(clientId: client.id, tags: tags)
+        } catch {
+            print("Failed to save client tags: \(error)")
+        }
+    }
+    
+    private func deleteClient() {
+        // Implementation for deleting client
+        print("Delete client implementation")
     }
 }
 
-enum ActiveSheet: Identifiable, Equatable {
-    case newEntry, editEntry, detail(ChartEntry)
-    var id: String {
+// MARK: - ActiveSheet Enum
+enum ActiveSheet: Identifiable {
+    case newEntry
+    case editEntry(ChartEntry)
+    case tagPicker
+    
+    var id: Int {
         switch self {
-        case .newEntry: return "newEntry"
-        case .editEntry: return "editEntry"
-        case .detail(let chart): return chart.id
-        }
-    }
-    static func == (lhs: ActiveSheet, rhs: ActiveSheet) -> Bool {
-        switch (lhs, rhs) {
-        case (.newEntry, .newEntry): return true
-        case (.editEntry, .editEntry): return true
-        case let (.detail(a), .detail(b)): return a.id == b.id
-        default: return false
+        case .newEntry:
+            return 0
+        case .editEntry:
+            return 1
+        case .tagPicker:
+            return 2
         }
     }
 }

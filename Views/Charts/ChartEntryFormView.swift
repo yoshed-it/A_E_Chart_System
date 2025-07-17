@@ -32,113 +32,80 @@ struct ChartEntryFormView: View {
     @State private var showDcWheel = false
     @State private var showSuccessAlert = false
     @State private var showErrorAlert = false
+    @State private var showValidationAlert = false
+    @State private var validationMessage = ""
     @State private var showingChartTagPicker = false
 
     // MARK: - Body
     var body: some View {
         NavigationStack {
-            ZStack {
-                // Background
-                PluckrTheme.backgroundColor
-                    .ignoresSafeArea()
-                
-                if viewModel.isLoading {
-                    ProgressView("Loading…")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    ScrollView {
-                        VStack(spacing: PluckrTheme.spacing * 2) {
-                            // Header
-                            VStack(spacing: PluckrTheme.spacing) {
-                                Text(chartId == nil ? "New Chart Entry" : "Edit Chart Entry")
-                                    .font(.journalTitle)
-                                    .foregroundColor(PluckrTheme.primaryColor)
-                                
-                                Text("Record treatment details")
-                                    .font(.journalCaption)
-                                    .foregroundColor(PluckrTheme.secondaryColor)
-                            }
-                            .padding(.top, PluckrTheme.padding)
-                            
-                            // Form Content
-                            formContent()
+            mainContent
+                .navigationTitle(chartId == nil ? "New Chart" : "Edit Chart")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            dismiss()
                         }
-                        .padding(.horizontal, PluckrTheme.padding)
+                        .foregroundColor(PluckrTheme.accent)
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Save") {
+                            validateAndSave()
+                        }
+                        .foregroundColor(PluckrTheme.accent)
+                        .font(PluckrTheme.bodyFont())
+                        .disabled(viewModel.isSaving)
                     }
                 }
-
-                // Saving overlay
-                if viewModel.isSaving {
-                    Color.black.opacity(0.2)
-                        .ignoresSafeArea()
-                    ProgressView("Saving...")
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
-                        .shadow(radius: 10)
-                }
-            }
-            .navigationTitle(chartId == nil ? "New Chart" : "Edit Chart")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
+                .alert("Success", isPresented: $showSuccessAlert) {
+                    Button("OK") {
+                        showSuccessAlert = false
                     }
-                    .foregroundColor(PluckrTheme.accentColor)
+                } message: {
+                    Text(chartId == nil ? "Chart entry created successfully." : "Chart entry updated successfully.")
                 }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        saveChart()
+                .alert("Error", isPresented: $showErrorAlert) {
+                    Button("OK") {
+                        showErrorAlert = false
                     }
-                    .font(.journalSubtitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                    .disabled(viewModel.isSaving || viewModel.treatmentArea.isEmpty)
+                } message: {
+                    Text(viewModel.errorMessage ?? "An error occurred.")
                 }
-            }
-            .alert("Success", isPresented: $showSuccessAlert) {
-                Button("OK") {
-                    showSuccessAlert = false
-                }
-            } message: {
-                Text(chartId == nil ? "Chart entry created successfully." : "Chart entry updated successfully.")
-            }
-            .alert("Error", isPresented: $showErrorAlert) {
-                Button("OK") {
-                    showErrorAlert = false
-                }
-            } message: {
-                Text(viewModel.errorMessage ?? "An error occurred.")
-            }
-            .onChange(of: viewModel.errorMessage) { _, newValue in
-                if let newValue = newValue, !newValue.isEmpty {
-                    showErrorAlert = true
-                }
-            }
-            .overlay {
-                Group {
-                    if showRfWheel {
-                        BottomPickerDrawer(
-                            title: "RF Level",
-                            isPresented: $showRfWheel,
-                            value: $viewModel.rfLevel,
-                            range: 0.1...300.0,
-                            unit: "MHz"
-                        )
+                .alert("Validation Error", isPresented: $showValidationAlert) {
+                    Button("OK") {
+                        showValidationAlert = false
                     }
-
-                    if showDcWheel {
-                        BottomPickerDrawer(
-                            title: "DC Level",
-                            isPresented: $showDcWheel,
-                            value: $viewModel.dcLevel,
-                            range: 0.1...300.0,
-                            unit: "mA"
-                        )
+                } message: {
+                    Text(validationMessage)
+                }
+                .onChange(of: viewModel.errorMessage) { _, newValue in
+                    if let newValue = newValue, !newValue.isEmpty {
+                        showErrorAlert = true
                     }
                 }
-            }
+                .overlay {
+                    Group {
+                        if showRfWheel {
+                            BottomPickerDrawer(
+                                title: "RF Level",
+                                isPresented: $showRfWheel,
+                                value: $viewModel.rfLevel,
+                                range: 0.1...300.0,
+                                unit: "MHz"
+                            )
+                        }
+                        if showDcWheel {
+                            BottomPickerDrawer(
+                                title: "DC Level",
+                                isPresented: $showDcWheel,
+                                value: $viewModel.dcLevel,
+                                range: 0.1...300.0,
+                                unit: "mA"
+                            )
+                        }
+                    }
+                }
         }
         .sheet(isPresented: $showCamera) {
             CameraCaptureView { image in
@@ -165,114 +132,138 @@ struct ChartEntryFormView: View {
         }
     }
 
+    // MARK: - Main Content
+    private var mainContent: some View {
+        ZStack {
+            PluckrTheme.background.ignoresSafeArea()
+            if viewModel.isLoading {
+                ProgressView("Loading…")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView {
+                    VStack(spacing: PluckrTheme.verticalPadding) {
+                        // Header
+                        VStack(spacing: 4) {
+                            Text(chartId == nil ? "New Chart Entry" : "Edit Chart Entry")
+                                .font(PluckrTheme.headingFont(size: 28))
+                                .foregroundColor(PluckrTheme.textPrimary)
+                            Text("Record treatment details")
+                                .font(PluckrTheme.captionFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                        }
+                        .padding(.top, PluckrTheme.verticalPadding)
+                        .padding(.bottom, 8)
+                        // Form Content
+                        formContent()
+                    }
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    .padding(.bottom, PluckrTheme.verticalPadding)
+                }
+            }
+            // Saving overlay
+            if viewModel.isSaving {
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
+                ProgressView("Saving...")
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
+                    .shadow(radius: 10)
+            }
+        }
+    }
+
     // MARK: - Form Content
     private func formContent() -> some View {
-        VStack(spacing: PluckrTheme.spacing * 2) {
-            // Modality Selection
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                Text("Treatment Modality")
-                    .font(.journalSubtitle)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                
-                ModalityPickerView(selectedModality: $viewModel.selectedModality)
-            }
-            
-            // Machine Settings
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                Text("Machine Settings")
-                    .font(.journalSubtitle)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                
-                MachineSettingsView(
-                    rfLevel: $viewModel.rfLevel,
-                    dcLevel: $viewModel.dcLevel,
-                    showRfPicker: $showRfWheel,
-                    showDcPicker: $showDcWheel
+        VStack(spacing: PluckrTheme.verticalPadding) {
+            modalitySection
+            machineSettingsSection
+            probeSelectionSection
+            treatmentAreaSection
+            clinicalNotesSection
+            // Add image upload/camera section
+            ImageUploadView(
+                uploadedImageURLs: $viewModel.uploadedImageURLs,
+                showCamera: $showCamera,
+                errorMessage: Binding(
+                    get: { viewModel.imageUploadErrorMessage },
+                    set: { viewModel.imageUploadErrorMessage = $0 ?? "" }
                 )
-            }
-            
-            // Probe Selection
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                Text("Probe Configuration")
-                    .font(.journalSubtitle)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                
-                ProbePickerView(
-                    usingOnePiece: $viewModel.usingOnePiece,
-                    selectedOnePieceProbe: $viewModel.selectedOnePieceProbe,
-                    selectedTwoPieceProbe: $viewModel.selectedTwoPieceProbe
-                )
-            }
-            
-            // Treatment Area
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                Text("Treatment Area")
-                    .font(.journalSubtitle)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                
-                TreatmentAreaField(treatmentArea: $viewModel.treatmentArea)
-            }
-            
-            // Clinical Notes
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                Text("Clinical Notes")
-                    .font(.journalSubtitle)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                
-                NotesFieldView(notes: $viewModel.notes)
-            }
-            
-            // Chart Tags
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                HStack {
-                    Text("Chart Tags")
-                        .font(.journalSubtitle)
-                        .foregroundColor(PluckrTheme.primaryColor)
-                    
-                    Spacer()
-                    
-                    Button {
-                        showingChartTagPicker = true
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(PluckrTheme.accentColor)
-                            .font(.title3)
-                    }
-                }
-                
-                if viewModel.chartTags.isEmpty {
-                    Text("No tags added yet")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .italic()
-                } else {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 8) {
-                        ForEach(viewModel.chartTags) { tag in
-                            TagView(tag: tag)
-                        }
-                    }
+            )
+            chartTagsSection
+        }
+    }
+
+    // MARK: - Section Components
+    private var modalitySection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Treatment Modality")
+                .pluckrSectionHeader()
+            ModalityPickerView(selectedModality: $viewModel.selectedModality)
+        }
+    }
+
+    private var machineSettingsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Machine Settings")
+                .pluckrSectionHeader()
+            MachineSettingsView(
+                rfLevel: $viewModel.rfLevel,
+                dcLevel: $viewModel.dcLevel,
+                showRfPicker: $showRfWheel,
+                showDcPicker: $showDcWheel
+            )
+        }
+    }
+
+    private var probeSelectionSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Probe Configuration")
+                .pluckrSectionHeader()
+            ProbePickerView(
+                usingOnePiece: $viewModel.usingOnePiece,
+                selectedOnePieceProbe: $viewModel.selectedOnePieceProbe,
+                selectedTwoPieceProbe: $viewModel.selectedTwoPieceProbe
+            )
+        }
+    }
+
+    private var treatmentAreaSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            TreatmentAreaField(treatmentArea: $viewModel.treatmentArea)
+        }
+    }
+
+    private var clinicalNotesSection: some View {
+        NotesFieldView(notes: $viewModel.notes)
+    }
+
+    private var chartTagsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Chart Tags")
+                    .pluckrSectionHeader()
+                Spacer()
+                Button {
+                    showingChartTagPicker = true
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .foregroundColor(.pluckrAccent)
+                        .font(PluckrTheme.subheadingFont(size: 22))
                 }
             }
-            
-            // Image Upload
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-                Text("Treatment Images")
-                    .font(.journalSubtitle)
-                    .foregroundColor(PluckrTheme.primaryColor)
-                
-                ImageUploadView(
-                    uploadedImageURLs: $viewModel.uploadedImageURLs,
-                    showCamera: $showCamera,
-                    errorMessage: $viewModel.imageUploadErrorMessage
-                )
+            if viewModel.chartTags.isEmpty {
+                Text("No tags added yet")
+                    .font(PluckrTheme.captionFont())
+                    .foregroundColor(PluckrTheme.textSecondary)
+                    .italic()
+            } else {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120), spacing: 8)], spacing: 8) {
+                    ForEach(viewModel.chartTags) { tag in
+                        Text(tag.label)
+                            .pluckrTag(color: tag.color)
+                    }
+                }
             }
-            
-            // Error Display
-            if let errorMessage = viewModel.imageUploadErrorMessage {
-                ErrorView(error: errorMessage)
-            }
-            
-            Spacer(minLength: 100)
         }
     }
 
@@ -308,6 +299,32 @@ struct ChartEntryFormView: View {
             } else {
                 viewModel.imageUploadErrorMessage = "Upload failed."
             }
+        }
+    }
+
+    private func validateAndSave() {
+        var missingFields: [String] = []
+        
+        // Check required fields
+        if viewModel.selectedModality.isEmpty {
+            missingFields.append("Treatment Modality")
+        }
+        
+        if viewModel.usingOnePiece && viewModel.selectedOnePieceProbe.isEmpty {
+            missingFields.append("One-Piece Probe")
+        } else if !viewModel.usingOnePiece && viewModel.selectedTwoPieceProbe.isEmpty {
+            missingFields.append("Two-Piece Probe")
+        }
+        
+        if viewModel.treatmentArea.isEmpty {
+            missingFields.append("Treatment Area")
+        }
+        
+        if !missingFields.isEmpty {
+            validationMessage = "Please complete the following required fields:\n\n• " + missingFields.joined(separator: "\n• ")
+            showValidationAlert = true
+        } else {
+            saveChart()
         }
     }
 }

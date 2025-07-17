@@ -14,15 +14,15 @@ struct OrganizationSelectionView: View {
                 // Header
                 VStack(spacing: 12) {
                     Image(systemName: "building.2")
-                        .font(.system(size: 60))
-                        .foregroundColor(.blue)
+                        .font(PluckrTheme.displayFont(size: 60))
+                        .foregroundColor(PluckrTheme.accent)
                     
                     Text("Welcome to Pluckr")
-                        .font(.largeTitle)
+                        .font(PluckrTheme.headingFont(size: 38))
                         .fontWeight(.bold)
                     
                     Text("Choose or create an organization to get started")
-                        .font(.body)
+                        .font(PluckrTheme.bodyFont())
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
@@ -34,7 +34,7 @@ struct OrganizationSelectionView: View {
                 if !organizationService.userOrganizations.isEmpty {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Your Organizations")
-                            .font(.headline)
+                            .font(PluckrTheme.subheadingFont())
                             .padding(.horizontal)
                         
                         ScrollView {
@@ -68,9 +68,9 @@ struct OrganizationSelectionView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(PluckrTheme.accent)
                         .foregroundColor(.white)
-                        .cornerRadius(12)
+                        .cornerRadius(PluckrTheme.cardCornerRadius)
                     }
                     
                     Button(action: {
@@ -84,7 +84,7 @@ struct OrganizationSelectionView: View {
                         .padding()
                         .background(Color.green)
                         .foregroundColor(.white)
-                        .cornerRadius(12)
+                        .cornerRadius(PluckrTheme.cardCornerRadius)
                     }
                 }
                 .padding(.horizontal)
@@ -133,33 +133,33 @@ struct OrganizationCard: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(organization.name)
-                        .font(.headline)
+                        .font(PluckrTheme.subheadingFont())
                         .foregroundColor(.primary)
                     
                     if let description = organization.description {
                         Text(description)
-                            .font(.caption)
+                            .font(PluckrTheme.captionFont())
                             .foregroundColor(.secondary)
                             .lineLimit(2)
                     }
                     
                     HStack {
                         Text(userRole.displayName)
-                            .font(.caption)
+                            .font(PluckrTheme.captionFont())
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
-                            .background(userRole.color.opacity(0.2))
+                            .background(userRole.color.opacity(0.18))
                             .foregroundColor(userRole.color)
-                            .cornerRadius(8)
+                            .cornerRadius(PluckrTheme.tagCornerRadius)
                         
                         if isSelected {
                             Text("Current")
-                                .font(.caption)
+                                .font(PluckrTheme.captionFont())
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
-                                .background(Color.blue.opacity(0.2))
-                                .foregroundColor(.blue)
-                                .cornerRadius(8)
+                                .background(PluckrTheme.accent.opacity(0.18))
+                                .foregroundColor(PluckrTheme.accent)
+                                .cornerRadius(PluckrTheme.tagCornerRadius)
                         }
                     }
                 }
@@ -168,13 +168,13 @@ struct OrganizationCard: View {
                 
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.blue)
+                        .foregroundColor(PluckrTheme.accent)
                 }
             }
             .padding()
             .background(Color(.systemBackground))
-            .cornerRadius(12)
-            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+            .cornerRadius(PluckrTheme.cardCornerRadius)
+            .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -193,15 +193,15 @@ struct JoinOrganizationView: View {
             VStack(spacing: 24) {
                 VStack(spacing: 12) {
                     Image(systemName: "person.badge.plus")
-                        .font(.system(size: 50))
-                        .foregroundColor(.green)
+                        .font(PluckrTheme.displayFont(size: 50))
+                        .foregroundColor(PluckrTheme.accent)
                     
                     Text("Join Organization")
-                        .font(.title2)
+                        .font(PluckrTheme.subheadingFont(size: 22))
                         .fontWeight(.bold)
                     
                     Text("Enter the invite code provided by your organization")
-                        .font(.body)
+                        .font(PluckrTheme.bodyFont())
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
@@ -209,7 +209,7 @@ struct JoinOrganizationView: View {
                 
                 VStack(spacing: 16) {
                     TextField("Invite Code", text: $inviteCode)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .pluckrTextField()
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                     
@@ -225,7 +225,7 @@ struct JoinOrganizationView: View {
                     .padding()
                     .background(Color.green)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(PluckrTheme.cardCornerRadius)
                     .disabled(inviteCode.isEmpty || isLoading)
                 }
                 .padding(.horizontal)

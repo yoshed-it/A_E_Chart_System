@@ -98,9 +98,11 @@ class AuthService: ObservableObject {
         do {
             try Auth.auth().signOut()
             PluckrLogger.info("User signed out successfully")
+            self.currentUser = nil
+            self.isAuthenticated = false
         } catch {
             PluckrLogger.error("Sign out failed: \(error.localizedDescription)")
-            errorMessage = error.localizedDescription
+            self.errorMessage = error.localizedDescription
         }
     }
     

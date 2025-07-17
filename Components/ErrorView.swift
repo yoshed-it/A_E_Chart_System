@@ -16,25 +16,20 @@ struct ErrorView: View {
 
     var body: some View {
         if let error = error, !error.isEmpty {
-            HStack(spacing: PluckrTheme.spacing) {
+            HStack(spacing: PluckrTheme.verticalPadding) {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundColor(.red)
                     .font(.caption)
                 
                 Text(error)
-                    .font(.journalCaption)
+                    .font(PluckrTheme.captionFont())
                     .foregroundColor(.red)
                     .multilineTextAlignment(.leading)
                 
                 Spacer()
             }
-            .padding(PluckrTheme.padding)
-            .background(Color.red.opacity(0.1))
-            .cornerRadius(PluckrTheme.cornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: PluckrTheme.cornerRadius)
-                    .stroke(Color.red.opacity(0.3), lineWidth: 1)
-            )
+            .padding(PluckrTheme.horizontalPadding)
+            .pluckrCard()
         }
     }
 }
@@ -46,5 +41,5 @@ struct ErrorView: View {
         ErrorView(error: "")
     }
     .padding()
-    .background(PluckrTheme.backgroundColor)
+    .background(PluckrTheme.background)
 }

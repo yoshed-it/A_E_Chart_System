@@ -18,36 +18,35 @@ struct LoginView: View {
         NavigationStack {
             ZStack {
                 // Background
-                PluckrTheme.backgroundColor
+                PluckrTheme.background
                     .ignoresSafeArea()
                 
-                VStack(spacing: PluckrTheme.spacing * 3) {
+                VStack(spacing: PluckrTheme.verticalPadding * 1.5) {
                     // Header
-                    VStack(spacing: PluckrTheme.spacing) {
+                    VStack(spacing: PluckrTheme.verticalPadding / 2) {
                         Text("Pluckr")
-                            .font(.journalTitle)
-                            .foregroundColor(PluckrTheme.primaryColor)
-                        
+                            .font(PluckrTheme.displayFont(size: 38))
+                            .foregroundColor(PluckrTheme.textPrimary)
                         Text("Clinical Journal")
-                            .font(.journalSubtitle)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.subheadingFont(size: 20))
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     .padding(.top, 60)
                     
                     // Login Form
-                    VStack(spacing: PluckrTheme.spacing * 2) {
+                    VStack(spacing: PluckrTheme.verticalPadding) {
                         TextField("Email", text: $email)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
                             .autocapitalization(.none)
                             .keyboardType(.emailAddress)
                         
                         SecureField("Password", text: $password)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
                         
                         if let errorMessage = authService.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
-                                .font(.journalCaption)
+                                .font(PluckrTheme.captionFont())
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal)
                         }
@@ -58,21 +57,21 @@ struct LoginView: View {
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             } else {
                                 Text("Sign In")
-                                    .font(.journalSubtitle)
+                                    .font(PluckrTheme.subheadingFont())
                                     .fontWeight(.semibold)
                             }
                         }
-                        .buttonStyle(PluckrButtonStyle())
+                        .pluckrButton()
                         .disabled(authService.isLoading || email.isEmpty || password.isEmpty)
                         
                         Button("Create Account") {
                             showSignUp = true
                         }
-                        .font(.journalCaption)
-                        .foregroundColor(PluckrTheme.accentColor)
-                        .padding(.top, PluckrTheme.spacing)
+                        .font(PluckrTheme.captionFont())
+                        .foregroundColor(PluckrTheme.accent)
+                        .padding(.top, PluckrTheme.verticalPadding)
                     }
-                    .padding(.horizontal, PluckrTheme.padding)
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
                     
                     Spacer()
                 }

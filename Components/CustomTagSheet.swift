@@ -11,8 +11,9 @@ struct CustomTagSheet: View {
     @State private var showingColorPicker = false
     
     private let availableColors = [
-        "#FFB3BA", "#BAFFC9", "#BAE1FF", "#FFFFBA", "#FFB3F7",
-        "#E6B3FF", "#B3FFE6", "#FFE6B3", "#B3E6FF", "#FFB3D9"
+        "PluckrTagGreen", "PluckrTagBeige", "PluckrTagTan",
+        "PluckrTagRed", "PluckrTagYellow", "PluckrTagBlue",
+        "PluckrTagPurple", "PluckrTagTeal", "PluckrTagOrange"
     ]
     
     var body: some View {
@@ -29,7 +30,7 @@ struct CustomTagSheet: View {
                             showingColorPicker = true
                         } label: {
                             Circle()
-                                .fill(Color(hex: tagColor) ?? .gray)
+                                .fill(Color(tagColor) ?? .gray)
                                 .frame(width: 30, height: 30)
                                 .overlay(
                                     Circle()
@@ -54,7 +55,7 @@ struct CustomTagSheet: View {
                     HStack {
                         Text("Preview")
                         Spacer()
-                        TagView(tag: Tag(label: tagLabel.isEmpty ? "Sample Tag" : tagLabel, colorHex: tagColor))
+                        TagView(tag: Tag(label: tagLabel.isEmpty ? "Sample Tag" : tagLabel, colorNameOrHex: tagColor))
                     }
                 }
             }
@@ -69,7 +70,7 @@ struct CustomTagSheet: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Save") {
-                            let newTag = Tag(label: tagLabel, colorHex: tagColor)
+                            let newTag = Tag(label: tagLabel, colorNameOrHex: tagColor)
                             
                             // Save to library if requested
                             if saveToLibrary {
@@ -114,8 +115,9 @@ struct ColorPickerSheet: View {
     @Environment(\.dismiss) var dismiss
     
     private let colors = [
-        "#FFB3BA", "#BAFFC9", "#BAE1FF", "#FFFFBA", "#FFB3F7",
-        "#E6B3FF", "#B3FFE6", "#FFE6B3", "#B3E6FF", "#FFB3D9"
+        "PluckrTagGreen", "PluckrTagBeige", "PluckrTagTan",
+        "PluckrTagRed", "PluckrTagYellow", "PluckrTagBlue",
+        "PluckrTagPurple", "PluckrTagTeal", "PluckrTagOrange"
     ]
     
     var body: some View {
@@ -127,19 +129,19 @@ struct ColorPickerSheet: View {
                     .padding(.top)
                 
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 16) {
-                    ForEach(colors, id: \.self) { colorHex in
+                    ForEach(colors, id: \.self) { assetName in
                         Button {
-                            selectedColor = colorHex
+                            selectedColor = assetName
                             dismiss()
                         } label: {
                             Circle()
-                                .fill(Color(hex: colorHex) ?? .gray)
+                                .fill(Color(assetName))
                                 .frame(width: 50, height: 50)
                                 .overlay(
                                     Circle()
-                                        .stroke(selectedColor == colorHex ? Color.accentColor : Color.clear, lineWidth: 3)
+                                        .stroke(selectedColor == assetName ? Color.accentColor : Color.clear, lineWidth: 3)
                                 )
-                                .shadow(color: Color(hex: colorHex)?.opacity(0.3) ?? .clear, radius: 4, x: 0, y: 2)
+                                .shadow(color: Color(assetName).opacity(0.3), radius: 4, x: 0, y: 2)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }

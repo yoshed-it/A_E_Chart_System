@@ -7,7 +7,7 @@ class ClientsListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let db = Firestore.firestore()
+    private let clientRepository = ClientRepository()
     
     init() {
         // No longer need orgId parameter since we're using root-level collections
@@ -16,32 +16,15 @@ class ClientsListViewModel: ObservableObject {
     func fetchClients() {
         isLoading = true
         errorMessage = nil
-
-        db.collection("clients")
-            .order(by: "lastSeenAt", descending: true)
-            .getDocuments { snapshot, error in
-                DispatchQueue.main.async {
-                    self.isLoading = false
-
-                    if let error = error {
-                        self.errorMessage = "Error fetching clients: \(error.localizedDescription)"
-                        return
-                    }
-
-                    guard let documents = snapshot?.documents else {
-                        self.errorMessage = "No clients found."
-                        return
-                    }
-
-                    self.clients = documents.compactMap { doc in
-                        Client(data: doc.data(), id: doc.documentID)
-                    }
-
-                    if self.clients.isEmpty {
-                        self.errorMessage = "No clients found."
-                    }
+        clientRepository.fetchClients { [weak self] clients in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.clients = clients
+                if clients.isEmpty {
+                    self?.errorMessage = "No clients found."
                 }
             }
+        }
     }
 
     func refresh() {
@@ -58,8 +41,6 @@ class ClientsListViewModel: ObservableObject {
     }
     
     // MARK: - Client Deletion
-    
-    private let clientRepository = ClientRepository()
     
     func deleteClient(_ client: Client, completion: @escaping (Bool) -> Void) {
         isLoading = true

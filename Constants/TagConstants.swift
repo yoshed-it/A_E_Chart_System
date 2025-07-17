@@ -4,33 +4,45 @@ struct TagConstants {
     
     // MARK: - Client Tags (Long-term characteristics)
     static let defaultClientTags: [Tag] = [
-        Tag(label: "Phalloplasty Prep", colorHex: "#FFB3BA"),
-        Tag(label: "Top Surgery", colorHex: "#BAFFC9"),
-        Tag(label: "Sensitive Client", colorHex: "#BAE1FF"),
-        Tag(label: "No-Show Risk", colorHex: "#FFFFBA"),
-        Tag(label: "Prefers Evenings", colorHex: "#FFB3F7"),
-        Tag(label: "Coarse Hair", colorHex: "#E6B3FF"),
-        Tag(label: "Dry Skin", colorHex: "#B3FFE6"),
-        Tag(label: "New Client", colorHex: "#FFE6B3"),
-        Tag(label: "Returning Client", colorHex: "#B3E6FF"),
-        Tag(label: "VIP", colorHex: "#FFB3D9")
+        Tag(label: "Phalloplasty Prep", colorNameOrHex: "PluckrTagGreen"),
+        Tag(label: "Top Surgery", colorNameOrHex: "PluckrTagBeige"),
+        Tag(label: "Sensitive Client", colorNameOrHex: "PluckrTagTan"),
+        Tag(label: "No-Show Risk", colorNameOrHex: "PluckrTagGreen"),
+        Tag(label: "Prefers Evenings", colorNameOrHex: "PluckrTagBeige"),
+        Tag(label: "Coarse Hair", colorNameOrHex: "PluckrTagTan"),
+        Tag(label: "Dry Skin", colorNameOrHex: "PluckrTagGreen"),
+        Tag(label: "New Client", colorNameOrHex: "PluckrTagBeige"),
+        Tag(label: "Returning Client", colorNameOrHex: "PluckrTagTan"),
+        Tag(label: "VIP", colorNameOrHex: "PluckrTagGreen")
     ]
     
     // MARK: - Chart Tags (Treatment-specific)
     static let defaultChartTags: [Tag] = [
-        Tag(label: "Sensitive", colorHex: "#FFB3BA"),
-        Tag(label: "Bleeding", colorHex: "#BAFFC9"),
-        Tag(label: "Consult", colorHex: "#BAE1FF"),
-        Tag(label: "Numbness", colorHex: "#FFFFBA"),
-        Tag(label: "Healed Well", colorHex: "#FFB3F7"),
-        Tag(label: "Follow-up", colorHex: "#E6B3FF"),
-        Tag(label: "Complications", colorHex: "#B3FFE6"),
-        Tag(label: "Quick Session", colorHex: "#FFE6B3"),
-        Tag(label: "Extended Session", colorHex: "#B3E6FF"),
-        Tag(label: "Test Patch", colorHex: "#FFB3D9")
+        Tag(label: "Sensitive", colorNameOrHex: "PluckrTagGreen"),
+        Tag(label: "Bleeding", colorNameOrHex: "PluckrTagBeige"),
+        Tag(label: "Consult", colorNameOrHex: "PluckrTagTan"),
+        Tag(label: "Numbness", colorNameOrHex: "PluckrTagGreen"),
+        Tag(label: "Healed Well", colorNameOrHex: "PluckrTagBeige"),
+        Tag(label: "Follow-up", colorNameOrHex: "PluckrTagTan"),
+        Tag(label: "Complications", colorNameOrHex: "PluckrTagGreen"),
+        Tag(label: "Quick Session", colorNameOrHex: "PluckrTagBeige"),
+        Tag(label: "Extended Session", colorNameOrHex: "PluckrTagTan"),
+        Tag(label: "Test Patch", colorNameOrHex: "PluckrTagGreen")
     ]
     
     // MARK: - Validation
     static let maxTagLabelLength = 25
     static let minTagLabelLength = 1
+    
+    static let tagColors: [String] = [
+        "PluckrTagGreen",    // Muted green
+        "PluckrTagBeige",    // Soft beige
+        "PluckrTagTan",      // Light tan
+        "PluckrTagRed",      // Muted clinical red
+        "PluckrTagYellow",   // Soft yellow
+        "PluckrTagBlue",     // Muted blue
+        "PluckrTagPurple",   // Muted purple
+        "PluckrTagTeal",     // Muted teal
+        "PluckrTagOrange"    // Soft orange
+    ]
 } 

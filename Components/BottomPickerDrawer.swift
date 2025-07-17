@@ -43,27 +43,27 @@ struct BottomPickerDrawer: View {
                         Button("Cancel") {
                             isPresented = false
                         }
-                        .font(.journalBody)
-                        .foregroundColor(PluckrTheme.accentColor)
+                        .font(PluckrTheme.bodyFont())
+                        .foregroundColor(PluckrTheme.accent)
                         
                         Spacer()
                         
                         Text(title)
-                            .font(.journalSubtitle)
+                            .font(PluckrTheme.subheadingFont())
                             .fontWeight(.semibold)
-                            .foregroundColor(PluckrTheme.primaryColor)
+                            .foregroundColor(PluckrTheme.textPrimary)
                         
                         Spacer()
                         
                         Button("Done") {
                             isPresented = false
                         }
-                        .font(.journalBody)
+                        .font(PluckrTheme.bodyFont())
                         .fontWeight(.semibold)
-                        .foregroundColor(PluckrTheme.primaryColor)
+                        .foregroundColor(PluckrTheme.textPrimary)
                     }
-                    .padding(.horizontal, PluckrTheme.padding)
-                    .padding(.vertical, PluckrTheme.spacing)
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    .padding(.vertical, PluckrTheme.verticalPadding)
 
                     Divider()
                         .background(PluckrTheme.borderColor)
@@ -80,17 +80,15 @@ struct BottomPickerDrawer: View {
                     )) {
                         ForEach(Array(stride(from: range.lowerBound, through: range.upperBound, by: 0.1)), id: \.self) { level in
                             Text("\(level, specifier: "%.1f") \(unit)")
-                                .font(.journalBody)
+                                .font(PluckrTheme.bodyFont())
                                 .tag(level)
                         }
                     }
                     .pickerStyle(.wheel)
                     .frame(height: 160)
                 }
-                .background(Color(.systemBackground))
-                .cornerRadius(PluckrTheme.cornerRadius * 2)
-                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
-                .padding(.horizontal, PluckrTheme.padding)
+                .pluckrCard()
+                .padding(.horizontal, PluckrTheme.horizontalPadding)
                 .padding(.bottom, 20)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .animation(.easeInOut(duration: 0.3), value: isPresented)

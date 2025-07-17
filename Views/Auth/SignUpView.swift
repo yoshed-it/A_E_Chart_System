@@ -12,43 +12,42 @@ struct SignUpView: View {
         NavigationStack {
             ZStack {
                 // Background
-                PluckrTheme.backgroundColor
+                PluckrTheme.background
                     .ignoresSafeArea()
                 
-                VStack(spacing: PluckrTheme.spacing * 3) {
+                VStack(spacing: PluckrTheme.verticalPadding * 1.5) {
                     // Header
-                    VStack(spacing: PluckrTheme.spacing) {
+                    VStack(spacing: PluckrTheme.verticalPadding / 2) {
                         Text("Create Account")
-                            .font(.journalTitle)
-                            .foregroundColor(PluckrTheme.primaryColor)
-                        
+                            .font(PluckrTheme.displayFont(size: 32))
+                            .foregroundColor(PluckrTheme.textPrimary)
                         Text("Join Pluckr")
-                            .font(.journalSubtitle)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.subheadingFont(size: 18))
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     .padding(.top, 40)
                     
                     // Sign Up Form
-                    VStack(spacing: PluckrTheme.spacing * 2) {
+                    VStack(spacing: PluckrTheme.verticalPadding) {
                         TextField("Full Name", text: $displayName)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
                             .autocapitalization(.words)
                         
                         TextField("Email", text: $email)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
                             .autocapitalization(.none)
                             .keyboardType(.emailAddress)
                         
                         SecureField("Password", text: $password)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
                         
                         SecureField("Confirm Password", text: $confirmPassword)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
                         
                         if let errorMessage = authService.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
-                                .font(.journalCaption)
+                                .font(PluckrTheme.captionFont())
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal)
                         }
@@ -59,15 +58,15 @@ struct SignUpView: View {
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             } else {
                                 Text("Create Account")
-                                    .font(.journalSubtitle)
+                                    .font(PluckrTheme.subheadingFont())
                                     .fontWeight(.semibold)
                             }
                         }
-                        .buttonStyle(PluckrButtonStyle())
+                        .pluckrButton()
                         .disabled(!isFormValid || authService.isLoading)
                         .opacity(isFormValid ? 1.0 : 0.6)
                     }
-                    .padding(.horizontal, PluckrTheme.padding)
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
                     
                     Spacer()
                 }
@@ -79,7 +78,7 @@ struct SignUpView: View {
                     Button("Cancel") {
                         dismiss()
                     }
-                    .foregroundColor(PluckrTheme.accentColor)
+                    .foregroundColor(PluckrTheme.accent)
                 }
             }
         }

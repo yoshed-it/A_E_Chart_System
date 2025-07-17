@@ -19,6 +19,13 @@
 		093A0B062E272F200097A6DA /* OrganizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B052E272F200097A6DA /* OrganizationService.swift */; };
 		093A0B082E2730000097A6DA /* OrganizationSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B072E2730000097A6DA /* OrganizationSetupView.swift */; };
 		093A0B0A2E27312D0097A6DA /* OrganizationSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B092E27312D0097A6DA /* OrganizationSelectionView.swift */; };
+		093A0B0D2E28069F0097A6DA /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 093A0B0C2E28069F0097A6DA /* SwiftUIX */; };
+		093A0B102E2808450097A6DA /* KeyboardObserving in Frameworks */ = {isa = PBXBuildFile; productRef = 093A0B0F2E2808450097A6DA /* KeyboardObserving */; };
+		093A0B122E2852FA0097A6DA /* Probe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B112E2852FA0097A6DA /* Probe.swift */; };
+		093A0B142E2853080097A6DA /* ProbeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B132E2853080097A6DA /* ProbeService.swift */; };
+		093A0B162E28532D0097A6DA /* CustomProbeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */; };
+		093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B172E2853430097A6DA /* ProbeManagementView.swift */; };
+		093A0B1A2E2863EE0097A6DA /* FolioCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B192E2863EE0097A6DA /* FolioCardView.swift */; };
 		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
 		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
 		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
@@ -53,7 +60,6 @@
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
-		099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
 		099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */; };
 		099AC4E62E1F2C9800F62820 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4DC2E1EF53F00F62820 /* StorageService.swift */; };
@@ -118,6 +124,11 @@
 		093A0B052E272F200097A6DA /* OrganizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationService.swift; sourceTree = "<group>"; };
 		093A0B072E2730000097A6DA /* OrganizationSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationSetupView.swift; sourceTree = "<group>"; };
 		093A0B092E27312D0097A6DA /* OrganizationSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationSelectionView.swift; sourceTree = "<group>"; };
+		093A0B112E2852FA0097A6DA /* Probe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Probe.swift; sourceTree = "<group>"; };
+		093A0B132E2853080097A6DA /* ProbeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeService.swift; sourceTree = "<group>"; };
+		093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProbeSheet.swift; sourceTree = "<group>"; };
+		093A0B172E2853430097A6DA /* ProbeManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeManagementView.swift; sourceTree = "<group>"; };
+		093A0B192E2863EE0097A6DA /* FolioCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolioCardView.swift; sourceTree = "<group>"; };
 		094FF7682E0F269B00A212F7 /* Pluckr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluckr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF7752E0F269D00A212F7 /* PluckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,7 +164,6 @@
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		099AC4DD2E1EF54800F62820 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOptions.swift; sourceTree = "<group>"; };
 		099AC4E12E1F099E00F62820 /* CameraUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUploader.swift; sourceTree = "<group>"; };
 		099AC4E32E1F2ABD00F62820 /* ChartEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryData.swift; sourceTree = "<group>"; };
 		099AC4E52E1F2C1C00F62820 /* ChartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartService.swift; sourceTree = "<group>"; };
@@ -194,6 +204,8 @@
 				094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */,
 				0982B3682E1DCE5400DB6C1A /* AlertToast in Frameworks */,
 				094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */,
+				093A0B102E2808450097A6DA /* KeyboardObserving in Frameworks */,
+				093A0B0D2E28069F0097A6DA /* SwiftUIX in Frameworks */,
 				0982B36B2E1DCEA400DB6C1A /* SwiftUIIntrospect in Frameworks */,
 				094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */,
 			);
@@ -252,6 +264,7 @@
 		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				093A0B172E2853430097A6DA /* ProbeManagementView.swift */,
 				093A0B092E27312D0097A6DA /* OrganizationSelectionView.swift */,
 				093A0B072E2730000097A6DA /* OrganizationSetupView.swift */,
 				099AC5022E20867300F62820 /* ClientEdit */,
@@ -269,6 +282,7 @@
 		0982B36E2E1DD00000DB6C1A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				093A0B112E2852FA0097A6DA /* Probe.swift */,
 				093A0B012E272EFF0097A6DA /* Organization.swift */,
 				093A0B022E272EFF0097A6DA /* UserOrganization.swift */,
 				093A0AF72E2720E70097A6DA /* Tag.swift */,
@@ -306,6 +320,8 @@
 		0982B3752E1DD15F00DB6C1A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				093A0B192E2863EE0097A6DA /* FolioCardView.swift */,
+				093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */,
 				093A0AF92E2720F10097A6DA /* ClientInfoModal.swift */,
 				093A0AFA2E2720F10097A6DA /* CustomTagSheet.swift */,
 				099AC51B2E25EAC400F62820 /* ClientCardView.swift */,
@@ -351,6 +367,7 @@
 		099AC4DA2E1EF51700F62820 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				093A0B132E2853080097A6DA /* ProbeService.swift */,
 				093A0B052E272F200097A6DA /* OrganizationService.swift */,
 				093A0AFD2E2721010097A6DA /* ClientTagService.swift */,
 				099AC5072E20887900F62820 /* ChartEntryService.swift */,
@@ -366,7 +383,6 @@
 			children = (
 				093A0AFF2E2721070097A6DA /* TagConstants.swift */,
 				099AC5292E26F7D400F62820 /* ImageConstants.swift */,
-				099AC4DE2E1EF86F00F62820 /* ProbeOptions.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -466,6 +482,8 @@
 				094FF7992E0F2AC100A212F7 /* FirebaseStorage */,
 				0982B3672E1DCE5400DB6C1A /* AlertToast */,
 				0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */,
+				093A0B0C2E28069F0097A6DA /* SwiftUIX */,
+				093A0B0F2E2808450097A6DA /* KeyboardObserving */,
 			);
 			productName = A_E_Charting;
 			productReference = 094FF7682E0F269B00A212F7 /* Pluckr.app */;
@@ -547,6 +565,8 @@
 				094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0982B3662E1DCE5400DB6C1A /* XCRemoteSwiftPackageReference "AlertToast" */,
 				0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				093A0B0B2E28069F0097A6DA /* XCRemoteSwiftPackageReference "SwiftUIX" */,
+				093A0B0E2E2808450097A6DA /* XCRemoteSwiftPackageReference "KeyboardObserving" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 094FF7692E0F269B00A212F7 /* Products */;
@@ -605,6 +625,7 @@
 				093A0B0A2E27312D0097A6DA /* OrganizationSelectionView.swift in Sources */,
 				099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */,
 				0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */,
+				093A0B162E28532D0097A6DA /* CustomProbeSheet.swift in Sources */,
 				099AC51D2E25EAC400F62820 /* ClientCardView.swift in Sources */,
 				099AC51E2E25EAC400F62820 /* LoadingView.swift in Sources */,
 				099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */,
@@ -613,7 +634,7 @@
 				099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */,
 				099AC5062E2087A400F62820 /* TagView.swift in Sources */,
 				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
-				099AC4DF2E1EF87400F62820 /* ProbeOptions.swift in Sources */,
+				093A0B142E2853080097A6DA /* ProbeService.swift in Sources */,
 				0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */,
 				099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */,
 				099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */,
@@ -626,6 +647,7 @@
 				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
 				099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */,
 				099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */,
+				093A0B122E2852FA0097A6DA /* Probe.swift in Sources */,
 				0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */,
 				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
 				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
@@ -634,6 +656,7 @@
 				099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */,
 				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
 				099AC5272E26F50B00F62820 /* OrgEncryptionKeyManager.swift in Sources */,
+				093A0B1A2E2863EE0097A6DA /* FolioCardView.swift in Sources */,
 				099AC5282E26F50B00F62820 /* ChartImageDecryptor.swift in Sources */,
 				0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */,
 				0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */,
@@ -658,6 +681,7 @@
 				093A0AFC2E2720F10097A6DA /* ClientInfoModal.swift in Sources */,
 				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,
 				099AC5182E25E31600F62820 /* AuthService.swift in Sources */,
+				093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */,
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
 				093A0AF62E271B060097A6DA /* ChartsListViewModel.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
@@ -822,6 +846,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
@@ -851,6 +876,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8TFXJ4ZGFF;
@@ -987,6 +1013,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		093A0B0B2E28069F0097A6DA /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.4;
+			};
+		};
+		093A0B0E2E2808450097A6DA /* XCRemoteSwiftPackageReference "KeyboardObserving" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nickffox/KeyboardObserving";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1014,6 +1056,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		093A0B0C2E28069F0097A6DA /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 093A0B0B2E28069F0097A6DA /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+		093A0B0F2E2808450097A6DA /* KeyboardObserving */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 093A0B0E2E2808450097A6DA /* XCRemoteSwiftPackageReference "KeyboardObserving" */;
+			productName = KeyboardObserving;
+		};
 		094FF7952E0F2AC100A212F7 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 094FF7942E0F2AC100A212F7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

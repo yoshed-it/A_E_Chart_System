@@ -83,8 +83,8 @@ struct ChartsListView: View {
             .presentationDetents([.medium, .large])
             .background(
                 RoundedRectangle(cornerRadius: 24)
-                    .fill(Color(.systemBackground))
-                    .shadow(radius: 16)
+                    .fill(PluckrTheme.card)
+                    .shadow(color: PluckrTheme.shadow, radius: 16, x: 0, y: 4)
             )
         }
     }
@@ -99,9 +99,9 @@ struct ChartsListView: View {
             Button(action: { viewModel.showTagPicker(for: chart) }) {
                 Image(systemName: "tag")
                     .padding(8)
-                    .background(Color(.systemBackground))
+                    .background(PluckrTheme.card)
                     .clipShape(Circle())
-                    .shadow(radius: 4)
+                    .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
             }
         }
     }
