@@ -55,7 +55,7 @@ struct CustomTagSheet: View {
                     HStack {
                         Text("Preview")
                         Spacer()
-                        TagView(tag: Tag(label: tagLabel.isEmpty ? "Sample Tag" : tagLabel, colorNameOrHex: tagColor))
+                        TagView(tag: Tag(label: tagLabel.isEmpty ? "Sample Tag" : tagLabel, colorNameOrHex: tagColor), size: .large)
                     }
                 }
             }

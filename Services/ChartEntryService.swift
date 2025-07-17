@@ -5,7 +5,10 @@ struct ChartEntryService {
         var results: [ChartEntry] = []
 
         do {
+            let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
             let snapshot = try await Firestore.firestore()
+                .collection("organizations")
+                .document(orgId)
                 .collection("clients")
                 .document(clientId)
                 .collection("charts")
@@ -24,7 +27,10 @@ struct ChartEntryService {
     }
 
     static func deleteEntry(for clientId: String, chartId: String) async {
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
         let docRef = Firestore.firestore()
+            .collection("organizations")
+            .document(orgId)
             .collection("clients")
             .document(clientId)
             .collection("charts")

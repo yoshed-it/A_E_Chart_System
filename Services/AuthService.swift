@@ -150,9 +150,13 @@ class AuthService: ObservableObject {
             "createdAt": Timestamp(date: Date()),
             "isActive": true
         ]
-        
-        try await db.collection("providers").document(userId).setData(providerData)
-        PluckrLogger.success("Provider document created for user: \(userId)")
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        try await db.collection("organizations")
+            .document(orgId)
+            .collection("providers")
+            .document(userId)
+            .setData(providerData)
+        PluckrLogger.success("Provider document created for user: \(userId) in org \(orgId)")
     }
 }
 

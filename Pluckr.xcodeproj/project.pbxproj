@@ -26,6 +26,14 @@
 		093A0B162E28532D0097A6DA /* CustomProbeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */; };
 		093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B172E2853430097A6DA /* ProbeManagementView.swift */; };
 		093A0B1A2E2863EE0097A6DA /* FolioCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B192E2863EE0097A6DA /* FolioCardView.swift */; };
+		093A0B1C2E295ACE0097A6DA /* GoogleService-Info-Test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 093A0B1B2E295ACE0097A6DA /* GoogleService-Info-Test.plist */; };
+		093A0B232E295D1D0097A6DA /* ChartsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B1F2E295D1D0097A6DA /* ChartsListViewModelTests.swift */; };
+		093A0B242E295D1D0097A6DA /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B1D2E295D1D0097A6DA /* AuthServiceTests.swift */; };
+		093A0B252E295D1D0097A6DA /* TagServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B222E295D1D0097A6DA /* TagServiceTests.swift */; };
+		093A0B262E295D1D0097A6DA /* ClientRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B202E295D1D0097A6DA /* ClientRepositoryTests.swift */; };
+		093A0B272E295D1D0097A6DA /* ChartServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B1E2E295D1D0097A6DA /* ChartServiceTests.swift */; };
+		093A0B282E295D1D0097A6DA /* ClientsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B212E295D1D0097A6DA /* ClientsListViewModelTests.swift */; };
+		093A0B2A2E295D270097A6DA /* CameraUploaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B292E295D270097A6DA /* CameraUploaderTests.swift */; };
 		094FF7962E0F2AC100A212F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7952E0F2AC100A212F7 /* FirebaseAuth */; };
 		094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7972E0F2AC100A212F7 /* FirebaseFirestore */; };
 		094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 094FF7992E0F2AC100A212F7 /* FirebaseStorage */; };
@@ -129,6 +137,14 @@
 		093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProbeSheet.swift; sourceTree = "<group>"; };
 		093A0B172E2853430097A6DA /* ProbeManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeManagementView.swift; sourceTree = "<group>"; };
 		093A0B192E2863EE0097A6DA /* FolioCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolioCardView.swift; sourceTree = "<group>"; };
+		093A0B1B2E295ACE0097A6DA /* GoogleService-Info-Test.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Test.plist"; sourceTree = "<group>"; };
+		093A0B1D2E295D1D0097A6DA /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
+		093A0B1E2E295D1D0097A6DA /* ChartServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartServiceTests.swift; sourceTree = "<group>"; };
+		093A0B1F2E295D1D0097A6DA /* ChartsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListViewModelTests.swift; sourceTree = "<group>"; };
+		093A0B202E295D1D0097A6DA /* ClientRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepositoryTests.swift; sourceTree = "<group>"; };
+		093A0B212E295D1D0097A6DA /* ClientsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListViewModelTests.swift; sourceTree = "<group>"; };
+		093A0B222E295D1D0097A6DA /* TagServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagServiceTests.swift; sourceTree = "<group>"; };
+		093A0B292E295D270097A6DA /* CameraUploaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUploaderTests.swift; sourceTree = "<group>"; };
 		094FF7682E0F269B00A212F7 /* Pluckr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluckr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF7752E0F269D00A212F7 /* PluckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		094FF77F2E0F269D00A212F7 /* PluckrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluckrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +259,7 @@
 				0982B36C2E1DCFEB00DB6C1A /* Views */,
 				0982B3332E1DCE3600DB6C1A /* Assets.xcassets */,
 				0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */,
+				093A0B1B2E295ACE0097A6DA /* GoogleService-Info-Test.plist */,
 				0982B33F2E1DCE3600DB6C1A /* Info.plist */,
 				0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */,
 				0982B3462E1DCE3600DB6C1A /* README.md */,
@@ -447,6 +464,7 @@
 		099AC52F2E27007700F62820 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				093A0B292E295D270097A6DA /* CameraUploaderTests.swift */,
 				099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */,
 			);
 			path = Utils;
@@ -455,6 +473,12 @@
 		099AC5302E27007700F62820 /* PluckrTests */ = {
 			isa = PBXGroup;
 			children = (
+				093A0B1D2E295D1D0097A6DA /* AuthServiceTests.swift */,
+				093A0B1E2E295D1D0097A6DA /* ChartServiceTests.swift */,
+				093A0B1F2E295D1D0097A6DA /* ChartsListViewModelTests.swift */,
+				093A0B202E295D1D0097A6DA /* ClientRepositoryTests.swift */,
+				093A0B212E295D1D0097A6DA /* ClientsListViewModelTests.swift */,
+				093A0B222E295D1D0097A6DA /* TagServiceTests.swift */,
 				099AC52F2E27007700F62820 /* Utils */,
 			);
 			path = PluckrTests;
@@ -595,6 +619,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				093A0B1C2E295ACE0097A6DA /* GoogleService-Info-Test.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +719,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */,
+				093A0B232E295D1D0097A6DA /* ChartsListViewModelTests.swift in Sources */,
+				093A0B242E295D1D0097A6DA /* AuthServiceTests.swift in Sources */,
+				093A0B252E295D1D0097A6DA /* TagServiceTests.swift in Sources */,
+				093A0B2A2E295D270097A6DA /* CameraUploaderTests.swift in Sources */,
+				093A0B262E295D1D0097A6DA /* ClientRepositoryTests.swift in Sources */,
+				093A0B272E295D1D0097A6DA /* ChartServiceTests.swift in Sources */,
+				093A0B282E295D1D0097A6DA /* ClientsListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

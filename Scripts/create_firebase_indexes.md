@@ -50,3 +50,21 @@ https://console.firebase.google.com/v1/r/project/aecharting/firestore/indexes?cr
 
 ## Verification
 After creating the indexes, restart the app and check that the Firebase errors are no longer appearing in the console. 
+
+import XCTest
+import Firebase
+@testable import Pluckr
+
+class ClientRepositoryTests: XCTestCase {
+    override class func setUp() {
+        super.setUp()
+        if ProcessInfo.processInfo.environment["IS_TESTING"] == "1" {
+            FirebaseApp.app()?.delete { _ in
+                let filePath = Bundle(for: self).path(forResource: "GoogleService-Info-Test", ofType: "plist")!
+                let options = FirebaseOptions(contentsOfFile: filePath)!
+                FirebaseApp.configure(options: options)
+            }
+        }
+    }
+    // ... your existing tests ...
+} 

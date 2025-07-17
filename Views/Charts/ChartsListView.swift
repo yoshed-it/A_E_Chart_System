@@ -92,8 +92,12 @@ struct ChartsListView: View {
     @ViewBuilder
     private func chartRowContent(for chart: ChartEntry) -> some View {
         HStack {
-            ForEach(chart.chartTags, id: \ .self) { tag in
-                TagView(tag: tag)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    ForEach(chart.chartTags, id: \ .self) { tag in
+                        TagView(tag: tag, size: .normal)
+                    }
+                }
             }
             Spacer()
             Button(action: { viewModel.showTagPicker(for: chart) }) {

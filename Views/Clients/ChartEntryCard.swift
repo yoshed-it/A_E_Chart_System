@@ -75,11 +75,15 @@ struct ChartEntryCard: View {
                                 .font(PluckrTheme.captionFont())
                                 .fontWeight(.semibold)
                             HStack(spacing: 6) {
-                                ForEach(entry.chartTags) { tag in
-                                    TagView(tag: tag, onTap: {
-                                        selectedTag = tag
-                                        showingTagDetail = true
-                                    })
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 6) {
+                                        ForEach(entry.chartTags) { tag in
+                                            TagView(tag: tag, onTap: {
+                                                selectedTag = tag
+                                                showingTagDetail = true
+                                            }, size: .normal)
+                                        }
+                                    }
                                 }
                                 Spacer()
                             }

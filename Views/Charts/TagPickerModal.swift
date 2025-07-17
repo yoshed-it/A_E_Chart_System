@@ -52,17 +52,16 @@ struct TagPickerModal: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
                         ForEach(allAvailableTags) { tag in
-                            TagView(tag: tag, isSelected: selectedTags.contains(tag)) {
+                            TagView(tag: tag, isSelected: selectedTags.contains(tag), onTap: {
                                 // Haptic feedback for better UX
                                 let impactFeedback = UIImpactFeedbackGenerator(style: .light)
                                 impactFeedback.impactOccurred()
-                                
                                 if selectedTags.contains(tag) {
                                     selectedTags.removeAll { $0 == tag }
                                 } else {
                                     selectedTags.append(tag)
                                 }
-                            }
+                            }, size: .large)
                         }
                     }
                     .padding()

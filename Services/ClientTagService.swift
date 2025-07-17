@@ -12,99 +12,48 @@ class TagService: ObservableObject {
     // MARK: - Update Client Tags
     func updateClientTags(clientId: String, tags: [Tag]) async throws {
         let tagsData = tags.map { $0.toDict() }
-        
-        // Try organization-based structure first
-        if let orgId = OrganizationService.shared.getCurrentOrganizationId() {
-            try await db.collection("organizations")
-                .document(orgId)
-                .collection("clients")
-                .document(clientId)
-                .updateData([
-                    "clientTags": tagsData
-                ])
-            
-            PluckrLogger.info("Updated client tags for client \(clientId) in org \(orgId): \(tags.count) tags")
-        } else {
-            // Fallback to root-level structure
-            try await db.collection("clients")
-                .document(clientId)
-                .updateData([
-                    "clientTags": tagsData
-                ])
-            
-            PluckrLogger.info("Updated client tags for client \(clientId) at root level: \(tags.count) tags")
-        }
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        try await db.collection("organizations")
+            .document(orgId)
+            .collection("clients")
+            .document(clientId)
+            .updateData([
+                "clientTags": tagsData
+            ])
+        PluckrLogger.info("Updated client tags for client \(clientId) in org \(orgId): \(tags.count) tags")
     }
     
     // MARK: - Save Custom Tag to Library
     func saveCustomTagToLibrary(tag: Tag, context: TagPickerModal.TagContext) async throws {
         let tagData = tag.toDict()
         let collectionName = context == .client ? "clientTagsLibrary" : "chartTagsLibrary"
-        
-        // Try organization-based structure first
-        if let orgId = OrganizationService.shared.getCurrentOrganizationId() {
-            PluckrLogger.info("Attempting to save tag '\(tag.label)' to org \(orgId)/\(collectionName) with ID: \(tag.id)")
-            PluckrLogger.info("Tag data: \(tagData)")
-            
-            try await db.collection("organizations")
-                .document(orgId)
-                .collection(collectionName)
-                .document(tag.id)
-                .setData(tagData)
-            
-            PluckrLogger.success("Successfully saved custom \(context == .client ? "client" : "chart") tag to library: \(tag.label) in org \(orgId)/\(collectionName)")
-        } else {
-            // Fallback to root-level structure
-            PluckrLogger.info("Attempting to save tag '\(tag.label)' to \(collectionName) with ID: \(tag.id)")
-            PluckrLogger.info("Tag data: \(tagData)")
-            
-            try await db.collection(collectionName)
-                .document(tag.id)
-                .setData(tagData)
-            
-            PluckrLogger.success("Successfully saved custom \(context == .client ? "client" : "chart") tag to library: \(tag.label) in \(collectionName)")
-        }
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        PluckrLogger.info("Attempting to save tag '\(tag.label)' to org \(orgId)/\(collectionName) with ID: \(tag.id)")
+        PluckrLogger.info("Tag data: \(tagData)")
+        try await db.collection("organizations")
+            .document(orgId)
+            .collection(collectionName)
+            .document(tag.id)
+            .setData(tagData)
+        PluckrLogger.success("Successfully saved custom \(context == .client ? "client" : "chart") tag to library: \(tag.label) in org \(orgId)/\(collectionName)")
     }
     
     // MARK: - Load Tags from Library
     func loadTagsFromLibrary(context: TagPickerModal.TagContext) async throws -> [Tag] {
         let collectionName = context == .client ? "clientTagsLibrary" : "chartTagsLibrary"
-        
-        // Try organization-based structure first
-        if let orgId = OrganizationService.shared.getCurrentOrganizationId() {
-            PluckrLogger.info("Loading tags from org \(orgId)/\(collectionName) collection")
-            
-            let snapshot = try await db.collection("organizations")
-                .document(orgId)
-                .collection(collectionName)
-                .getDocuments()
-            
-            PluckrLogger.info("Found \(snapshot.documents.count) documents in org \(orgId)/\(collectionName) collection")
-            
-            let tags = snapshot.documents.compactMap { document in
-                PluckrLogger.info("Processing document \(document.documentID) with data: \(document.data())")
-                return Tag(data: document.data(), id: document.documentID)
-            }
-            
-            PluckrLogger.success("Successfully loaded \(tags.count) \(context == .client ? "client" : "chart") tags from org \(orgId) library")
-            return tags
-        } else {
-            // Fallback to root-level structure
-            PluckrLogger.info("Loading tags from \(collectionName) collection")
-            
-            let snapshot = try await db.collection(collectionName)
-                .getDocuments()
-            
-            PluckrLogger.info("Found \(snapshot.documents.count) documents in \(collectionName) collection")
-            
-            let tags = snapshot.documents.compactMap { document in
-                PluckrLogger.info("Processing document \(document.documentID) with data: \(document.data())")
-                return Tag(data: document.data(), id: document.documentID)
-            }
-            
-            PluckrLogger.success("Successfully loaded \(tags.count) \(context == .client ? "client" : "chart") tags from library")
-            return tags
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        PluckrLogger.info("Loading tags from org \(orgId)/\(collectionName) collection")
+        let snapshot = try await db.collection("organizations")
+            .document(orgId)
+            .collection(collectionName)
+            .getDocuments()
+        PluckrLogger.info("Found \(snapshot.documents.count) documents in org \(orgId)/\(collectionName) collection")
+        let tags = snapshot.documents.compactMap { document in
+            PluckrLogger.info("Processing document \(document.documentID) with data: \(document.data())")
+            return Tag(data: document.data(), id: document.documentID)
         }
+        PluckrLogger.success("Successfully loaded \(tags.count) \(context == .client ? "client" : "chart") tags from org \(orgId) library")
+        return tags
     }
     
     // MARK: - Get Available Tags (default + library)

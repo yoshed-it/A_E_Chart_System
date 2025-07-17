@@ -13,68 +13,33 @@ class ChartService {
     
     // MARK: - Save Chart Entry
     func saveChartEntry(for clientId: String, chartData: ChartEntryData, chartId: String?, completion: @escaping (Result<Void, Error>) -> Void) {
-        // Try organization-based structure first
         Task {
-            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
-                let chartRef = self.db.collection("organizations")
-                    .document(orgId)
-                    .collection("clients")
-                    .document(clientId)
-                    .collection("charts")
-                let docRef: DocumentReference
-                
-                if let chartId = chartId {
-                    docRef = chartRef.document(chartId)
-                } else {
-                    docRef = chartRef.document()
-                }
-
-                var data = chartData.asDictionary
-
-                if chartId != nil {
-                    data["lastEditedAt"] = Timestamp(date: Date())
-                    if let user = Auth.auth().currentUser {
-                        data["lastEditedBy"] = user.displayName ?? user.uid
-                    }
-                }
-
-                docRef.setData(data, merge: true) { error in
-                    if let error = error {
-                        PluckrLogger.error("Failed to save chart in org \(orgId): \(error.localizedDescription)")
-                        completion(.failure(error))
-                    } else {
-                        PluckrLogger.success("Chart saved successfully in org \(orgId)")
-                        completion(.success(()))
-                    }
-                }
+            let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+            let chartRef = self.db.collection("organizations")
+                .document(orgId)
+                .collection("clients")
+                .document(clientId)
+                .collection("charts")
+            let docRef: DocumentReference
+            if let chartId = chartId {
+                docRef = chartRef.document(chartId)
             } else {
-                // Fallback to root-level structure
-                let chartRef = self.db.collection("clients").document(clientId).collection("charts")
-                let docRef: DocumentReference
-                
-                if let chartId = chartId {
-                    docRef = chartRef.document(chartId)
+                docRef = chartRef.document()
+            }
+            var data = chartData.asDictionary
+            if chartId != nil {
+                data["lastEditedAt"] = Timestamp(date: Date())
+                if let user = Auth.auth().currentUser {
+                    data["lastEditedBy"] = user.displayName ?? user.uid
+                }
+            }
+            docRef.setData(data, merge: true) { error in
+                if let error = error {
+                    PluckrLogger.error("Failed to save chart in org \(orgId): \(error.localizedDescription)")
+                    completion(.failure(error))
                 } else {
-                    docRef = chartRef.document()
-                }
-
-                var data = chartData.asDictionary
-
-                if chartId != nil {
-                    data["lastEditedAt"] = Timestamp(date: Date())
-                    if let user = Auth.auth().currentUser {
-                        data["lastEditedBy"] = user.displayName ?? user.uid
-                    }
-                }
-
-                docRef.setData(data, merge: true) { error in
-                    if let error = error {
-                        PluckrLogger.error("Failed to save chart at root level: \(error.localizedDescription)")
-                        completion(.failure(error))
-                    } else {
-                        PluckrLogger.success("Chart saved successfully at root level")
-                        completion(.success(()))
-                    }
+                    PluckrLogger.success("Chart saved successfully in org \(orgId)")
+                    completion(.success(()))
                 }
             }
         }
@@ -130,25 +95,16 @@ class ChartService {
 
     // MARK: - Load Single Chart Entry
     func loadChartEntry(for clientId: String, chartId: String) async throws -> ChartEntry? {
-        if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
-            let doc = try await db.collection("organizations")
-                .document(orgId)
-                .collection("clients")
-                .document(clientId)
-                .collection("charts")
-                .document(chartId)
-                .getDocument()
-            guard let data = doc.data() else { return nil }
-            return ChartEntry(id: doc.documentID, data: data)
-        } else {
-            let doc = try await db.collection("clients")
-                .document(clientId)
-                .collection("charts")
-                .document(chartId)
-                .getDocument()
-            guard let data = doc.data() else { return nil }
-            return ChartEntry(id: doc.documentID, data: data)
-        }
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        let doc = try await db.collection("organizations")
+            .document(orgId)
+            .collection("clients")
+            .document(clientId)
+            .collection("charts")
+            .document(chartId)
+            .getDocument()
+        guard let data = doc.data() else { return nil }
+        return ChartEntry(id: doc.documentID, data: data)
     }
 }
 
