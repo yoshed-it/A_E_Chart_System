@@ -110,6 +110,7 @@
 		099AC5282E26F50B00F62820 /* ChartImageDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */; };
 		099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5292E26F7D400F62820 /* ImageConstants.swift */; };
 		099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */; };
+		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,6 +231,7 @@
 		099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgEncryptionKeyManager.swift; sourceTree = "<group>"; };
 		099AC5292E26F7D400F62820 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageCryptoTests.swift; sourceTree = "<group>"; };
+		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +359,7 @@
 		0982B3752E1DD15F00DB6C1A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */,
 				093A0B3B2E2969AF0097A6DA /* ChartEntryCard.swift */,
 				093A0B3C2E2969AF0097A6DA /* ChartImageUploadSection.swift */,
 				093A0B3D2E2969AF0097A6DA /* ChartMachineSettingsSection.swift */,
@@ -742,6 +745,7 @@
 				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
 				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
 				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
+				09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */,
 				093A0AFB2E2720F10097A6DA /* CustomTagSheet.swift in Sources */,
 				093A0AFC2E2720F10097A6DA /* ClientInfoModal.swift in Sources */,
 				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,

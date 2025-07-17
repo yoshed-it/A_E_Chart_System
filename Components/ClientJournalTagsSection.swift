@@ -1,16 +1,18 @@
-/// Used in: ClientJournalView (Views/Clients/ClientJournalView.swift)
+// Used in ClientJournalView for displaying and managing client tags
 import SwiftUI
 
 struct ClientJournalTagsSection: View {
     let clientTags: [Tag]
     let onShowTagPicker: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("CLIENT TAGS")
                     .pluckrSectionHeader()
-                Spacer()
-                Button(action: onShowTagPicker) {
+                Button {
+                    onShowTagPicker()
+                } label: {
                     Image(systemName: "plus.circle.fill")
                         .foregroundColor(PluckrTheme.accent)
                         .font(PluckrTheme.subheadingFont(size: 22))

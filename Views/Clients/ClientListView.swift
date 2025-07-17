@@ -23,6 +23,7 @@ struct ClientsListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                PluckrTheme.backgroundGradient.ignoresSafeArea()
                 VStack(spacing: PluckrTheme.verticalPadding) {
                     // Search Field
                     CocoaTextField("Search clients...", text: $viewModel.searchText)
@@ -106,7 +107,6 @@ struct ClientsListView: View {
                         }
                     }
                 }
-                .background(PluckrTheme.background.ignoresSafeArea())
                 // Snackbar overlay
                 if showSnackbar {
                     VStack {

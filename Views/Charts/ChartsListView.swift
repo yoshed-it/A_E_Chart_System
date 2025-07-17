@@ -41,9 +41,7 @@ struct ChartsListView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.fetchCharts(for: clientId)
-        }
+        .background(PluckrTheme.backgroundGradient.ignoresSafeArea())
         .navigationTitle("Charts")
         .sheet(isPresented: $showEditSheet) {
             if let chart = editingChart {

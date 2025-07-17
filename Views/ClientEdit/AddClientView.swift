@@ -12,9 +12,7 @@ struct AddClientView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background
-                PluckrTheme.background
-                    .ignoresSafeArea()
+                PluckrTheme.backgroundGradient.ignoresSafeArea()
                 
                 ScrollView {
                     VStack(spacing: PluckrTheme.verticalPadding) {

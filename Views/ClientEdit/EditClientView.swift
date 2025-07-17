@@ -14,26 +14,29 @@ struct EditClientView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Edit Client")) {
-                    TextField("First Name", text: $viewModel.firstName)
-                    TextField("Last Name", text: $viewModel.lastName)
-                    TextField("Email", text: $viewModel.email)
-                        .keyboardType(.emailAddress)
-                    Picker("Pronouns", selection: $viewModel.pronouns) {
-                        ForEach(pronounOptions, id: \.self) { option in
-                            Text(option).tag(option)
+            ZStack {
+                PluckrTheme.backgroundGradient.ignoresSafeArea()
+                Form {
+                    Section(header: Text("Edit Client")) {
+                        TextField("First Name", text: $viewModel.firstName)
+                        TextField("Last Name", text: $viewModel.lastName)
+                        TextField("Email", text: $viewModel.email)
+                            .keyboardType(.emailAddress)
+                        Picker("Pronouns", selection: $viewModel.pronouns) {
+                            ForEach(pronounOptions, id: \.self) { option in
+                                Text(option).tag(option)
+                            }
                         }
+                        TextField("Phone Number", text: $viewModel.phone)
+                            .keyboardType(.phonePad)
+                            .phoneNumberFormatting(text: $viewModel.phone)
                     }
-                    TextField("Phone Number", text: $viewModel.phone)
-                        .keyboardType(.phonePad)
-                        .phoneNumberFormatting(text: $viewModel.phone)
-                }
 
-                if !viewModel.errorMessage.isEmpty {
-                    Section {
-                        Text(viewModel.errorMessage)
-                            .foregroundColor(.red)
+                    if !viewModel.errorMessage.isEmpty {
+                        Section {
+                            Text(viewModel.errorMessage)
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }

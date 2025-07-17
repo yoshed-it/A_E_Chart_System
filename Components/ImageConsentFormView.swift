@@ -12,46 +12,99 @@ struct ImageConsentFormView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Consent")) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
+                    // Title
+                    Text("Image Consent")
+                        .font(PluckrTheme.headingFont(size: 24))
+                        .foregroundColor(PluckrTheme.textPrimary)
+                        .padding(.top, PluckrTheme.verticalPadding)
+                        .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    // Consent Text
                     Text(consentText.isEmpty ? defaultConsentText : consentText)
-                        .font(.body)
-                        .foregroundColor(.primary)
-                        .padding(.vertical, 8)
-                }
-                Section(header: Text("Signature")) {
-                    if let signatureImage = signatureImage {
-                        Image(uiImage: signatureImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 120)
-                            .cornerRadius(12)
-                            .shadow(radius: 2)
-                    } else {
-                        Button("Sign Consent") {
-                            isSigning = true
-                        }
-                        .font(.headline)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
                         .padding()
+                        .background(PluckrTheme.card)
+                        .cornerRadius(PluckrTheme.cardCornerRadius)
+                        .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    // Signature Pad
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("Signature")
+                                .font(PluckrTheme.subheadingFont(size: 18))
+                                .foregroundColor(PluckrTheme.textPrimary)
+                            Spacer()
+                            if signatureImage != nil {
+                                Button("Clear") {
+                                    signatureImage = nil
+                                }
+                                .font(.caption)
+                                .foregroundColor(PluckrTheme.accent)
+                            }
+                        }
+                        .padding(.horizontal, 4)
+                        ZStack(alignment: .center) {
+                            RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                                .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                                .background(PluckrTheme.card.cornerRadius(PluckrTheme.cardCornerRadius))
+                                .frame(height: 140)
+                            if let signatureImage = signatureImage {
+                                Image(uiImage: signatureImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 120)
+                                    .cornerRadius(12)
+                                    .padding(.horizontal, 8)
+                            } else {
+                                Button(action: { isSigning = true }) {
+                                    VStack {
+                                        Text("Sign Here")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                        Image(systemName: "pencil")
+                                            .font(.title2)
+                                            .foregroundColor(PluckrTheme.accent)
+                                    }
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 4)
                     }
-                }
-                if let errorMessage = errorMessage {
-                    Section {
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    // Error
+                    if let errorMessage = errorMessage {
                         Text(errorMessage)
                             .foregroundColor(.red)
+                            .font(.caption)
+                            .padding(.horizontal, PluckrTheme.horizontalPadding)
                     }
+                    // Save Button
+                    Button(action: uploadConsent) {
+                        if isUploading {
+                            ProgressView()
+                        } else {
+                            Text("Save Consent")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(signatureImage != nil ? PluckrTheme.accent : PluckrTheme.card)
+                                .cornerRadius(PluckrTheme.cardCornerRadius)
+                        }
+                    }
+                    .disabled(signatureImage == nil || isUploading)
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    .padding(.bottom, PluckrTheme.verticalPadding)
                 }
             }
-            .navigationTitle("Image Consent")
+            .background(PluckrTheme.background.ignoresSafeArea())
+            .navigationTitle("")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        uploadConsent()
-                    }
-                    .disabled(signatureImage == nil || isUploading)
+                        .foregroundColor(PluckrTheme.accent)
                 }
             }
             .sheet(isPresented: $isSigning) {
@@ -64,7 +117,7 @@ struct ImageConsentFormView: View {
     }
     
     private var defaultConsentText: String {
-        "I consent to the capture and secure, encrypted storage of my treatment images for clinical documentation purposes. Images are never stored on this device or accessible outside the Pluckr app."
+        "By signing below, I consent to the secure, encrypted capture and storage of my treatment images for clinical documentation. Images are never stored on this device, are not accessible outside the Pluckr app, and are protected under HIPAA. I understand I may withdraw consent at any time."
     }
     
     private func uploadConsent() {
@@ -80,19 +133,33 @@ struct ImageConsentFormView: View {
     }
 }
 
-// Dummy signature pad for preview/demo
+// Modern, Pluckr-style signature pad (dummy for now)
 struct SignaturePadView: View {
     let onSigned: (UIImage) -> Void
+    @Environment(\.dismiss) var dismiss
     var body: some View {
-        VStack {
-            Text("[Signature Pad Here]")
+        VStack(spacing: 16) {
+            Text("Draw your signature")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.secondary, lineWidth: 1)
+                .background(Color.white.cornerRadius(16))
                 .frame(height: 120)
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(12)
+                .overlay(
+                    Text("[Signature Pad]")
+                        .foregroundColor(.secondary)
+                )
             Button("Done") {
                 onSigned(UIImage())
+                dismiss()
             }
-            .padding()
+            .font(.body)
+            .foregroundColor(PluckrTheme.accent)
         }
+        .padding()
+        .background(PluckrTheme.card)
+        .cornerRadius(PluckrTheme.cardCornerRadius)
+        .padding()
     }
 } 

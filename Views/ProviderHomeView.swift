@@ -24,9 +24,7 @@ struct ProviderHomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background
-                PluckrTheme.background
-                    .ignoresSafeArea()
+                PluckrTheme.backgroundGradient.ignoresSafeArea()
                 
                 VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
                     // Welcome Header
