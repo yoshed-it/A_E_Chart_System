@@ -53,29 +53,7 @@ class SignUpViewModel: ObservableObject {
             // Initialize organization service for new user
             await OrganizationService.shared.initializeIfAuthenticated()
             
-            // Automatically create an organization for the new user
-            do {
-                PluckrLogger.info("Creating organization for new user")
-                let organization = try await OrganizationService.shared.createOrganization(
-                    name: "\(displayName)'s Practice",
-                    description: "Your medical practice"
-                )
-                
-                PluckrLogger.info("Organization created successfully: \(organization.name)")
-                
-                // Refresh the organization service to ensure the new organization is loaded
-                try await OrganizationService.shared.fetchUserOrganizations()
-                
-                PluckrLogger.info("Organization service refreshed after creation")
-                
-                // Small delay to ensure the UI updates properly
-                try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
-                
-                successMessage = "Account and organization created successfully!"
-            } catch {
-                PluckrLogger.error("Failed to create organization: \(error.localizedDescription)")
-                errorMessage = "Account created but failed to create organization: \(error.localizedDescription)"
-            }
+            successMessage = "Account created successfully! Please create your organization."
         } else {
             PluckrLogger.error("Failed to create user account: \(authService.errorMessage ?? "Unknown error")")
             errorMessage = authService.errorMessage ?? "Failed to create account"

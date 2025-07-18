@@ -16,13 +16,11 @@ class OrganizationSelectionViewModel: ObservableObject {
         do {
             try await organizationService.fetchUserOrganizations()
             
-            // If user has no organizations, automatically create one
-            if organizationService.userOrganizations.isEmpty {
-                await createDefaultOrganization()
-            } else {
-                // User has organizations, should go to main app
+            // If user has organizations, should go to main app
+            if !organizationService.userOrganizations.isEmpty {
                 shouldNavigateToMainApp = true
             }
+            // If no organizations, stay on this view to let user create one
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -30,29 +28,9 @@ class OrganizationSelectionViewModel: ObservableObject {
         isLoading = false
     }
     
-    private func createDefaultOrganization() async {
-        guard let user = Auth.auth().currentUser else {
-            errorMessage = "No authenticated user found"
-            return
-        }
-        
-        do {
-            PluckrLogger.info("User has no organizations, auto-creating one")
-            let organization = try await organizationService.createOrganization(
-                name: "\(user.displayName ?? "User")'s Practice",
-                description: "Your medical practice"
-            )
-            PluckrLogger.info("Auto-created organization: \(organization.name)")
-            
-            // Refresh organizations and navigate to main app
-            try await organizationService.fetchUserOrganizations()
-            shouldNavigateToMainApp = true
-        } catch {
-            errorMessage = "Failed to create organization: \(error.localizedDescription)"
-        }
-    }
+
     
-    func createOrganization(name: String, description: String) async {
+    func createOrganization(name: String, description: String?) async {
         isLoading = true
         errorMessage = nil
         

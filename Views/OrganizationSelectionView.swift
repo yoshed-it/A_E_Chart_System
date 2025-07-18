@@ -85,6 +85,12 @@ struct OrganizationSelectionView: View {
             }
             .sheet(isPresented: $showingCreateOrganization) {
                 OrganizationSetupView()
+                    .onDisappear {
+                        // Refresh organizations when the sheet is dismissed
+                        Task {
+                            await viewModel.loadOrganizations()
+                        }
+                    }
             }
             .task {
                 await viewModel.loadOrganizations()
