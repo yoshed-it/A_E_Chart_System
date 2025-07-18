@@ -5,6 +5,8 @@ struct EditClientView: View {
     @StateObject private var viewModel: EditClientViewModel
     let onSave: () -> Void
 
+    @State private var showingTagPicker = false
+
     let pronounOptions = ["She/Her", "He/Him", "They/Them", "Other"]
 
     init(client: Client, onSave: @escaping () -> Void) {
@@ -14,25 +16,52 @@ struct EditClientView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Edit Client")) {
-                    TextField("First Name", text: $viewModel.firstName)
-                    TextField("Last Name", text: $viewModel.lastName)
-                    TextField("Email", text: $viewModel.email)
-                        .keyboardType(.emailAddress)
-                    Picker("Pronouns", selection: $viewModel.pronouns) {
-                        ForEach(pronounOptions, id: \.self) { option in
-                            Text(option).tag(option)
+            ZStack {
+                PluckrTheme.backgroundGradient.ignoresSafeArea()
+                Form {
+                    Section(header: Text("Edit Client")) {
+                        TextField("First Name", text: $viewModel.firstName)
+                        TextField("Last Name", text: $viewModel.lastName)
+                        TextField("Email", text: $viewModel.email)
+                            .keyboardType(.emailAddress)
+                        Picker("Pronouns", selection: $viewModel.pronouns) {
+                            ForEach(pronounOptions, id: \.self) { option in
+                                Text(option).tag(option)
+                            }
+                        }
+                        TextField("Phone Number", text: $viewModel.phone)
+                            .keyboardType(.phonePad)
+                            .phoneNumberFormatting(text: $viewModel.phone)
+                    }
+
+                    // Tag Picker Section
+                    Section(header: Text("Client Tags")) {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(viewModel.clientTags, id: \ .self) { tag in
+                                    TagView(tag: tag, size: .normal)
+                                }
+                            }
+                        }
+                        Button(action: { showingTagPicker = true }) {
+                            Label("Edit Tags", systemImage: "tag")
+                                .font(.body)
+                                .foregroundColor(.accentColor)
                         }
                     }
-                    TextField("Phone Number", text: $viewModel.phone)
-                        .keyboardType(.phonePad)
-                }
+                    .sheet(isPresented: $showingTagPicker) {
+                        TagPickerModal(
+                            selectedTags: $viewModel.clientTags,
+                            availableTags: [], // TagPickerModal loads its own tags
+                            context: .client
+                        )
+                    }
 
-                if !viewModel.errorMessage.isEmpty {
-                    Section {
-                        Text(viewModel.errorMessage)
-                            .foregroundColor(.red)
+                    if !viewModel.errorMessage.isEmpty {
+                        Section {
+                            Text(viewModel.errorMessage)
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }

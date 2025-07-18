@@ -3,6 +3,7 @@ import SwiftUI
 struct AddClientView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = AddClientViewModel()
+    @State private var showingTagPicker = false
 
     var onClientAdded: () -> Void
     var providerDisplayName: String
@@ -12,46 +13,43 @@ struct AddClientView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background
-                PluckrTheme.backgroundColor
-                    .ignoresSafeArea()
+                PluckrTheme.backgroundGradient.ignoresSafeArea()
                 
                 ScrollView {
-                    VStack(spacing: PluckrTheme.spacing * 2) {
+                    VStack(spacing: PluckrTheme.verticalPadding) {
                         // Header
-                        VStack(spacing: PluckrTheme.spacing) {
+                        VStack(spacing: PluckrTheme.verticalPadding / 2) {
                             Text("Add New Client")
-                                .font(.journalTitle)
-                                .foregroundColor(PluckrTheme.primaryColor)
-                            
+                                .font(PluckrTheme.displayFont(size: 32))
+                                .foregroundColor(PluckrTheme.textPrimary)
                             Text("Create a new client record")
-                                .font(.journalCaption)
-                                .foregroundColor(PluckrTheme.secondaryColor)
+                                .font(PluckrTheme.captionFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
                         }
-                        .padding(.top, PluckrTheme.padding)
+                        .padding(.top, PluckrTheme.verticalPadding)
                         
                         // Form
-                        VStack(spacing: PluckrTheme.spacing * 2) {
+                        VStack(spacing: PluckrTheme.verticalPadding) {
                             // Client Info Section
-                            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+                            VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
                                 Text("Client Information")
-                                    .font(.journalSubtitle)
-                                    .foregroundColor(PluckrTheme.primaryColor)
-                                    .padding(.horizontal, PluckrTheme.padding)
+                                    .font(PluckrTheme.subheadingFont())
+                                    .foregroundColor(PluckrTheme.textPrimary)
+                                    .padding(.horizontal, PluckrTheme.horizontalPadding)
                                 
-                                VStack(spacing: PluckrTheme.spacing) {
+                                VStack(spacing: PluckrTheme.verticalPadding / 2) {
                                     TextField("First Name", text: $viewModel.firstName)
-                                        .textFieldStyle(PluckrTextFieldStyle())
+                                        .pluckrTextField()
                                     
                                     TextField("Last Name", text: $viewModel.lastName)
-                                        .textFieldStyle(PluckrTextFieldStyle())
+                                        .pluckrTextField()
                                     
                                     // Pronouns Picker
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("Pronouns")
-                                            .font(.journalCaption)
-                                            .foregroundColor(PluckrTheme.secondaryColor)
-                                            .padding(.horizontal, PluckrTheme.padding)
+                                            .font(PluckrTheme.captionFont())
+                                            .foregroundColor(PluckrTheme.textSecondary)
+                                            .padding(.horizontal, PluckrTheme.horizontalPadding)
                                         
                                         Picker("Pronouns", selection: $viewModel.pronouns) {
                                             Text("Select pronouns").tag("")
@@ -61,25 +59,59 @@ struct AddClientView: View {
                                         }
                                         .pickerStyle(MenuPickerStyle())
                                         .padding()
-                                        .background(Color.white)
-                                        .cornerRadius(PluckrTheme.cornerRadius)
-                                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                                        .background(PluckrTheme.card)
+                                        .cornerRadius(PluckrTheme.cardCornerRadius)
+                                        .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
                                     }
                                     
+                                    TextField("Email Address", text: $viewModel.email)
+                                        .pluckrTextField()
+                                        .keyboardType(.emailAddress)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
+                                    
                                     TextField("Phone Number", text: $viewModel.phone)
-                                        .textFieldStyle(PluckrTextFieldStyle())
+                                        .pluckrTextField()
                                         .keyboardType(.phonePad)
+                                        .phoneNumberFormatting(text: $viewModel.phone)
                                 }
-                                .padding(.horizontal, PluckrTheme.padding)
+                                .padding(.horizontal, PluckrTheme.horizontalPadding)
+                            }
+                            
+                            // Tag Picker Section
+                            VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
+                                Text("Client Tags")
+                                    .font(PluckrTheme.subheadingFont(size: 18))
+                                    .foregroundColor(PluckrTheme.textPrimary)
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 8) {
+                                        ForEach(viewModel.clientTags, id: \.self) { tag in
+                                            TagView(tag: tag, size: .normal)
+                                        }
+                                    }
+                                }
+                                Button(action: { showingTagPicker = true }) {
+                                    Label("Edit Tags", systemImage: "tag")
+                                        .font(PluckrTheme.bodyFont())
+                                        .foregroundColor(PluckrTheme.accent)
+                                }
+                            }
+                            .padding(.vertical, PluckrTheme.verticalPadding / 2)
+                            .sheet(isPresented: $showingTagPicker) {
+                                TagPickerModal(
+                                    selectedTags: $viewModel.clientTags,
+                                    availableTags: [], // TagPickerModal loads its own tags
+                                    context: .client
+                                )
                             }
                             
                             // Error Message
                             if !viewModel.errorMessage.isEmpty {
                                 Text(viewModel.errorMessage)
-                                    .font(.journalCaption)
+                                    .font(PluckrTheme.captionFont())
                                     .foregroundColor(.red)
                                     .multilineTextAlignment(.center)
-                                    .padding(.horizontal, PluckrTheme.padding)
+                                    .padding(.horizontal, PluckrTheme.horizontalPadding)
                             }
                             
                             // Save Button
@@ -95,13 +127,13 @@ struct AddClientView: View {
                                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 } else {
                                     Text("Save Client")
-                                        .font(.journalSubtitle)
+                                        .font(PluckrTheme.subheadingFont())
                                         .fontWeight(.semibold)
                                 }
                             }
-                            .buttonStyle(PluckrButtonStyle())
+                            .pluckrButton()
                             .disabled(viewModel.isSaving)
-                            .padding(.horizontal, PluckrTheme.padding)
+                            .padding(.horizontal, PluckrTheme.horizontalPadding)
                         }
                         
                         Spacer(minLength: 100)
@@ -115,7 +147,7 @@ struct AddClientView: View {
                     Button("Cancel") {
                         dismiss()
                     }
-                    .foregroundColor(PluckrTheme.accentColor)
+                    .foregroundColor(PluckrTheme.accent)
                 }
             }
         }

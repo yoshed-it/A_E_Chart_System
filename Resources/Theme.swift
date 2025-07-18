@@ -1,78 +1,244 @@
+// Pluckr Theme System
+// -------------------
+// Use PluckrTheme for all colors, fonts, spacing, corners, and shadows.
+// - Spacing: PluckrTheme.verticalPadding, PluckrTheme.horizontalPadding
+// - Corners: PluckrTheme.cardCornerRadius, PluckrTheme.tagCornerRadius, etc.
+// - Colors: PluckrTheme.textPrimary, textSecondary, accent, error, card, background, borderColor
+// - Fonts: PluckrTheme.displayFont(), headingFont(), subheadingFont(), bodyFont(), captionFont(), tagFont()
+// - Backgrounds: PluckrTheme.background, PluckrTheme.card
+// - Use .pluckrCard(), .pluckrButton(), .pluckrTag(), .pluckrSectionHeader(), .pluckrTextField(), .pluckrJournalBox(), .pluckrImage() for consistent styling.
+// - Never use old theme members like spacing, padding, borderColor, or font extensions like .journalCaption.
+//
+// To migrate a view: Replace all old theme/color/font/spacing references with the new helpers above.
+
 import SwiftUI
 
-// MARK: - Color Extensions
-extension Color {
-    static let mossGreen = Color(red: 0.4, green: 0.6, blue: 0.4)                // Primary
-    static let warmGray = Color(red: 0.94, green: 0.94, blue: 0.92)              // Background
-    static let softOlive = Color(red: 0.78, green: 0.80, blue: 0.72)             // Accent
-    static let gentleOrange = Color(red: 0.95, green: 0.8, blue: 0.6)            // Optional highlight
-    static let watercolorShadow = Color.black.opacity(0.05)                     // Subtle watercolor wash
+// MARK: - Pluckr Theme
 
-    static let textPrimary = Color(red: 0.1, green: 0.1, blue: 0.1)              // Charcoal
-    static let textSecondary = Color.gray.opacity(0.7)
-    static let border = Color.gray.opacity(0.2)
-    static let error = Color.red.opacity(0.8)
-}
-
-// MARK: - Font Extensions
-extension Font {
-    static let journalTitle = Font.system(size: 28, weight: .bold, design: .serif)
-    static let journalSubtitle = Font.system(size: 18, weight: .semibold, design: .serif)
-    static let journalBody = Font.system(size: 16, weight: .regular, design: .default)
-    static let journalCaption = Font.system(size: 14, weight: .light, design: .default)
-}
-
-// MARK: - Theme Tokens
 struct PluckrTheme {
     // Colors
-    static let primaryColor = Color.mossGreen
-    static let secondaryColor = Color.warmGray
-    static let accentColor = Color.softOlive
-    static let backgroundColor = Color.warmGray
-    static let borderColor = Color.border
-    static let textColor = Color.textPrimary
-    static let errorColor = Color.error
-    static let shadowColor = Color.watercolorShadow
-
-    // Typography
-    static let titleFont = Font.journalTitle
-    static let subtitleFont = Font.journalSubtitle
-    static let bodyFont = Font.journalBody
-    static let captionFont = Font.journalCaption
-
-    // Layout
-    static let cornerRadius: CGFloat = 12
-    static let padding: CGFloat = 16
-    static let spacing: CGFloat = 10
-    static let shadowRadius: CGFloat = 6
-
-    // Animation
-    static let animation = Animation.easeInOut(duration: 0.3)
+    static let background = Color("PluckrBackrgound") // light cream
+    static let card = Color("PluckrCard") // slightly darker cream
+    static let tagGreen = Color("PluckrTagGreen") // muted sage
+    static let tagBeige = Color("PluckrTagBeige") // muted beige
+    static let tagTan = Color("PluckrTagTan") // muted tan
+    static let accent = Color("PluckrAccent") // muted green
+    static let button = Color("PluckrButton") // muted green
+    static let textPrimary = Color.primary
+    static let textSecondary = Color.secondary
+    static let shadow = Color.black.opacity(0.12) // Enhanced shadow opacity
+    static let error = Color.red
+    static let borderColor = Color.gray.opacity(0.18) // universal border color
+    
+    // Spacing
+    static let horizontalPadding: CGFloat = 32
+    static let verticalPadding: CGFloat = 24
+    static let cardCornerRadius: CGFloat = 24
+    static let cardShadowRadius: CGFloat = 16 // Enhanced shadow radius
+    static let cardShadowY: CGFloat = 8 // Enhanced shadow Y offset
+    static let tagCornerRadius: CGFloat = 16
+    static let buttonCornerRadius: CGFloat = 16
+    static let buttonShadowRadius: CGFloat = 8 // Enhanced button shadow
+    static let buttonShadowY: CGFloat = 4 // Enhanced button shadow Y
+    
+    // Enhanced Shadow System
+    static let shadowSmall = Color.black.opacity(0.08)
+    static let shadowMedium = Color.black.opacity(0.12)
+    static let shadowLarge = Color.black.opacity(0.16)
+    static let shadowRadiusSmall: CGFloat = 8
+    static let shadowRadiusMedium: CGFloat = 16
+    static let shadowRadiusLarge: CGFloat = 24
+    static let shadowYSmall: CGFloat = 2
+    static let shadowYMedium: CGFloat = 8
+    static let shadowYLarge: CGFloat = 12
+    
+    // Fonts
+    static func headingFont(size: CGFloat = 38) -> Font {
+        .system(size: size, weight: .bold, design: .serif)
+    }
+    static func subheadingFont(size: CGFloat = 20) -> Font {
+        .system(size: size, weight: .semibold, design: .default)
+    }
+    static func bodyFont(size: CGFloat = 17) -> Font {
+        .system(size: size, weight: .regular, design: .default)
+    }
+    static func sectionHeaderFont(size: CGFloat = 13) -> Font {
+        .system(size: size, weight: .semibold, design: .default)
+    }
+    static func tagFont(size: CGFloat = 15) -> Font {
+        .system(size: size, weight: .medium, design: .default)
+    }
+    static func displayFont(size: CGFloat = 48) -> Font {
+        .system(size: size, weight: .bold, design: .serif)
+    }
+    static func captionFont(size: CGFloat = 13) -> Font {
+        .system(size: size, weight: .regular, design: .default)
+    }
+    // Gradient
+    static var backgroundGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [Color("PluckrBackrgound").opacity(0.98), Color("PluckrCard").opacity(0.96)]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    // Divider
+    static var divider: some View {
+        Divider()
+            .background(Color.black.opacity(0.07))
+            .padding(.vertical, 4)
+    }
+    static let spacing: CGFloat = 16
+    static let padding: CGFloat = 20
+    static let cornerRadius: CGFloat = 24 // 2xl, matches clinical iOS style
+    static let secondaryColor = Color("PluckrTagTan") // Adjust if you want a different secondary color
 }
 
-// MARK: - Button Style
-struct PluckrButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal, PluckrTheme.padding)
-            .padding(.vertical, 12)
-            .background(PluckrTheme.primaryColor)
-            .foregroundColor(.white)
-            .cornerRadius(PluckrTheme.cornerRadius)
-            .shadow(color: PluckrTheme.shadowColor, radius: 2, y: 1)
-            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+// MARK: - Color Extensions
+
+// MARK: - View Modifiers
+struct PluckrCard: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(PluckrTheme.card)
+            .cornerRadius(PluckrTheme.cardCornerRadius)
+            .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.shadowRadiusMedium, x: 0, y: PluckrTheme.shadowYMedium)
+            .padding(.vertical, 8)
     }
 }
 
-// MARK: - TextField Style
+struct PluckrCardElevated: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(PluckrTheme.card)
+            .cornerRadius(PluckrTheme.cardCornerRadius)
+            .shadow(color: PluckrTheme.shadowLarge, radius: PluckrTheme.shadowRadiusLarge, x: 0, y: PluckrTheme.shadowYLarge)
+            .padding(.vertical, 8)
+    }
+}
+
+struct PluckrCardSubtle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(PluckrTheme.card)
+            .cornerRadius(PluckrTheme.cardCornerRadius)
+            .shadow(color: PluckrTheme.shadowSmall, radius: PluckrTheme.shadowRadiusSmall, x: 0, y: PluckrTheme.shadowYSmall)
+            .padding(.vertical, 8)
+    }
+}
+
+struct PluckrTag: ViewModifier {
+    var color: Color
+    var textColor: Color = .primary
+    func body(content: Content) -> some View {
+        content
+            .font(PluckrTheme.tagFont())
+            .padding(.horizontal, 14)
+            .padding(.vertical, 6)
+            .background(color.opacity(0.18))
+            .foregroundColor(textColor)
+            .cornerRadius(PluckrTheme.tagCornerRadius)
+            .shadow(color: PluckrTheme.shadowSmall, radius: 4, x: 0, y: 2)
+    }
+}
+
+struct PluckrButton: ViewModifier {
+    var small: Bool = false
+    func body(content: Content) -> some View {
+        content
+            .font(small ? PluckrTheme.bodyFont(size: 17) : .headline)
+            .padding(.horizontal, small ? 16 : 24)
+            .padding(.vertical, small ? 8 : 10)
+            .background(PluckrTheme.button)
+            .foregroundColor(.white)
+            .cornerRadius(PluckrTheme.buttonCornerRadius)
+            .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.buttonShadowRadius, x: 0, y: PluckrTheme.buttonShadowY)
+    }
+}
+
+struct PluckrSectionHeader: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(PluckrTheme.sectionHeaderFont())
+            .textCase(.uppercase)
+            .foregroundColor(.secondary)
+            .padding(.bottom, 4)
+    }
+}
+
+struct PluckrImage: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .shadow(color: PluckrTheme.shadowMedium, radius: 12, x: 0, y: 6)
+    }
+}
+
+struct PluckrJournalBox: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .fill(PluckrTheme.card.opacity(0.85))
+                    .shadow(color: PluckrTheme.shadowLarge, radius: 32, x: 0, y: 12)
+            )
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
+    }
+}
+
+struct LargeTapArea: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .contentShape(Rectangle())
+            .padding(8)
+    }
+}
+
 struct PluckrTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<_Label>) -> some View {
         configuration
-            .padding()
-            .background(Color.white)
-            .cornerRadius(PluckrTheme.cornerRadius)
-            .overlay(RoundedRectangle(cornerRadius: PluckrTheme.cornerRadius).stroke(PluckrTheme.borderColor))
-            .shadow(color: PluckrTheme.shadowColor, radius: 2, x: 0, y: 1)
+            .padding(12)
+            .background(PluckrTheme.card)
+            .cornerRadius(PluckrTheme.cardCornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                    .stroke(PluckrTheme.accent.opacity(0.18), lineWidth: 1)
+            )
+            .font(PluckrTheme.bodyFont())
+            .foregroundColor(PluckrTheme.textPrimary)
+            .shadow(color: PluckrTheme.shadowSmall, radius: 6, x: 0, y: 3)
+    }
+}
+
+// MARK: - View Extension Helpers
+extension View {
+    func pluckrCard() -> some View { self.modifier(PluckrCard()) }
+    func pluckrCardElevated() -> some View { self.modifier(PluckrCardElevated()) }
+    func pluckrCardSubtle() -> some View { self.modifier(PluckrCardSubtle()) }
+    func pluckrTag(color: Color, textColor: Color = .primary) -> some View { self.modifier(PluckrTag(color: color, textColor: textColor)) }
+    func pluckrButton(small: Bool = false) -> some View { self.modifier(PluckrButton(small: small)) }
+    func pluckrSectionHeader() -> some View { self.modifier(PluckrSectionHeader()) }
+    func pluckrImage() -> some View { self.modifier(PluckrImage()) }
+    func pluckrJournalBox() -> some View { self.modifier(PluckrJournalBox()) }
+    func largeTapArea() -> some View { self.modifier(LargeTapArea()) }
+    func pluckrTextField() -> some View { self.textFieldStyle(PluckrTextFieldStyle()) }
+}
+
+// Utility: Color.isLight
+extension Color {
+    var isLight: Bool {
+        let uiColor = UIColor(self)
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        // Perceived brightness formula
+        let brightness = (red * 299 + green * 587 + blue * 114) / 1000
+        return brightness > 0.7
+    }
+}
+
+extension Font {
+    static var journalCaption: Font {
+        .system(size: 14, weight: .regular, design: .default)
     }
 }

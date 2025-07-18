@@ -19,20 +19,19 @@ struct ClientCardView: View {
     
     var body: some View {
         Button(action: onTap) {
-            VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+            VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
                 // Client Name and Pronouns
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(client.fullName)
-                            .font(.journalSubtitle)
-                            .fontWeight(.semibold)
-                            .foregroundColor(PluckrTheme.primaryColor)
+                            .font(PluckrTheme.subheadingFont())
+                            .foregroundColor(PluckrTheme.textPrimary)
                             .lineLimit(1)
                         
                         if let pronouns = client.pronouns, !pronouns.isEmpty {
                             Text(pronouns)
-                                .font(.journalCaption)
-                                .foregroundColor(PluckrTheme.secondaryColor)
+                                .font(PluckrTheme.captionFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
                         }
                     }
                     
@@ -42,16 +41,16 @@ struct ClientCardView: View {
                     VStack(alignment: .trailing, spacing: 4) {
                         if let lastSeen = client.lastSeenAt {
                             Text("Last seen")
-                                .font(.journalCaption)
-                                .foregroundColor(PluckrTheme.secondaryColor)
+                                .font(PluckrTheme.captionFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
                             
-                            Text(lastSeen, style: .relative)
-                                .font(.journalCaption)
-                                .foregroundColor(PluckrTheme.primaryColor)
+                            Text(formatLastSeenDate(lastSeen))
+                                .font(PluckrTheme.captionFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
                         } else {
                             Text("New client")
-                                .font(.journalCaption)
-                                .foregroundColor(PluckrTheme.accentColor)
+                                .font(PluckrTheme.captionFont())
+                                .foregroundColor(PluckrTheme.accent)
                         }
                     }
                 }
@@ -61,11 +60,11 @@ struct ClientCardView: View {
                     HStack {
                         Image(systemName: "person.circle.fill")
                             .font(.caption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .foregroundColor(PluckrTheme.textSecondary)
                         
                         Text("Added by \(createdByName)")
-                            .font(.journalCaption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
                         
                         Spacer()
                     }
@@ -75,25 +74,43 @@ struct ClientCardView: View {
                 HStack {
                     Image(systemName: "chart.line.uptrend.xyaxis")
                         .font(.caption)
-                        .foregroundColor(PluckrTheme.accentColor)
+                        .foregroundColor(PluckrTheme.accent)
                     
                     Text("View charts")
-                        .font(.journalCaption)
-                        .foregroundColor(PluckrTheme.accentColor)
+                        .font(PluckrTheme.captionFont())
+                        .foregroundColor(PluckrTheme.accent)
                     
                     Spacer()
                     
                     Image(systemName: "chevron.right")
                         .font(.caption)
-                        .foregroundColor(PluckrTheme.secondaryColor)
+                        .foregroundColor(PluckrTheme.textSecondary)
                 }
             }
-            .padding(PluckrTheme.padding)
-            .background(Color.white)
-            .cornerRadius(PluckrTheme.cornerRadius)
-            .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+            .padding(PluckrTheme.verticalPadding)
+            .background(PluckrTheme.card)
+            .cornerRadius(PluckrTheme.cardCornerRadius)
+            .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.shadowRadiusMedium, x: 0, y: PluckrTheme.shadowYMedium)
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel("Client card for \(client.fullName). Tap to view details.")
+        .accessibilityAddTraits(.isButton)
+        .dynamicTypeSize(.large ... .xxLarge)
+    }
+
+    // MARK: - Helper Methods
+    private func formatLastSeenDate(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        if calendar.isDate(date, inSameDayAs: now) {
+            return "Today"
+        } else if calendar.isDate(date, inSameDayAs: calendar.date(byAdding: .day, value: -1, to: now) ?? now) {
+            return "Yesterday"
+        } else {
+            let days = calendar.dateComponents([.day], from: date, to: now).day ?? 0
+            return "\(days) days ago"
+        }
     }
 }
 
@@ -128,5 +145,5 @@ struct ClientCardView: View {
         }
     }
     .padding()
-    .background(PluckrTheme.backgroundColor)
+    .background(PluckrTheme.background)
 } 

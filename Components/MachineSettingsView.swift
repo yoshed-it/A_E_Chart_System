@@ -23,42 +23,47 @@ struct MachineSettingsView: View {
     @Binding var showDcPicker: Bool
 
     var body: some View {
-        VStack(spacing: PluckrTheme.spacing) {
+        VStack(spacing: 16) {
             // RF Setting
             Button(action: { showRfPicker = true }) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("RF Level")
-                            .font(.journalBody)
+                            .font(PluckrTheme.bodyFont())
                             .fontWeight(.medium)
-                            .foregroundColor(.primary)
+                            .foregroundColor(PluckrTheme.textPrimary)
                         
                         Text("Radio Frequency")
-                            .font(.journalCaption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 4) {
                         Text(String(format: "%.1f", rfLevel))
-                            .font(.journalSubtitle)
+                            .font(PluckrTheme.subheadingFont())
                             .fontWeight(.semibold)
-                            .foregroundColor(PluckrTheme.primaryColor)
+                            .foregroundColor(PluckrTheme.textPrimary)
                         
                         Text("MHz")
-                            .font(.journalCaption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     
                     Image(systemName: "chevron.right")
                         .font(.caption)
-                        .foregroundColor(PluckrTheme.secondaryColor)
+                        .foregroundColor(PluckrTheme.textSecondary)
                 }
-                .padding(PluckrTheme.padding)
-                .background(Color.white)
-                .cornerRadius(PluckrTheme.cornerRadius)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .background(PluckrTheme.card)
+                .cornerRadius(PluckrTheme.cardCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                        .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                )
+                .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.shadowRadiusMedium, x: 0, y: PluckrTheme.shadowYMedium)
             }
             .buttonStyle(PlainButtonStyle())
 
@@ -67,36 +72,41 @@ struct MachineSettingsView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("DC Level")
-                            .font(.journalBody)
+                            .font(PluckrTheme.bodyFont())
                             .fontWeight(.medium)
-                            .foregroundColor(.primary)
+                            .foregroundColor(PluckrTheme.textPrimary)
                         
                         Text("Direct Current")
-                            .font(.journalCaption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 4) {
                         Text(String(format: "%.1f", dcLevel))
-                            .font(.journalSubtitle)
+                            .font(PluckrTheme.subheadingFont())
                             .fontWeight(.semibold)
-                            .foregroundColor(PluckrTheme.primaryColor)
+                            .foregroundColor(PluckrTheme.textPrimary)
                         
                         Text("mA")
-                            .font(.journalCaption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     
                     Image(systemName: "chevron.right")
                         .font(.caption)
-                        .foregroundColor(PluckrTheme.secondaryColor)
+                        .foregroundColor(PluckrTheme.textSecondary)
                 }
-                .padding(PluckrTheme.padding)
-                .background(Color.white)
-                .cornerRadius(PluckrTheme.cornerRadius)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .background(PluckrTheme.card)
+                .cornerRadius(PluckrTheme.cardCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                        .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                )
+                .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.shadowRadiusMedium, x: 0, y: PluckrTheme.shadowYMedium)
             }
             .buttonStyle(PlainButtonStyle())
         }
@@ -111,5 +121,5 @@ struct MachineSettingsView: View {
         showDcPicker: .constant(false)
     )
     .padding()
-    .background(PluckrTheme.backgroundColor)
+    .background(PluckrTheme.background)
 }

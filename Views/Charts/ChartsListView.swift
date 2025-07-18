@@ -8,6 +8,7 @@ struct ChartsListView: View {
     @State private var editingChart: ChartEntry? = nil
     @State private var showEditSheet = false
     @State private var showDeleteAlert = false
+    @State private var selectedTags: [Tag] = []
 
     var body: some View {
         VStack {
@@ -21,7 +22,7 @@ struct ChartsListView: View {
                         editingChart = chart
                         showEditSheet = true
                     })) {
-                        ChartRowView(chart: chart)
+                        chartRowContent(for: chart)
                     }
                     .swipeActions(edge: .trailing) {
                         Button {
@@ -40,9 +41,7 @@ struct ChartsListView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.fetchCharts(for: clientId)
-        }
+        .background(PluckrTheme.backgroundGradient.ignoresSafeArea())
         .navigationTitle("Charts")
         .sheet(isPresented: $showEditSheet) {
             if let chart = editingChart {
@@ -59,11 +58,59 @@ struct ChartsListView: View {
         }
         .alert("Delete Chart?", isPresented: $showDeleteAlert, presenting: selectedChart) { chart in
             Button("Delete", role: .destructive) {
-                viewModel.deleteChart(for: clientId, chartId: chart.id) { _ in }
+                handleDelete(chart: chart)
             }
             Button("Cancel", role: .cancel) {}
         } message: { chart in
             Text("Are you sure you want to delete this chart? This action cannot be undone.")
+        }
+        .sheet(item: $viewModel.activeTagPickerChart) { chart in
+            TagPickerModal(
+                selectedTags: $selectedTags,
+                availableTags: viewModel.availableTags,
+                context: .chart
+            )
+            .onAppear {
+                selectedTags = chart.chartTags
+            }
+            .onDisappear {
+                if let chart = viewModel.activeTagPickerChart {
+                    viewModel.persistTags(selectedTags, for: chart, clientId: clientId)
+                }
+            }
+            .presentationDetents([.medium, .large])
+            .background(
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(PluckrTheme.card)
+                    .shadow(color: PluckrTheme.shadow, radius: 16, x: 0, y: 4)
+            )
+        }
+    }
+    
+    @ViewBuilder
+    private func chartRowContent(for chart: ChartEntry) -> some View {
+        HStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    ForEach(chart.chartTags, id: \ .self) { tag in
+                        TagView(tag: tag, size: .normal)
+                    }
+                }
+            }
+            Spacer()
+            Button(action: { viewModel.showTagPicker(for: chart) }) {
+                Image(systemName: "tag")
+                    .padding(8)
+                    .background(PluckrTheme.card)
+                    .clipShape(Circle())
+                    .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
+            }
+        }
+    }
+
+    private func handleDelete(chart: ChartEntry) {
+        viewModel.deleteChart(for: clientId, chartId: chart.id) { success in
+            // TODO: Show toast on success/failure if desired
         }
     }
 }

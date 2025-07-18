@@ -7,7 +7,6 @@ import CryptoKit
 class OrgEncryptionKeyManager: ObservableObject {
     static let shared = OrgEncryptionKeyManager()
     @Published private(set) var orgKey: SymmetricKey?
-    private var orgId: String = "demo-clinic" // TODO: infer from user profile
     private let devFallbackKey = SymmetricKey(data: Data(repeating: 0x42, count: 32))
 
     /// Fetches the org-wide AES key from Firestore if not already cached.
@@ -19,6 +18,13 @@ class OrgEncryptionKeyManager: ObservableObject {
         return
         #endif
         guard orgKey == nil else { return }
+        
+        guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+            PluckrLogger.error("No organization context for encryption key")
+            self.orgKey = devFallbackKey
+            return
+        }
+        
         do {
             let doc = try await Firestore.firestore()
                 .collection("organizations")
@@ -35,7 +41,7 @@ class OrgEncryptionKeyManager: ObservableObject {
                 self.orgKey = devFallbackKey
             }
         } catch {
-            PluckrLogger.error("Error fetching org-wide AES key: \(error)")
+            PluckrLogger.error("Error fetching org-wide AES key for \(orgId): \(error)")
             self.orgKey = devFallbackKey
         }
     }

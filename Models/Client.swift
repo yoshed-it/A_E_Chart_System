@@ -44,6 +44,11 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
     var createdByName: String?
     var lastSeenAt: Date?
     var createdAt: Date?
+    var clientTags: [Tag]
+    var hasSignedImageConsent: Bool = false
+    var imageConsentSignedAt: Date? = nil
+    var imageConsentSignedBy: String? = nil
+    var imageConsentSignatureURL: String? = nil
 
     /// Computed property that returns the client's full name
     /// - Returns: A string combining first and last name
@@ -75,7 +80,12 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         createdBy: String? = nil,
         createdByName: String? = nil,
         lastSeenAt: Date? = nil,
-        createdAt: Date? = nil
+        createdAt: Date? = nil,
+        clientTags: [Tag] = [],
+        hasSignedImageConsent: Bool = false,
+        imageConsentSignedAt: Date? = nil,
+        imageConsentSignedBy: String? = nil,
+        imageConsentSignatureURL: String? = nil
     ) {
         self.id = id
         self.firstName = firstName
@@ -87,6 +97,11 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         self.createdByName = createdByName
         self.lastSeenAt = lastSeenAt
         self.createdAt = createdAt
+        self.clientTags = clientTags
+        self.hasSignedImageConsent = hasSignedImageConsent
+        self.imageConsentSignedAt = imageConsentSignedAt
+        self.imageConsentSignedBy = imageConsentSignedBy
+        self.imageConsentSignatureURL = imageConsentSignatureURL
     }
 
     /**
@@ -123,6 +138,47 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
         self.createdByName = data["createdByName"] as? String
         self.createdAt = (data["createdAt"] as? Timestamp)?.dateValue()
         self.lastSeenAt = (data["lastSeenAt"] as? Timestamp)?.dateValue()
+        
+        // Parse client tags
+        let tagsData = data["clientTags"] as? [[String: Any]] ?? []
+        self.clientTags = tagsData.compactMap { dict in
+            Tag(data: dict, id: UUID().uuidString)
+        }
+        self.hasSignedImageConsent = data["hasSignedImageConsent"] as? Bool ?? false
+        self.imageConsentSignedAt = (data["imageConsentSignedAt"] as? Timestamp)?.dateValue()
+        self.imageConsentSignedBy = data["imageConsentSignedBy"] as? String
+        self.imageConsentSignatureURL = data["imageConsentSignatureURL"] as? String
     }
     
+}
+
+extension Client {
+    func toDict() -> [String: Any] {
+        var dict: [String: Any] = [
+            "firstName": firstName,
+            "lastName": lastName,
+            "id": id
+        ]
+        if let phone = phone { dict["phone"] = phone }
+        if let email = email { dict["email"] = email }
+        if let pronouns = pronouns { dict["pronouns"] = pronouns }
+        if let createdBy = createdBy { dict["createdBy"] = createdBy }
+        if let createdByName = createdByName { dict["createdByName"] = createdByName }
+        if let lastSeenAt = lastSeenAt { dict["lastSeenAt"] = Timestamp(date: lastSeenAt) }
+        if let createdAt = createdAt { dict["createdAt"] = Timestamp(date: createdAt) }
+        if !clientTags.isEmpty { dict["clientTags"] = clientTags.map { $0.toDict() } }
+        if hasSignedImageConsent {
+            dict["hasSignedImageConsent"] = hasSignedImageConsent
+        }
+        if let consentAt = imageConsentSignedAt {
+            dict["imageConsentSignedAt"] = Timestamp(date: consentAt)
+        }
+        if let consentBy = imageConsentSignedBy {
+            dict["imageConsentSignedBy"] = consentBy
+        }
+        if let signatureURL = imageConsentSignatureURL {
+            dict["imageConsentSignatureURL"] = signatureURL
+        }
+        return dict
+    }
 }

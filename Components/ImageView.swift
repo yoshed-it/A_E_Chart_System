@@ -27,11 +27,7 @@ struct ImageSection: View {
                 HStack(spacing: 10) {
                     ForEach(uploadedImageURLs, id: \.self) { url in
                         AsyncImage(url: URL(string: url)) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 100)
-                                .cornerRadius(8)
+                            image.resizable().scaledToFit().pluckrImage()
                         } placeholder: {
                             ProgressView()
                         }

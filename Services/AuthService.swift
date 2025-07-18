@@ -36,6 +36,8 @@ import FirebaseFirestore
  */
 @MainActor
 class AuthService: ObservableObject {
+    static let shared = AuthService()
+    
     @Published var currentUser: User?
     @Published var isAuthenticated = false
     @Published var isLoading = false
@@ -55,6 +57,8 @@ class AuthService: ObservableObject {
                 
                 if user != nil {
                     PluckrLogger.success("User authenticated: \(user?.email ?? "Unknown")")
+                    // Initialize organization service for authenticated user
+                    await OrganizationService.shared.initializeIfAuthenticated()
                 } else {
                     PluckrLogger.info("User signed out")
                 }
@@ -78,6 +82,10 @@ class AuthService: ObservableObject {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             PluckrLogger.success("User signed in successfully: \(result.user.email ?? "Unknown")")
+            
+            // Initialize organization service for signed in user
+            await OrganizationService.shared.initializeIfAuthenticated()
+            
             isLoading = false
             return true
         } catch {
@@ -98,9 +106,53 @@ class AuthService: ObservableObject {
         do {
             try Auth.auth().signOut()
             PluckrLogger.info("User signed out successfully")
+            self.currentUser = nil
+            self.isAuthenticated = false
         } catch {
             PluckrLogger.error("Sign out failed: \(error.localizedDescription)")
-            errorMessage = error.localizedDescription
+            self.errorMessage = error.localizedDescription
+        }
+    }
+    
+    /**
+     *Deletes the current user account*
+     
+     This method permanently deletes the user's Firebase Auth account
+     and clears all associated data. This action cannot be undone.
+     
+     - Returns: True if deletion was successful, false otherwise
+     - Note: Sets `errorMessage` if deletion fails
+     - Note: Sets `isLoading` to true during the operation
+     - Warning: This action is irreversible
+     */
+    func deleteAccount() async -> Bool {
+        guard let user = Auth.auth().currentUser else {
+            errorMessage = "No user is currently signed in"
+            return false
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            // Delete user profile document if it exists
+            try await db.collection("users").document(user.uid).delete()
+            PluckrLogger.info("User profile document deleted")
+            
+            // Delete the Firebase Auth account
+            try await user.delete()
+            PluckrLogger.success("User account deleted successfully")
+            
+            // Clear local state
+            self.currentUser = nil
+            self.isAuthenticated = false
+            isLoading = false
+            return true
+        } catch {
+            PluckrLogger.error("Account deletion failed: \(error.localizedDescription)")
+            errorMessage = "Failed to delete account: \(error.localizedDescription)"
+            isLoading = false
+            return false
         }
     }
     
@@ -127,7 +179,16 @@ class AuthService: ObservableObject {
             changeRequest.displayName = displayName
             try await changeRequest.commitChanges()
             
-            // Create provider document
+            // Create user profile document
+            let userProfile: [String: Any] = [
+                "displayName": displayName,
+                "email": result.user.email ?? "",
+                "createdAt": Timestamp(date: Date())
+            ]
+            try await db.collection("users").document(result.user.uid).setData(userProfile)
+            PluckrLogger.success("User profile created for user: \(result.user.uid)")
+            
+            // Create provider document (will be skipped if no organization context)
             try await createProviderDocument(userId: result.user.uid, displayName: displayName)
             
             PluckrLogger.success("User created successfully: \(result.user.email ?? "Unknown")")
@@ -142,6 +203,13 @@ class AuthService: ObservableObject {
     }
     
     private func createProviderDocument(userId: String, displayName: String) async throws {
+        // Check if user has an organization - if not, skip provider document creation
+        // Provider document will be created when they join/create an organization
+        guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+            PluckrLogger.info("No organization context for user \(userId) - provider document will be created when they join an organization")
+            return
+        }
+        
         let providerData: [String: Any] = [
             "name": displayName,
             "email": currentUser?.email ?? "",
@@ -149,8 +217,36 @@ class AuthService: ObservableObject {
             "isActive": true
         ]
         
-        try await db.collection("providers").document(userId).setData(providerData)
-        PluckrLogger.success("Provider document created for user: \(userId)")
+        try await db.collection("organizations")
+            .document(orgId)
+            .collection("providers")
+            .document(userId)
+            .setData(providerData)
+        PluckrLogger.success("Provider document created for user: \(userId) in org \(orgId)")
+    }
+    
+    // Create provider doc for a user joining an org as a provider
+    func createProviderDocForInviteJoin(orgId: String, userId: String, displayName: String, email: String, completion: @escaping (Bool) -> Void) {
+        let providerData: [String: Any] = [
+            "name": displayName,
+            "email": email,
+            "createdAt": Timestamp(date: Date()),
+            "isActive": true,
+            "role": "provider"
+        ]
+        db.collection("organizations")
+            .document(orgId)
+            .collection("providers")
+            .document(userId)
+            .setData(providerData) { error in
+                if let error = error {
+                    PluckrLogger.error("Failed to create provider doc for invite join: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    PluckrLogger.success("Provider doc created for user: \(userId) in org \(orgId)")
+                    completion(true)
+                }
+            }
     }
 }
 

@@ -1,5 +1,6 @@
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 
 @MainActor
 class AddClientViewModel: ObservableObject {
@@ -10,6 +11,7 @@ class AddClientViewModel: ObservableObject {
     @Published var email = ""
     @Published var isSaving = false
     @Published var errorMessage = ""
+    @Published var clientTags: [Tag] = []
 
     var onClientAdded: () -> Void = {}
 
@@ -60,13 +62,21 @@ class AddClientViewModel: ObservableObject {
             createdByName: user.displayName ?? "Unknown"
         )
 
-        repository.createClient(from: input) { [weak self] success in
+        repository.createClient(from: input) { [weak self] success, clientId in
             Task { @MainActor in
-                self?.isSaving = false
-                if success {
-                    self?.onClientAdded()
+                guard let self = self else { return }
+                if success, let clientId = clientId {
+                    do {
+                        try await TagService.shared.updateClientTags(clientId: clientId, tags: self.clientTags)
+                        self.isSaving = false
+                        self.onClientAdded()
+                    } catch {
+                        self.errorMessage = "Failed to save client tags."
+                        self.isSaving = false
+                    }
                 } else {
-                    self?.errorMessage = "Failed to save client."
+                    self.errorMessage = "Failed to save client."
+                    self.isSaving = false
                 }
             }
         }

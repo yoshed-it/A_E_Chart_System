@@ -25,69 +25,136 @@ struct ChartDetailView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Group {
-                    HStack {
-                        Text("Modality:")
-                            .bold()
-                        Spacer()
-                        Text(chart.modality)
-                    }
+            VStack(alignment: .leading, spacing: 24) {
+                // Treatment Details Section
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Treatment Details")
+                        .pluckrSectionHeader()
                     
-                    HStack {
-                        Text("RF Level:")
-                            .bold()
-                        Spacer()
-                        Text("\(chart.rfLevel)")
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("Modality")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                            Spacer()
+                            Text(chart.modality)
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
+                        }
+                        
+                        HStack {
+                            Text("RF Level")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                            Spacer()
+                            Text("\(chart.rfLevel, specifier: "%.1f") MHz")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
+                        }
+                        
+                        HStack {
+                            Text("DC Level")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                            Spacer()
+                            Text("\(chart.dcLevel, specifier: "%.1f") mA")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
+                        }
+                        
+                        HStack {
+                            Text("Probe")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                            Spacer()
+                            Text(chart.probe)
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
+                        }
+                        
+                        HStack {
+                            Text("Treatment Area")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                            Spacer()
+                            Text(chart.treatmentArea ?? "Not specified")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
+                        }
                     }
-                    
-                    HStack {
-                        Text("DC Level:")
-                            .bold()
-                        Spacer()
-                        Text("\(chart.dcLevel)")
-                    }
-                    
-                    HStack {
-                        Text("Probe:")
-                            .bold()
-                        Spacer()
-                        Text(chart.probe)
-                    }
-                    
-                    HStack {
-                        Text("Treatment Area:")
-                            .bold()
-                        Spacer()
-                        Text(chart.treatmentArea ?? "")
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                    .background(Color.pluckrCard)
+                    .cornerRadius(PluckrTheme.cardCornerRadius)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                            .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                    )
+                }
+                
+                // Clinical Notes Section
+                if !chart.notes.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Clinical Notes")
+                            .pluckrSectionHeader()
+                        
+                        Text(chart.notes)
+                            .font(PluckrTheme.bodyFont())
+                            .foregroundColor(PluckrTheme.textPrimary)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.pluckrCard)
+                            .cornerRadius(PluckrTheme.cardCornerRadius)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                                    .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                            )
                     }
                 }
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Notes:")
-                        .bold()
-                    Text(chart.notes)
-                        .padding(.top, 4)
-                }
-                
-                HStack {
-                    Text("Created At:")
-                        .bold()
-                    Spacer()
-                    Text(chart.createdAt.formatted(date: .abbreviated, time: .shortened))
-                }
-                
-                HStack {
-                    Text("Last Edited:")
-                        .bold()
-                    Spacer()
-                    if let lastEdited = chart.lastEditedAt {
-                        Text("Edited on \(lastEdited.formatted(.dateTime))")
+                // Metadata Section
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Chart Information")
+                        .pluckrSectionHeader()
+                    
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Created")
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textSecondary)
+                            Spacer()
+                            Text(chart.createdAt.formatted(date: .abbreviated, time: .shortened))
+                                .font(PluckrTheme.bodyFont())
+                                .foregroundColor(PluckrTheme.textPrimary)
+                        }
+                        
+                        if let lastEdited = chart.lastEditedAt {
+                            HStack {
+                                Text("Last Edited")
+                                    .font(PluckrTheme.bodyFont())
+                                    .foregroundColor(PluckrTheme.textSecondary)
+                                Spacer()
+                                Text(lastEdited.formatted(date: .abbreviated, time: .shortened))
+                                    .font(PluckrTheme.bodyFont())
+                                    .foregroundColor(PluckrTheme.textPrimary)
+                            }
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                    .background(Color.pluckrCard)
+                    .cornerRadius(PluckrTheme.cardCornerRadius)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                            .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                    )
                 }
-                .padding()
+                
                 imageGallery
             }
+            .padding(.horizontal, PluckrTheme.horizontalPadding)
+            .padding(.vertical, PluckrTheme.verticalPadding)
             .navigationTitle("Chart Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -95,9 +162,11 @@ struct ChartDetailView: View {
                     Button("Edit") {
                         onEdit()
                     }
+                    .foregroundColor(PluckrTheme.accent)
                 }
             }
         }
+        .background(PluckrTheme.background.ignoresSafeArea())
         .fullScreenCover(item: $selectedImage) { identifiableImage in
             FullScreenImageView(image: identifiableImage.image) {
                 selectedImage = nil
@@ -105,12 +174,13 @@ struct ChartDetailView: View {
         }
     }
 
+    // MARK: - Chart Image Gallery
+    @ViewBuilder
     private var imageGallery: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if !chart.imageURLs.isEmpty {
+        if !chart.imageURLs.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
                 Text("Chart Images")
-                    .font(.headline)
-                    .padding(.leading)
+                    .pluckrSectionHeader()
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
                         ForEach(chart.imageURLs, id: \.self) { urlString in
@@ -126,20 +196,28 @@ struct ChartDetailView: View {
                                 )
                                 .onAppear { loadImage(for: url) }
                             } else {
-                                // Invalid URL string, show error placeholder
                                 ChartImageThumbnail(
-                                    url: URL(string: "")!, // dummy URL, won't be used
+                                    url: URL(string: "")!, // dummy URL
                                     state: .failure("Invalid URL"),
                                     onTap: {}
                                 )
                             }
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
                 }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .background(Color.pluckrCard)
+                .cornerRadius(PluckrTheme.cardCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                        .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                )
             }
+        } else {
+            EmptyView()
         }
-        .padding(.vertical)
     }
 
     private func loadImage(for url: URL) {
@@ -181,14 +259,14 @@ private struct ChartImageThumbnail: View {
             switch state {
             case .loading:
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(PluckrTheme.card)
                     .frame(width: 80, height: 80)
             case .success(let image):
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .pluckrImage()
                     .onTapGesture { onTap() }
                     .accessibilityLabel("Chart image thumbnail")
             case .failure:

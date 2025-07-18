@@ -14,30 +14,29 @@ struct NotesFieldView: View {
     @Binding var notes: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
-            Text("Notes")
-                .font(.journalSubtitle)
-                .foregroundColor(PluckrTheme.primaryColor)
-                .padding(.horizontal, PluckrTheme.padding)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Clinical Notes")
+                .pluckrSectionHeader()
             
             TextEditor(text: $notes)
-                .font(.journalBody)
-                .padding(PluckrTheme.padding)
-                .background(Color.white)
-                .cornerRadius(PluckrTheme.cornerRadius)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                .font(PluckrTheme.bodyFont())
                 .frame(minHeight: 120)
+                .padding(16)
+                .background(PluckrTheme.card)
+                .cornerRadius(PluckrTheme.cardCornerRadius)
                 .overlay(
-                    RoundedRectangle(cornerRadius: PluckrTheme.cornerRadius)
-                        .stroke(PluckrTheme.secondaryColor.opacity(0.3), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                        .stroke(PluckrTheme.borderColor, lineWidth: 1)
                 )
+                .shadow(color: PluckrTheme.shadowSmall, radius: PluckrTheme.shadowRadiusSmall, x: 0, y: PluckrTheme.shadowYSmall)
+                .foregroundColor(PluckrTheme.textPrimary)
+                .scrollContentBackground(.hidden) // Hide the default TextEditor background
         }
-        .padding(.horizontal, PluckrTheme.padding)
     }
 }
 
 #Preview {
     NotesFieldView(notes: .constant("Sample notes text"))
         .padding()
-        .background(PluckrTheme.backgroundColor)
+        .background(PluckrTheme.background)
 }

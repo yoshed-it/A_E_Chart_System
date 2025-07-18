@@ -15,27 +15,25 @@ struct LoadingView: View {
     let message: String
     
     var body: some View {
-        VStack(spacing: PluckrTheme.spacing * 2) {
+        VStack(spacing: PluckrTheme.verticalPadding) {
             // Loading indicator
             ProgressView()
                 .scaleEffect(1.2)
-                .progressViewStyle(CircularProgressViewStyle(tint: PluckrTheme.primaryColor))
+                .progressViewStyle(CircularProgressViewStyle(tint: PluckrTheme.textPrimary))
             
             // Loading message
             Text(message)
-                .font(.journalBody)
-                .foregroundColor(PluckrTheme.secondaryColor)
+                .font(PluckrTheme.bodyFont())
+                .foregroundColor(PluckrTheme.textSecondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(PluckrTheme.padding * 2)
-        .background(Color.white)
-        .cornerRadius(PluckrTheme.cornerRadius)
-        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+        .padding(PluckrTheme.horizontalPadding)
+        .pluckrCard()
     }
 }
 
 #Preview {
     LoadingView(message: "Loading clients...")
         .padding()
-        .background(PluckrTheme.backgroundColor)
+        .background(PluckrTheme.background)
 } 

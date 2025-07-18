@@ -7,64 +7,54 @@ struct ChartRowView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(chart.createdAt.formatted(date: .abbreviated, time: .shortened))
-                    .font(.subheadline)
-                    .bold()
-
+                    .font(PluckrTheme.bodyFont(size: 15))
+                    .foregroundColor(PluckrTheme.textPrimary)
                 Spacer()
-
                 Text(chart.modality)
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
+                    .font(PluckrTheme.bodyFont(size: 15))
+                    .foregroundColor(PluckrTheme.accent)
             }
-
             Text("Probe: \(chart.probe)")
-                .font(.caption)
-
+                .font(PluckrTheme.captionFont())
+                .foregroundColor(PluckrTheme.textPrimary)
             Text("RF: \(chart.rfLevel), DC: \(chart.dcLevel)")
-                .font(.caption)
-                .foregroundColor(.secondary)
-
+                .font(PluckrTheme.captionFont())
+                .foregroundColor(PluckrTheme.textSecondary)
             if let area = chart.treatmentArea, !area.isEmpty {
                 Text("Area: \(area)")
-                    .font(.caption2)
-                    .foregroundColor(.gray)
+                    .font(PluckrTheme.captionFont(size: 12))
+                    .foregroundColor(PluckrTheme.textSecondary)
             }
             if !chart.notes.isEmpty {
                 Text(chart.notes)
                     .lineLimit(1)
-                    .font(.footnote)
-                    .foregroundColor(.primary)
+                    .font(PluckrTheme.captionFont())
+                    .foregroundColor(PluckrTheme.textPrimary)
             }
-
             if !chart.imageURLs.isEmpty {
                 HStack(spacing: 4) {
                     ForEach(chart.imageURLs.prefix(2), id: \.self) { url in
                         AsyncImage(url: URL(string: url)) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
+                            image.resizable().aspectRatio(contentMode: .fill).pluckrImage()
                         } placeholder: {
                             ProgressView()
                         }
                         .frame(width: 40, height: 40)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
                     }
-
                     if chart.imageURLs.count > 2 {
                         Text("+\(chart.imageURLs.count - 2) more")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
+                            .font(PluckrTheme.captionFont(size: 12))
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                 }
             }
-
             if chart.lastEditedAt != chart.createdAt {
                 Label("Edited", systemImage: "pencil")
-                    .font(.caption2)
+                    .font(PluckrTheme.captionFont(size: 12))
                     .foregroundColor(.orange)
             }
         }
-        .padding(10)
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray6)))
+        .padding(PluckrTheme.verticalPadding)
+        .pluckrCard()
     }
 }

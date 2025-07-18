@@ -30,9 +30,10 @@ struct CameraUploader {
 
         // 3. Upload encrypted data
         let filename = UUID().uuidString + ".enc"
-        let ref = Storage.storage().reference().child("charts/\(clientId)/\(filename)")
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        let ref = Storage.storage().reference().child("organizations/\(orgId)/charts/\(clientId)/\(filename)")
         do {
-            PluckrLogger.info("Uploading encrypted image: \(filename) for client: \(clientId)")
+            PluckrLogger.info("Uploading encrypted image: \(filename) for client: \(clientId) in org: \(orgId)")
             let _ = try await ref.putDataAsync(encryptedData, metadata: nil)
             let downloadURL = try await ref.downloadURL().absoluteString
             PluckrLogger.success("Encrypted image uploaded successfully: \(downloadURL)")

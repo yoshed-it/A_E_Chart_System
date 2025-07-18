@@ -13,25 +13,78 @@ class ChartService {
     
     // MARK: - Save Chart Entry
     func saveChartEntry(for clientId: String, chartData: ChartEntryData, chartId: String?, completion: @escaping (Result<Void, Error>) -> Void) {
-        let chartRef = db.collection("clients").document(clientId).collection("charts")
-        let docRef: DocumentReference
-        
-        if let chartId = chartId {
-            docRef = chartRef.document(chartId)
-        } else {
-            docRef = chartRef.document()
-        }
-
-        var data = chartData.asDictionary
-
-        if chartId != nil {
-            data["lastEditedAt"] = Timestamp(date: Date())
-            if let user = Auth.auth().currentUser {
-                data["lastEditedBy"] = user.displayName ?? user.uid
+        Task {
+            let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+            let chartRef = self.db.collection("organizations")
+                .document(orgId)
+                .collection("clients")
+                .document(clientId)
+                .collection("charts")
+            let docRef: DocumentReference
+            if let chartId = chartId {
+                docRef = chartRef.document(chartId)
+            } else {
+                docRef = chartRef.document()
+            }
+            var data = chartData.asDictionary
+            if chartId != nil {
+                data["lastEditedAt"] = Timestamp(date: Date())
+                if let user = Auth.auth().currentUser {
+                    data["lastEditedBy"] = user.displayName ?? user.uid
+                }
+            }
+            docRef.setData(data, merge: true) { error in
+                if let error = error {
+                    PluckrLogger.error("Failed to save chart in org \(orgId): \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    PluckrLogger.success("Chart saved successfully in org \(orgId)")
+                    completion(.success(()))
+                }
             }
         }
+    }
 
-        docRef.setData(data, merge: true) { error in
+    // MARK: - Upload Single Image
+    func uploadImage(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            completion(.failure(ChartServiceError.invalidImageData))
+            return
+        }
+        
+        let imageName = "\(UUID().uuidString).jpg"
+        let imageRef = storage.reference().child("chart-images/\(imageName)")
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        imageRef.putData(imageData, metadata: metadata) { metadata, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            imageRef.downloadURL { url, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let downloadURL = url {
+                    completion(.success(downloadURL.absoluteString))
+                } else {
+                    completion(.failure(ChartServiceError.downloadURLFailed))
+                }
+            }
+        }
+    }
+    
+    // MARK: - Delete Image
+    func deleteImage(url: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let imageURL = URL(string: url) else {
+            completion(.failure(ChartServiceError.invalidURL))
+            return
+        }
+        
+        let imageRef = storage.reference(forURL: imageURL.absoluteString)
+        imageRef.delete { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -40,59 +93,36 @@ class ChartService {
         }
     }
 
-    // MARK: - Upload Single Image
-    func uploadImage(_ image: UIImage, clientId: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.7) else {
-            completion(.failure(NSError(domain: "compression", code: -1, userInfo: nil)))
-            return
-        }
-
-        let filename = UUID().uuidString + ".jpg"
-        let ref = storage.reference().child("charts/\(clientId)/\(filename)")
-
-        ref.putData(imageData, metadata: nil) { _, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            ref.downloadURL { url, error in
-                if let url = url {
-                    completion(.success(url.absoluteString))
-                } else {
-                    completion(.failure(error ?? NSError(domain: "url", code: -2, userInfo: nil)))
-                }
-            }
-        }
-    }
-
-    // MARK: - Upload Multiple Images
-    func uploadMultipleImages(_ images: [UIImage], clientId: String, completion: @escaping ([String]) -> Void) {
-        var uploadedURLs: [String] = []
-        let group = DispatchGroup()
-
-        for image in images {
-            group.enter()
-            uploadImage(image, clientId: clientId) { result in
-                if case .success(let url) = result {
-                    uploadedURLs.append(url)
-                }
-                group.leave()
-            }
-        }
-
-        group.notify(queue: .main) {
-            completion(uploadedURLs)
-        }
-    }
-
     // MARK: - Load Single Chart Entry
-    /// Loads a single chart entry by chartId for a given clientId
     func loadChartEntry(for clientId: String, chartId: String) async throws -> ChartEntry? {
-        let docRef = db.collection("clients").document(clientId).collection("charts").document(chartId)
-        let snapshot = try await docRef.getDocument()
-        guard let data = snapshot.data() else { return nil }
-        return ChartEntry(id: snapshot.documentID, data: data)
+        let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+        let doc = try await db.collection("organizations")
+            .document(orgId)
+            .collection("clients")
+            .document(clientId)
+            .collection("charts")
+            .document(chartId)
+            .getDocument()
+        guard let data = doc.data() else { return nil }
+        return ChartEntry(id: doc.documentID, data: data)
+    }
+}
+
+// MARK: - Chart Service Errors
+enum ChartServiceError: LocalizedError {
+    case invalidImageData
+    case downloadURLFailed
+    case invalidURL
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidImageData:
+            return "Invalid image data"
+        case .downloadURLFailed:
+            return "Failed to get download URL"
+        case .invalidURL:
+            return "Invalid URL"
+        }
     }
 }
 

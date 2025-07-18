@@ -22,7 +22,7 @@ struct ImageUploadView: View {
     var errorMessage: Binding<String?>
 
     var body: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+        VStack(alignment: .leading, spacing: 16) {
             // Camera Button
             Button(action: {
                 if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -34,29 +34,33 @@ struct ImageUploadView: View {
                 HStack {
                     Image(systemName: "camera.fill")
                         .font(.title2)
-                        .foregroundColor(PluckrTheme.primaryColor)
+                        .foregroundColor(PluckrTheme.textPrimary)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Capture Treatment Image")
-                            .font(.journalBody)
+                            .font(PluckrTheme.bodyFont())
                             .fontWeight(.medium)
-                            .foregroundColor(PluckrTheme.primaryColor)
+                            .foregroundColor(PluckrTheme.textPrimary)
                         
                         Text("Document treatment progress")
-                            .font(.journalCaption)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
                     }
                     
                     Spacer()
                     
                     Image(systemName: "plus.circle.fill")
                         .font(.title2)
-                        .foregroundColor(PluckrTheme.accentColor)
+                        .foregroundColor(PluckrTheme.accent)
                 }
-                .padding(PluckrTheme.padding)
-                .background(Color.white)
-                .cornerRadius(PluckrTheme.cornerRadius)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .background(Color.pluckrCard)
+                .cornerRadius(PluckrTheme.cardCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                        .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                )
             }
             .buttonStyle(PlainButtonStyle())
             .disabled(!UIImagePickerController.isSourceTypeAvailable(.camera))
@@ -64,14 +68,12 @@ struct ImageUploadView: View {
 
             // Image Gallery
             if !uploadedImageURLs.isEmpty {
-                VStack(alignment: .leading, spacing: PluckrTheme.spacing) {
+                VStack(alignment: .leading, spacing: 12) {
                     Text("Treatment Images")
-                        .font(.journalCaption)
-                        .foregroundColor(PluckrTheme.secondaryColor)
-                        .padding(.horizontal, PluckrTheme.padding)
+                        .pluckrSectionHeader()
                     
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: PluckrTheme.spacing) {
+                        HStack(spacing: 16) {
                             ForEach(uploadedImageURLs, id: \.self) { url in
                                 AsyncImage(url: URL(string: url)) { image in
                                     image
@@ -79,21 +81,36 @@ struct ImageUploadView: View {
                                         .scaledToFill()
                                         .frame(width: 120, height: 120)
                                         .clipped()
-                                        .cornerRadius(PluckrTheme.cornerRadius)
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                                        .cornerRadius(PluckrTheme.cardCornerRadius)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                                                .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                                        )
                                 } placeholder: {
-                                    RoundedRectangle(cornerRadius: PluckrTheme.cornerRadius)
-                                        .fill(PluckrTheme.backgroundColor)
+                                    RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                                        .fill(PluckrTheme.background)
                                         .frame(width: 120, height: 120)
                                         .overlay(
                                             ProgressView()
                                                 .scaleEffect(0.8)
                                         )
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                                                .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                                        )
                                 }
                             }
                         }
-                        .padding(.horizontal, PluckrTheme.padding)
+                        .padding(.horizontal, 20)
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                    .background(Color.pluckrCard)
+                    .cornerRadius(PluckrTheme.cardCornerRadius)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
+                            .stroke(PluckrTheme.borderColor, lineWidth: 1)
+                    )
                 }
             }
         }
@@ -110,5 +127,5 @@ struct ImageUploadView: View {
         errorMessage: .constant(nil)
     )
     .padding()
-    .background(PluckrTheme.backgroundColor)
+    .background(PluckrTheme.background)
 }

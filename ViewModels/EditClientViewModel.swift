@@ -17,6 +17,7 @@ class EditClientViewModel: ObservableObject {
     @Published var email = ""
     @Published var isSaving = false
     @Published var errorMessage = ""
+    @Published var clientTags: [Tag] = []
 
     var onClientUpdated: () -> Void = {}
     private let repository = ClientRepository()
@@ -29,6 +30,7 @@ class EditClientViewModel: ObservableObject {
         self.pronouns = client.pronouns ?? ""
         self.phone = client.phone ?? ""
         self.email = client.email ?? ""
+        self.clientTags = client.clientTags
     }
 
     func saveChanges() {
@@ -86,16 +88,24 @@ class EditClientViewModel: ObservableObject {
             createdBy: user.uid,
             createdByName: user.displayName ?? "Unknown",
             lastSeenAt: Date(),
-            createdAt: nil
+            createdAt: nil,
+            clientTags: clientTags
         )
 
         repository.updateClient(updatedClient) { success in
             Task { @MainActor in
-                self.isSaving = false
                 if success {
-                    self.onClientUpdated()
+                    do {
+                        try await TagService.shared.updateClientTags(clientId: self.clientId, tags: self.clientTags)
+                        self.isSaving = false
+                        self.onClientUpdated()
+                    } catch {
+                        self.errorMessage = "Failed to update client tags."
+                        self.isSaving = false
+                    }
                 } else {
                     self.errorMessage = "Failed to update client."
+                    self.isSaving = false
                 }
             }
         }

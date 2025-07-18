@@ -18,36 +18,57 @@ struct LoginView: View {
         NavigationStack {
             ZStack {
                 // Background
-                PluckrTheme.backgroundColor
+                PluckrTheme.background
                     .ignoresSafeArea()
                 
-                VStack(spacing: PluckrTheme.spacing * 3) {
+                VStack(spacing: PluckrTheme.verticalPadding * 1.5) {
                     // Header
-                    VStack(spacing: PluckrTheme.spacing) {
-                        Text("Pluckr")
-                            .font(.journalTitle)
-                            .foregroundColor(PluckrTheme.primaryColor)
+                    VStack(spacing: PluckrTheme.verticalPadding) {
+                        // Logo
+                        Image("PluckrLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .padding(.bottom, 8)
                         
-                        Text("Clinical Journal")
-                            .font(.journalSubtitle)
-                            .foregroundColor(PluckrTheme.secondaryColor)
+                        VStack(spacing: PluckrTheme.verticalPadding / 2) {
+                            Text("Pluckr")
+                                .font(PluckrTheme.displayFont(size: 38))
+                                .foregroundColor(PluckrTheme.textPrimary)
+                            Text("Clinical Journal")
+                                .font(PluckrTheme.subheadingFont(size: 20))
+                                .foregroundColor(PluckrTheme.textSecondary)
+                        }
                     }
-                    .padding(.top, 60)
+                    .padding(.top, 40)
                     
                     // Login Form
-                    VStack(spacing: PluckrTheme.spacing * 2) {
+                    VStack(spacing: PluckrTheme.verticalPadding) {
+                        // MARK: - Development: Disabled Auto-Fill
                         TextField("Email", text: $email)
-                            .textFieldStyle(PluckrTextFieldStyle())
-                            .autocapitalization(.none)
+                            .pluckrTextField()
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
                         
                         SecureField("Password", text: $password)
-                            .textFieldStyle(PluckrTextFieldStyle())
+                            .pluckrTextField()
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
+                            .keyboardType(.default)
+                            .allowsHitTesting(true)
+                            .onTapGesture {
+                                // Force keyboard to show without auto-fill
+                            }
                         
                         if let errorMessage = authService.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
-                                .font(.journalCaption)
+                                .font(PluckrTheme.captionFont())
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal)
                         }
@@ -58,21 +79,21 @@ struct LoginView: View {
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             } else {
                                 Text("Sign In")
-                                    .font(.journalSubtitle)
+                                    .font(PluckrTheme.subheadingFont())
                                     .fontWeight(.semibold)
                             }
                         }
-                        .buttonStyle(PluckrButtonStyle())
+                        .pluckrButton()
                         .disabled(authService.isLoading || email.isEmpty || password.isEmpty)
                         
                         Button("Create Account") {
                             showSignUp = true
                         }
-                        .font(.journalCaption)
-                        .foregroundColor(PluckrTheme.accentColor)
-                        .padding(.top, PluckrTheme.spacing)
+                        .font(PluckrTheme.captionFont())
+                        .foregroundColor(PluckrTheme.accent)
+                        .padding(.top, PluckrTheme.verticalPadding)
                     }
-                    .padding(.horizontal, PluckrTheme.padding)
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
                     
                     Spacer()
                 }

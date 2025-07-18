@@ -20,6 +20,8 @@ struct ClientDetailView: View {
                     TextField("Last Name", text: viewModel.lastNameBinding)
                     TextField("Pronouns", text: viewModel.pronounsBinding)
                     TextField("Phone", text: viewModel.phoneBinding)
+                        .keyboardType(.phonePad)
+                        .phoneNumberFormatting(text: viewModel.phoneBinding)
                     TextField("Email", text: viewModel.emailBinding)
                 }
 
