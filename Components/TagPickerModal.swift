@@ -4,6 +4,7 @@ struct TagPickerModal: View {
     @Binding var selectedTags: [Tag]
     let availableTags: [Tag]
     let context: TagContext
+    var onDone: (([Tag]) -> Void)? = nil
     @Environment(\.dismiss) var dismiss
     
     @State private var showingCustomTagSheet = false
@@ -46,23 +47,7 @@ struct TagPickerModal: View {
                 ProgressView("Loading tags...")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ScrollView(.vertical, showsIndicators: false) {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
-                        ForEach(allAvailableTags) { tag in
-                            TagView(tag: tag, isSelected: selectedTags.contains(tag), onTap: {
-                                // Haptic feedback for better UX
-                                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                impactFeedback.impactOccurred()
-                                if selectedTags.contains(tag) {
-                                    selectedTags.removeAll { $0 == tag }
-                                } else {
-                                    selectedTags.append(tag)
-                                }
-                            }, size: .large)
-                        }
-                    }
-                    .padding()
-                }
+                tagGrid
             }
             // Action Buttons
             HStack {
@@ -70,7 +55,10 @@ struct TagPickerModal: View {
                     .font(PluckrTheme.bodyFont())
                     .foregroundColor(.red)
                 Spacer()
-                Button("Done") { dismiss() }
+                Button("Done") {
+                    onDone?(selectedTags)
+                    dismiss()
+                }
                     .font(PluckrTheme.bodyFont())
                     .foregroundColor(PluckrTheme.accent)
             }
@@ -90,6 +78,35 @@ struct TagPickerModal: View {
                     selectedTags.append(tag)
                 }
             )
+        }
+    }
+    
+    private var tagGrid: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
+                ForEach(allAvailableTags) { tag in
+                    TagView(tag: tag, size: .large)
+                        .overlay(
+                            Group {
+                                if selectedTags.contains(tag) {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.accentColor, lineWidth: 2)
+                                }
+                            }
+                        )
+                        .onTapGesture {
+                            // Haptic feedback for better UX
+                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                            impactFeedback.impactOccurred()
+                            if selectedTags.contains(tag) {
+                                selectedTags.removeAll { $0 == tag }
+                            } else {
+                                selectedTags.append(tag)
+                            }
+                        }
+                }
+            }
+            .padding()
         }
     }
     

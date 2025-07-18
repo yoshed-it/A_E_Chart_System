@@ -1,67 +1,34 @@
 import SwiftUI
 
+enum TagSize {
+    case normal
+    case large
+}
+
 struct TagView: View {
-    enum Size { case normal, large }
     let tag: Tag
-    let isSelected: Bool
-    let onTap: (() -> Void)?
-    let size: Size
-    
-    init(tag: Tag, isSelected: Bool = false, onTap: (() -> Void)? = nil, size: Size = .normal) {
-        self.tag = tag
-        self.isSelected = isSelected
-        self.onTap = onTap
-        self.size = size
-    }
-    
-    // MARK: - Legacy Support
-    init(text: String) {
-        self.tag = Tag(label: text)
-        self.isSelected = false
-        self.onTap = nil
-        self.size = .normal
-    }
+    var size: TagSize = .normal
+    var onRemove: (() -> Void)? = nil
 
     var body: some View {
-        Group {
-            if let onTap = onTap {
-                Button(action: onTap) {
-                    tagContent
+        HStack(spacing: 4) {
+            Text(tag.label)
+                .font(size == .large ? PluckrTheme.bodyFont(size: 14) : PluckrTheme.captionFont())
+                .foregroundColor(.primary)
+                .padding(.horizontal, size == .large ? 10 : 6)
+                .padding(.vertical, size == .large ? 5 : 2)
+                .background(Color(tag.colorNameOrHex))
+                .cornerRadius(size == .large ? 12 : 8)
+                .fixedSize() // Ensures tag expands to fit content and never truncates
+            if let onRemove = onRemove {
+                Button(action: onRemove) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: size == .large ? 14 : 12))
+                        .foregroundColor(.secondary)
+                        .padding(.leading, 1)
                 }
                 .buttonStyle(PlainButtonStyle())
-            } else {
-                tagContent
             }
         }
-    }
-    
-    private var tagContent: some View {
-        let tagColor = tag.color
-        let textColor: Color = tagColor.isLight ? .primary : .white
-        let (fontSize, hPad, vPad, corner): (CGFloat, CGFloat, CGFloat, CGFloat) = {
-            switch size {
-            case .normal: return (11, 8, 3, 8)
-            case .large: return (17, 16, 7, 16)
-            }
-        }()
-        return Text(tag.label)
-            .font(.system(size: fontSize, weight: .medium))
-            .padding(.horizontal, hPad)
-            .padding(.vertical, vPad)
-            .background(tagColor.opacity(0.15))
-            .foregroundColor(textColor)
-            .cornerRadius(corner)
-            .lineLimit(1)
-            .truncationMode(.tail)
-            .overlay(
-                Group {
-                    if isSelected {
-                        Image(systemName: "xmark")
-                            .font(.system(size: fontSize * 0.7, weight: .bold))
-                            .foregroundColor(textColor.opacity(0.8))
-                            .offset(x: hPad, y: -vPad)
-                    }
-                }
-            )
     }
 } 
