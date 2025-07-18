@@ -20,6 +20,7 @@ struct ClientJournalView: View {
     @State private var clientTags: [Tag] = []
     @State private var availableClientTags: [Tag] = []
     @State private var showingConsentForm = false
+    @State private var selectedChart: ChartEntry? = nil
     
     init(client: Client, isActive: Binding<Bool>) {
         self.client = client
@@ -28,24 +29,33 @@ struct ClientJournalView: View {
     }
     
     var body: some View {
-        ClientJournalMainContent(
-            client: client,
-            clientTags: $clientTags,
-            availableClientTags: $availableClientTags,
-            viewModel: viewModel,
-            selectedChartId: $selectedChartId,
-            activeSheet: $activeSheet,
-            editingChart: $editingChart,
-            showEditSheet: $showEditSheet,
-            deletingChart: $deletingChart,
-            showDeleteAlert: $showDeleteAlert,
-            showNewEntry: $showNewEntry,
-            showDeleteClientAlert: $showDeleteClientAlert,
-            showingClientTagPicker: $showingClientTagPicker,
-            showingConsentForm: $showingConsentForm,
-            editFormViewModel: editFormViewModel,
-            isActive: $isActive
-        )
+        ZStack {
+            PluckrTheme.backgroundGradient.ignoresSafeArea()
+            ClientJournalMainContent(
+                client: client,
+                clientTags: $clientTags,
+                availableClientTags: $availableClientTags,
+                viewModel: viewModel,
+                selectedChartId: $selectedChartId,
+                activeSheet: $activeSheet,
+                editingChart: $editingChart,
+                showEditSheet: $showEditSheet,
+                deletingChart: $deletingChart,
+                showDeleteAlert: $showDeleteAlert,
+                showNewEntry: $showNewEntry,
+                showDeleteClientAlert: $showDeleteClientAlert,
+                showingClientTagPicker: $showingClientTagPicker,
+                showingConsentForm: $showingConsentForm,
+                editFormViewModel: editFormViewModel,
+                isActive: $isActive,
+                selectedChart: $selectedChart
+            )
+        }
+        .onChange(of: clientTags) { newTags in
+            Task {
+                await saveClientTags(newTags)
+            }
+        }
     }
     
     // MARK: - Chart Entries List Section
@@ -94,6 +104,7 @@ private struct ClientJournalMainContent: View {
     @Binding var showingConsentForm: Bool
     var editFormViewModel: ChartEntryFormViewModel
     @Binding var isActive: Bool
+    @Binding var selectedChart: ChartEntry?
 
     // Refactored: break up chained modifiers into computed properties
     var contentWithToolbar: some View {
@@ -159,24 +170,15 @@ private struct ClientJournalMainContent: View {
     private var mainContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                // Header: Name and Last Seen
-                Text(client.fullName)
-                    .font(PluckrTheme.displayFont())
-                    .foregroundColor(PluckrTheme.textPrimary)
-                    .padding(.top, PluckrTheme.verticalPadding)
-                if let lastSeen = client.lastSeenAt {
-                    Text("Last Seen: \(lastSeen.formatted(date: .abbreviated, time: .omitted))")
-                        .font(PluckrTheme.captionFont())
-                        .foregroundColor(PluckrTheme.textSecondary)
-                        .padding(.bottom, 4)
-                }
+                // Use reusable header section for name, contact, last seen
+                ClientJournalHeaderSection(client: client)
+                // Tags section, aligned below header
                 ClientJournalTagsSection(
                     clientTags: clientTags,
                     onShowTagPicker: { showingClientTagPicker = true }
                 )
                 .padding(.bottom, 16)
-
-                // Chart Entries as cards (swipe-to-delete only)
+                // Chart Entries as cards (modularized, custom swipe)
                 if viewModel.isLoading {
                     LoadingView(message: "Loading chart entries...")
                         .padding(.top, 32)
@@ -195,20 +197,15 @@ private struct ClientJournalMainContent: View {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 32)
                 } else {
-                    VStack(spacing: 16) {
-                        ForEach(viewModel.entries) { entry in
-                            SwipeToDeleteView(onDelete: {
-                                deletingChart = entry
-                                showDeleteAlert = true
-                            }) {
-                                ChartEntryCard(entry: entry)
-                                    .onTapGesture {
-                                        editingChart = entry
-                                        showEditSheet = true
-                                    }
-                            }
+                    ClientJournalChartEntriesSection(
+                        entries: viewModel.entries,
+                        onEntryTap: { entry in selectedChart = entry },
+                        onEdit: { entry in editingChart = entry; showEditSheet = true },
+                        onDelete: { entry in
+                            deletingChart = entry
+                            showDeleteAlert = true
                         }
-                    }
+                    )
                     .padding(.top, 8)
                 }
             }
@@ -217,6 +214,12 @@ private struct ClientJournalMainContent: View {
         }
         .background(PluckrTheme.backgroundGradient.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $selectedChart) { (chart: ChartEntry) in
+            ChartDetailView(chart: chart, onEdit: {
+                editingChart = chart
+                showEditSheet = true
+            })
+        }
     }
 
     private func handleOnAppear() {
@@ -297,7 +300,10 @@ private extension View {
                 TagPickerModal(
                     selectedTags: clientTags,
                     availableTags: availableClientTags,
-                    context: .client
+                    context: .client,
+                    onDone: { newTags in
+                        clientTags.wrappedValue = newTags
+                    }
                 )
             }
             .sheet(isPresented: showingConsentForm) {

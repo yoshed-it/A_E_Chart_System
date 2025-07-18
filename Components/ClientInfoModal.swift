@@ -25,6 +25,7 @@ struct ClientInfoModal: View {
                 Text("🧾 Created by: \(client.createdByName)")
                 Text("📅 Created at: \(formatted(client.createdAt))")
                 Text("⏰ Last seen: \(formatted(client.lastSeenAt))")
+                Text("I am a penis and ClientInfoModel")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 

@@ -2,13 +2,14 @@ import SwiftUI
 
 struct ChartEntryCard: View {
     let entry: ChartEntry
+    var onTap: (() -> Void)? = nil
     @State private var showingTagDetail = false
     @State private var selectedTag: Tag? = nil
     @State private var showingChartDetail = false
 
     var body: some View {
         Button(action: {
-            showingChartDetail = true
+            onTap?()
         }) {
             VStack(alignment: .leading, spacing: 12) {
                 // Date
@@ -67,13 +68,7 @@ struct ChartEntryCard: View {
 
                 // Tags
                 if !entry.chartTags.isEmpty {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 8) {
-                            ForEach(entry.chartTags) { tag in
-                                TagView(tag: tag, size: .normal)
-                            }
-                        }
-                    }
+                    TagFlowLayout(tags: entry.chartTags)
                 }
             }
             .padding()

@@ -41,7 +41,6 @@
 		093A0B4D2E2969AF0097A6DA /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B472E2969AF0097A6DA /* TagView.swift */; };
 		093A0B4E2E2969AF0097A6DA /* ChartTreatmentAreaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B422E2969AF0097A6DA /* ChartTreatmentAreaSection.swift */; };
 		093A0B4F2E2969AF0097A6DA /* ChartTagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B412E2969AF0097A6DA /* ChartTagsSection.swift */; };
-		093A0B502E2969AF0097A6DA /* ClientJournalChartEntriesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B432E2969AF0097A6DA /* ClientJournalChartEntriesSection.swift */; };
 		093A0B512E2969AF0097A6DA /* ClientJournalTagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B442E2969AF0097A6DA /* ClientJournalTagsSection.swift */; };
 		093A0B522E2969AF0097A6DA /* ChartModalitySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B3E2E2969AF0097A6DA /* ChartModalitySection.swift */; };
 		093A0B532E2969AF0097A6DA /* ChartEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B3B2E2969AF0097A6DA /* ChartEntryCard.swift */; };
@@ -110,6 +109,10 @@
 		099AC5282E26F50B00F62820 /* ChartImageDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */; };
 		099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5292E26F7D400F62820 /* ImageConstants.swift */; };
 		099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */; };
+		099DA7472E298AAB00CF3D41 /* ProviderHomeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */; };
+		099DA7492E298B0600CF3D41 /* AllClientsFolioPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */; };
+		099DA74B2E298B1B00CF3D41 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */; };
+		099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -163,7 +166,6 @@
 		093A0B402E2969AF0097A6DA /* ChartProbeSelectionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartProbeSelectionSection.swift; sourceTree = "<group>"; };
 		093A0B412E2969AF0097A6DA /* ChartTagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTagsSection.swift; sourceTree = "<group>"; };
 		093A0B422E2969AF0097A6DA /* ChartTreatmentAreaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTreatmentAreaSection.swift; sourceTree = "<group>"; };
-		093A0B432E2969AF0097A6DA /* ClientJournalChartEntriesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalChartEntriesSection.swift; sourceTree = "<group>"; };
 		093A0B442E2969AF0097A6DA /* ClientJournalTagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalTagsSection.swift; sourceTree = "<group>"; };
 		093A0B452E2969AF0097A6DA /* ImageConsentFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConsentFormView.swift; sourceTree = "<group>"; };
 		093A0B462E2969AF0097A6DA /* TagPickerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPickerModal.swift; sourceTree = "<group>"; };
@@ -231,6 +233,10 @@
 		099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgEncryptionKeyManager.swift; sourceTree = "<group>"; };
 		099AC5292E26F7D400F62820 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageCryptoTests.swift; sourceTree = "<group>"; };
+		099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeContent.swift; sourceTree = "<group>"; };
+		099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClientsFolioPickerView.swift; sourceTree = "<group>"; };
+		099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
+		099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalChartEntriesSection.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -303,6 +309,9 @@
 		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */,
+				099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */,
+				099DA7452E298A6000CF3D41 /* Provider */,
 				093A0B172E2853430097A6DA /* ProbeManagementView.swift */,
 				093A0B092E27312D0097A6DA /* OrganizationSelectionView.swift */,
 				093A0B072E2730000097A6DA /* OrganizationSetupView.swift */,
@@ -311,9 +320,6 @@
 				099AC4FD2E20861300F62820 /* Charts */,
 				099AC4FC2E20860100F62820 /* Clients */,
 				099AC5002E20865500F62820 /* Auth */,
-				0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */,
-				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
-				0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,7 +365,8 @@
 		0982B3752E1DD15F00DB6C1A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */,
+				099DA74C2E2994A800CF3D41 /* ClientJournal */,
+				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
 				093A0B3B2E2969AF0097A6DA /* ChartEntryCard.swift */,
 				093A0B3C2E2969AF0097A6DA /* ChartImageUploadSection.swift */,
 				093A0B3D2E2969AF0097A6DA /* ChartMachineSettingsSection.swift */,
@@ -368,8 +375,6 @@
 				093A0B402E2969AF0097A6DA /* ChartProbeSelectionSection.swift */,
 				093A0B412E2969AF0097A6DA /* ChartTagsSection.swift */,
 				093A0B422E2969AF0097A6DA /* ChartTreatmentAreaSection.swift */,
-				093A0B432E2969AF0097A6DA /* ClientJournalChartEntriesSection.swift */,
-				093A0B442E2969AF0097A6DA /* ClientJournalTagsSection.swift */,
 				093A0B452E2969AF0097A6DA /* ImageConsentFormView.swift */,
 				093A0B462E2969AF0097A6DA /* TagPickerModal.swift */,
 				093A0B472E2969AF0097A6DA /* TagView.swift */,
@@ -515,6 +520,26 @@
 				099AC52F2E27007700F62820 /* Utils */,
 			);
 			path = PluckrTests;
+			sourceTree = "<group>";
+		};
+		099DA7452E298A6000CF3D41 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */,
+				0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */,
+				0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */,
+			);
+			path = Provider;
+			sourceTree = "<group>";
+		};
+		099DA74C2E2994A800CF3D41 /* ClientJournal */ = {
+			isa = PBXGroup;
+			children = (
+				09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */,
+				093A0B442E2969AF0097A6DA /* ClientJournalTagsSection.swift */,
+				099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */,
+			);
+			path = ClientJournal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -676,6 +701,7 @@
 				093A0B032E272EFF0097A6DA /* UserOrganization.swift in Sources */,
 				093A0B042E272EFF0097A6DA /* Organization.swift in Sources */,
 				0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */,
+				099DA7492E298B0600CF3D41 /* AllClientsFolioPickerView.swift in Sources */,
 				0982B34A2E1DCE3600DB6C1A /* SwipeToDeleteView.swift in Sources */,
 				093A0AFE2E2721010097A6DA /* ClientTagService.swift in Sources */,
 				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
@@ -691,13 +717,13 @@
 				0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */,
 				093A0B482E2969AF0097A6DA /* ChartImageUploadSection.swift in Sources */,
 				093A0B492E2969AF0097A6DA /* ChartMachineSettingsSection.swift in Sources */,
+				099DA7472E298AAB00CF3D41 /* ProviderHomeContent.swift in Sources */,
 				093A0B4A2E2969AF0097A6DA /* TagPickerModal.swift in Sources */,
 				093A0B4B2E2969AF0097A6DA /* ChartNotesSection.swift in Sources */,
 				093A0B4C2E2969AF0097A6DA /* ChartProbeSelectionSection.swift in Sources */,
 				093A0B4D2E2969AF0097A6DA /* TagView.swift in Sources */,
 				093A0B4E2E2969AF0097A6DA /* ChartTreatmentAreaSection.swift in Sources */,
 				093A0B4F2E2969AF0097A6DA /* ChartTagsSection.swift in Sources */,
-				093A0B502E2969AF0097A6DA /* ClientJournalChartEntriesSection.swift in Sources */,
 				093A0B512E2969AF0097A6DA /* ClientJournalTagsSection.swift in Sources */,
 				093A0B522E2969AF0097A6DA /* ChartModalitySection.swift in Sources */,
 				093A0B532E2969AF0097A6DA /* ChartEntryCard.swift in Sources */,
@@ -713,8 +739,10 @@
 				099AC5172E25E2EB00F62820 /* Logger.swift in Sources */,
 				093A0AF82E2720E70097A6DA /* Tag.swift in Sources */,
 				099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */,
+				099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */,
 				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
 				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
+				099DA74B2E298B1B00CF3D41 /* MultipleSelectionRow.swift in Sources */,
 				099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */,
 				099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */,
 				093A0B122E2852FA0097A6DA /* Probe.swift in Sources */,

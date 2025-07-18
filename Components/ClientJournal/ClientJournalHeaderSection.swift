@@ -9,7 +9,11 @@ struct ClientJournalHeaderSection: View {
             Text(client.fullName)
                 .font(PluckrTheme.displayFont())
                 .foregroundColor(PluckrTheme.textPrimary)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            if let lastSeen = client.lastSeenAt {
+                Text("Last Seen: \(lastSeen.formatted(date: .abbreviated, time: .omitted))")
+                    .font(PluckrTheme.captionFont())
+                    .foregroundColor(PluckrTheme.textSecondary)
+            }
             VStack(alignment: .leading, spacing: 2) {
                 if let phone = client.phone, !phone.isEmpty {
                     HStack(spacing: 4) {
@@ -33,7 +37,7 @@ struct ClientJournalHeaderSection: View {
                 }
             }
         }
-        .padding(.horizontal, PluckrTheme.horizontalPadding)
+        // .padding(.horizontal, PluckrTheme.horizontalPadding)
         .padding(.top, PluckrTheme.verticalPadding)
         .padding(.bottom, 16)
     }
