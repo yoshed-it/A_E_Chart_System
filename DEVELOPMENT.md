@@ -197,6 +197,65 @@ Pluckr/
 - [ ] SwiftLint passes without warnings
 - [ ] No debug print statements (use Logger)
 
+## 📋 TODO List
+
+### Development Tasks
+- [ ] **Auto-Fill Disabled for Development**: Remove `.textContentType(.none)` and `.autocorrectionDisabled()` from auth forms before production
+  - **Files**: `Views/Auth/SignUpView.swift`, `Views/Auth/LoginView.swift`
+  - **Search for**: `// MARK: - Development: Disabled Auto-Fill`
+  - **Reason**: These modifiers disable iOS auto-fill which improves UX for real users
+
+### UX Improvements (Priority Order)
+- [ ] **User Guidance for Missing Org Context**: Implement prompts when orgId is missing
+  - **Status**: ✅ Implemented in ProviderHomeView
+  - **Next**: Add user-friendly onboarding guidance
+- [ ] **Error Handling**: Show actionable error messages throughout the app
+  - **Status**: ✅ Basic implementation in ProviderHomeView
+  - **Next**: Expand to all views with error states
+- [ ] **Onboarding Flow**: Complete invite-only provider sign-up
+  - **Status**: ✅ Join/Create org views implemented
+  - **Next**: Test full flow and add user guidance
+- [ ] **Admin Dashboard**: Role-based visibility and management
+  - **Status**: ✅ Basic admin dashboard implemented
+  - **Next**: Add provider management and invite code generation
+- [ ] **User Prompts**: Help users understand what to do next
+  - **Status**: 🔄 In progress
+  - **Next**: Add contextual help and onboarding tips
+
+### Database & Architecture
+- [ ] **Firestore Security Rules**: Implement org and role-based access control
+  - **Status**: ⏳ Not started
+  - **Priority**: High for production
+- [ ] **Data Migration**: Ensure existing data works with new org structure
+  - **Status**: ✅ Basic migration in OrganizationService
+  - **Next**: Test with real data
+- [ ] **Provider Creation**: Ensure providers are created under organizations
+  - **Status**: ✅ Implemented in onboarding flow
+  - **Next**: Verify in all sign-up paths
+
+### Testing & Quality
+- [ ] **Unit Tests**: Complete test coverage for new features
+  - **Status**: 🔄 Partial coverage
+  - **Next**: Add tests for admin dashboard and onboarding
+- [ ] **Integration Tests**: Test full user flows
+  - **Status**: ⏳ Not started
+  - **Next**: Test org join/create flows
+- [ ] **Error Scenarios**: Test edge cases and error handling
+  - **Status**: ⏳ Not started
+  - **Next**: Test network failures, invalid invites, etc.
+
+### Production Checklist
+- [ ] Remove development auto-fill disabling from auth forms
+- [ ] Test auto-fill functionality works for real users
+- [ ] Verify password suggestions work correctly
+- [ ] Test on real devices (not just simulator)
+- [ ] Implement Firestore security rules
+- [ ] Test data migration with production data
+- [ ] Verify all onboarding flows work correctly
+- [ ] Test admin dashboard functionality
+- [ ] Ensure error handling is user-friendly
+- [ ] Test invite code generation and validation
+
 ## 📖 Additional Resources
 
 - [SwiftLint Documentation](https://realm.github.io/SwiftLint/)

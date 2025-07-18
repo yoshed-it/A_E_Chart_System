@@ -10,6 +10,11 @@ struct ProviderHomeView: View {
     @State private var showFolioPicker = false
     @StateObject private var authService = AuthService()
     @State private var showLogin = false
+    @State private var showAdminDashboard = false
+    @State private var showJoinOrganization = false
+    @State private var showCreateOrganization = false
+    @State private var showDeleteAccountAlert = false
+    @State private var hasOrganization = false
     private let folioHaptic = UIImpactFeedbackGenerator(style: .light)
 
     // Snackbar/Undo state
@@ -30,10 +35,55 @@ struct ProviderHomeView: View {
 
             NavigationStack {
                 VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
-                    headerView
-                    folioSection
-                    recentClientsSection
-                    Spacer()
+                    if !hasOrganization {
+                        ProviderMissingOrgPromptView(
+                            showJoinOrganization: $showJoinOrganization,
+                            showCreateOrganization: $showCreateOrganization
+                        )
+                    } else {
+                        ProviderHeaderView(providerName: viewModel.providerName)
+                        if viewModel.isAdmin {
+                            Button(action: { showAdminDashboard = true }) {
+                                Label("Admin Dashboard", systemImage: "gearshape")
+                                    .font(PluckrTheme.bodyFont())
+                                    .foregroundColor(PluckrTheme.accent)
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 8)
+                                    .background(PluckrTheme.card)
+                                    .cornerRadius(16)
+                                    .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
+                            }
+                            .sheet(isPresented: $showAdminDashboard) {
+                                AdminDashboardView()
+                            }
+                            .padding(.horizontal, PluckrTheme.horizontalPadding)
+                            .padding(.top, 8)
+                        }
+                        ProviderFolioSectionView(
+                            clients: viewModel.dailyFolioClients,
+                            onClientTap: { selectedClient = $0 },
+                            onClientRemove: { client in
+                                withAnimation { viewModel.removeClientFromFolio(client) }
+                                folioHaptic.impactOccurred()
+                                snackbarMessage = "Removed \(client.fullName) from folio"
+                                lastFolioAction = .removed(client)
+                                showSnackbarWithTimer()
+                            },
+                            onAddTap: { showFolioPicker = true }
+                        )
+                        ProviderRecentClientsSectionView(
+                            clients: viewModel.filteredClients,
+                            isLoading: viewModel.isLoading,
+                            onClientTap: { selectedClient = $0 }
+                        )
+                        Spacer()
+                    }
+                    if let error = viewModel.errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .font(PluckrTheme.bodyFont())
+                            .padding(.horizontal)
+                    }
                 }
                 .dynamicTypeSize(.large ... .xxLarge)
                 .navigationTitle("Provider Home")
@@ -55,6 +105,9 @@ struct ProviderHomeView: View {
                             Button("Log Out", role: .destructive) {
                                 authService.signOut()
                             }
+                            Button("Delete Account", role: .destructive) {
+                                showDeleteAccountAlert = true
+                            }
                         } label: {
                             Image(systemName: "ellipsis.circle")
                                 .foregroundColor(PluckrTheme.textSecondary)
@@ -68,6 +121,12 @@ struct ProviderHomeView: View {
                         set: { newValue in if !newValue { selectedClient = nil } }
                     ))
                 }
+            }
+            .sheet(isPresented: $showJoinOrganization) {
+                JoinOrganizationView()
+            }
+            .sheet(isPresented: $showCreateOrganization) {
+                CreateOrganizationView()
             }
 
             if showSnackbar {
@@ -109,6 +168,10 @@ struct ProviderHomeView: View {
             viewModel.startObservingClients()
             viewModel.loadDailyFolio()
             viewModel.startMidnightReset()
+            Task { 
+                await viewModel.loadCurrentProvider()
+                hasOrganization = OrganizationService.shared.currentOrganization != nil
+            }
         }
         .onDisappear {
             viewModel.stopObservingClients()
@@ -116,92 +179,160 @@ struct ProviderHomeView: View {
         .onChange(of: authService.isAuthenticated) { _, isAuthenticated in
             showLogin = !isAuthenticated
         }
+        .onChange(of: OrganizationService.shared.currentOrganization) { _, organization in
+            hasOrganization = organization != nil
+        }
         .fullScreenCover(isPresented: $showLogin) {
             LoginView()
+        }
+        .alert("Delete Account", isPresented: $showDeleteAccountAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                Task {
+                    let success = await authService.deleteAccount()
+                    if success {
+                        // User will be automatically signed out and redirected to login
+                        PluckrLogger.success("Account deleted successfully")
+                    } else {
+                        // Error message will be shown via authService.errorMessage
+                        PluckrLogger.error("Failed to delete account")
+                    }
+                }
+            }
+        } message: {
+            Text("This action cannot be undone. All your data will be permanently deleted.")
         }
     }
 
     // MARK: - Subviews
 
-    private var headerView: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
-            Text("Welcome, \(viewModel.providerName)")
-                .font(PluckrTheme.displayFont(size: 32))
-                .foregroundColor(PluckrTheme.textPrimary)
-            Text("Your clinical journal awaits")
-                .font(PluckrTheme.captionFont())
-                .foregroundColor(PluckrTheme.textSecondary)
-        }
-        .padding(.horizontal, PluckrTheme.horizontalPadding)
-        .padding(.top, PluckrTheme.verticalPadding)
-    }
-
-    private var folioSection: some View {
-        FolioSectionView(
-            clients: viewModel.dailyFolioClients,
-            onClientTap: { selectedClient = $0 },
-            onClientRemove: { client in
-                withAnimation {
-                    viewModel.removeClientFromFolio(client)
-                }
-                folioHaptic.impactOccurred()
-                snackbarMessage = "Removed \(client.fullName) from folio"
-                lastFolioAction = .removed(client)
-                showSnackbarWithTimer()
-            },
-            onAddTap: { showFolioPicker = true }
-        )
-        .padding(.bottom, 16)
-    }
-
-    private var recentClientsSection: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
-            HStack {
-                Text("Recent Clients")
-                    .font(PluckrTheme.subheadingFont())
+    private struct ProviderHeaderView: View {
+        let providerName: String
+        var body: some View {
+            VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
+                Text("Welcome, \(providerName)")
+                    .font(PluckrTheme.displayFont(size: 32))
                     .foregroundColor(PluckrTheme.textPrimary)
-                Spacer()
-                NavigationLink(destination: ClientsListView()) {
-                    Text("See All")
-                        .font(PluckrTheme.captionFont())
-                        .foregroundColor(PluckrTheme.accent)
-                }
+                Text("Your clinical journal awaits")
+                    .font(PluckrTheme.captionFont())
+                    .foregroundColor(PluckrTheme.textSecondary)
             }
             .padding(.horizontal, PluckrTheme.horizontalPadding)
+            .padding(.top, PluckrTheme.verticalPadding)
+        }
+    }
 
-            if viewModel.isLoading {
-                LoadingView(message: "Loading clients...")
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 20)
-            } else if viewModel.filteredClients.isEmpty {
-                VStack(spacing: 12) {
-                    Image(systemName: "person.2")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.gray.opacity(0.3))
-                    Text("No clients yet")
-                        .font(PluckrTheme.bodyFont())
-                        .foregroundColor(PluckrTheme.textSecondary)
-                    Text("Add your first client to get started")
-                        .font(PluckrTheme.captionFont())
-                        .foregroundColor(PluckrTheme.textSecondary)
-                        .multilineTextAlignment(.center)
+    private struct ProviderFolioSectionView: View {
+        let clients: [Client]
+        let onClientTap: (Client) -> Void
+        let onClientRemove: (Client) -> Void
+        let onAddTap: () -> Void
+        var body: some View {
+            FolioSectionView(
+                clients: clients,
+                onClientTap: onClientTap,
+                onClientRemove: onClientRemove,
+                onAddTap: onAddTap
+            )
+            .padding(.bottom, 16)
+        }
+    }
+
+    private struct ProviderRecentClientsSectionView: View {
+        let clients: [Client]
+        let isLoading: Bool
+        let onClientTap: (Client) -> Void
+        var body: some View {
+            VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
+                HStack {
+                    Text("Recent Clients")
+                        .font(PluckrTheme.subheadingFont())
+                        .foregroundColor(PluckrTheme.textPrimary)
+                    Spacer()
+                    NavigationLink(destination: ClientsListView()) {
+                        Text("See All")
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.accent)
+                    }
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 20)
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 8) {
-                        ForEach(viewModel.filteredClients.prefix(5)) { client in
-                            ClientCardView(client: client) {
-                                selectedClient = client
+                .padding(.horizontal, PluckrTheme.horizontalPadding)
+                if isLoading {
+                    LoadingView(message: "Loading clients...")
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 20)
+                } else if clients.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "person.2")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray.opacity(0.3))
+                        Text("No clients yet")
+                            .font(PluckrTheme.bodyFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
+                        Text("Add your first client to get started")
+                            .font(PluckrTheme.captionFont())
+                            .foregroundColor(PluckrTheme.textSecondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 8) {
+                            ForEach(clients.prefix(5)) { client in
+                                ClientCardView(client: client) {
+                                    onClientTap(client)
+                                }
                             }
                         }
+                        .padding(.horizontal, PluckrTheme.horizontalPadding)
                     }
-                    .padding(.horizontal, PluckrTheme.horizontalPadding)
                 }
             }
+        }
+    }
+
+
+
+    private struct ProviderMissingOrgPromptView: View {
+        @Binding var showJoinOrganization: Bool
+        @Binding var showCreateOrganization: Bool
+        var body: some View {
+            VStack(spacing: 24) {
+                Text("You're not part of any organization yet.")
+                    .font(PluckrTheme.headingFont(size: 24))
+                    .foregroundColor(PluckrTheme.textPrimary)
+                    .multilineTextAlignment(.center)
+                Text("Please join or create an organization to get started.")
+                    .font(PluckrTheme.bodyFont())
+                    .foregroundColor(PluckrTheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                HStack(spacing: 16) {
+                    Button(action: { showJoinOrganization = true }) {
+                        Label("Join Organization", systemImage: "person.badge.plus")
+                            .font(PluckrTheme.bodyFont())
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(PluckrTheme.accent)
+                            .cornerRadius(16)
+                    }
+                    Button(action: { showCreateOrganization = true }) {
+                        Label("Create Organization", systemImage: "plus.circle")
+                            .font(PluckrTheme.bodyFont())
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.green)
+                            .cornerRadius(16)
+                    }
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(PluckrTheme.card.opacity(0.95))
+            .cornerRadius(24)
+            .padding(.horizontal, 32)
+            .padding(.top, 60)
         }
     }
 

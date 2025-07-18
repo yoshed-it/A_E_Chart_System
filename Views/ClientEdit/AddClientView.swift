@@ -3,6 +3,7 @@ import SwiftUI
 struct AddClientView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = AddClientViewModel()
+    @State private var showingTagPicker = false
 
     var onClientAdded: () -> Void
     var providerDisplayName: String
@@ -75,6 +76,33 @@ struct AddClientView: View {
                                         .phoneNumberFormatting(text: $viewModel.phone)
                                 }
                                 .padding(.horizontal, PluckrTheme.horizontalPadding)
+                            }
+                            
+                            // Tag Picker Section
+                            VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
+                                Text("Client Tags")
+                                    .font(PluckrTheme.subheadingFont(size: 18))
+                                    .foregroundColor(PluckrTheme.textPrimary)
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 8) {
+                                        ForEach(viewModel.clientTags, id: \.self) { tag in
+                                            TagView(tag: tag, size: .normal)
+                                        }
+                                    }
+                                }
+                                Button(action: { showingTagPicker = true }) {
+                                    Label("Edit Tags", systemImage: "tag")
+                                        .font(PluckrTheme.bodyFont())
+                                        .foregroundColor(PluckrTheme.accent)
+                                }
+                            }
+                            .padding(.vertical, PluckrTheme.verticalPadding / 2)
+                            .sheet(isPresented: $showingTagPicker) {
+                                TagPickerModal(
+                                    selectedTags: $viewModel.clientTags,
+                                    availableTags: [], // TagPickerModal loads its own tags
+                                    context: .client
+                                )
                             }
                             
                             // Error Message

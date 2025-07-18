@@ -55,7 +55,11 @@ final class ClientRepository {
         listener?.remove() // Clear any existing listener before attaching a new one
 
         Task {
-            let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+            guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+                PluckrLogger.error("No current organization ID set. Cannot observe clients.")
+                onUpdate([])
+                return
+            }
             self.listener = self.db.collection("organizations")
                 .document(orgId)
                 .collection("clients")
@@ -108,17 +112,28 @@ final class ClientRepository {
             return
         }
         
-        db.collection("providers").document(uid).getDocument { snapshot, error in
-            if let data = snapshot?.data(),
-               let name = data["name"] as? String {
-                completion(name)
-            } else {
+        Task {
+            guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
                 completion("")
+                return
             }
+            
+            db.collection("organizations")
+                .document(orgId)
+                .collection("providers")
+                .document(uid)
+                .getDocument { snapshot, error in
+                    if let data = snapshot?.data(),
+                       let name = data["name"] as? String {
+                        completion(name)
+                    } else {
+                        completion("")
+                    }
+                }
         }
     }
     
-    func createClient(from input: ClientInput, completion: @escaping (Bool) -> Void) {
+    func createClient(from input: ClientInput, completion: @escaping (Bool, String?) -> Void) {
         let data: [String: Any] = [
             "firstName": input.firstName,
             "lastName": input.lastName,
@@ -132,18 +147,19 @@ final class ClientRepository {
         ]
         Task {
             let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
-            self.db.collection("organizations")
+            let docRef = self.db.collection("organizations")
                 .document(orgId)
                 .collection("clients")
-                .addDocument(data: data) { error in
-                    if let error = error {
-                        PluckrLogger.error("Failed to create client in org \(orgId): \(error.localizedDescription)")
-                        completion(false)
-                    } else {
-                        PluckrLogger.success("Client created successfully in org \(orgId)")
-                        completion(true)
-                    }
+                .document() // Create a new doc ref with a unique ID
+            docRef.setData(data) { error in
+                if let error = error {
+                    PluckrLogger.error("Failed to create client in org \(orgId): \(error.localizedDescription)")
+                    completion(false, nil)
+                } else {
+                    PluckrLogger.success("Client created successfully in org \(orgId)")
+                    completion(true, docRef.documentID)
                 }
+            }
         }
     }
     

@@ -1,11 +1,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject private var authService = AuthService()
-    @State private var email = ""
-    @State private var password = ""
-    @State private var confirmPassword = ""
-    @State private var displayName = ""
+    @StateObject private var viewModel = SignUpViewModel()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -17,34 +13,70 @@ struct SignUpView: View {
                 
                 VStack(spacing: PluckrTheme.verticalPadding * 1.5) {
                     // Header
-                    VStack(spacing: PluckrTheme.verticalPadding / 2) {
-                        Text("Create Account")
-                            .font(PluckrTheme.displayFont(size: 32))
-                            .foregroundColor(PluckrTheme.textPrimary)
-                        Text("Join Pluckr")
-                            .font(PluckrTheme.subheadingFont(size: 18))
-                            .foregroundColor(PluckrTheme.textSecondary)
+                    VStack(spacing: PluckrTheme.verticalPadding) {
+                        // Logo
+                        Image("PluckrLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .padding(.bottom, 8)
+                        
+                        VStack(spacing: PluckrTheme.verticalPadding / 2) {
+                            Text("Create Account")
+                                .font(PluckrTheme.displayFont(size: 32))
+                                .foregroundColor(PluckrTheme.textPrimary)
+                            Text("Join Pluckr")
+                                .font(PluckrTheme.subheadingFont(size: 18))
+                                .foregroundColor(PluckrTheme.textSecondary)
+                        }
                     }
-                    .padding(.top, 40)
+                    .padding(.top, 30)
                     
                     // Sign Up Form
                     VStack(spacing: PluckrTheme.verticalPadding) {
-                        TextField("Full Name", text: $displayName)
+                        // MARK: - Development: Disabled Auto-Fill
+                        TextField("Full Name", text: $viewModel.displayName)
                             .pluckrTextField()
-                            .autocapitalization(.words)
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.words)
+                            .keyboardType(.default)
                         
-                        TextField("Email", text: $email)
+                        TextField("Email", text: $viewModel.email)
                             .pluckrTextField()
-                            .autocapitalization(.none)
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
                         
-                        SecureField("Password", text: $password)
+                        SecureField("Password", text: $viewModel.password)
                             .pluckrTextField()
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
+                            .keyboardType(.default)
+                            .allowsHitTesting(true)
+                            .onTapGesture {
+                                // Force keyboard to show without auto-fill
+                            }
                         
-                        SecureField("Confirm Password", text: $confirmPassword)
+                        SecureField("Confirm Password", text: $viewModel.confirmPassword)
                             .pluckrTextField()
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
+                            .keyboardType(.default)
+                            .allowsHitTesting(true)
+                            .onTapGesture {
+                                // Force keyboard to show without auto-fill
+                            }
                         
-                        if let errorMessage = authService.errorMessage {
+                        // Status messages
+                        if let errorMessage = viewModel.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
                                 .font(PluckrTheme.captionFont())
@@ -52,8 +84,26 @@ struct SignUpView: View {
                                 .padding(.horizontal)
                         }
                         
-                        Button(action: signUp) {
-                            if authService.isLoading {
+                        if let successMessage = viewModel.successMessage {
+                            Text(successMessage)
+                                .foregroundColor(.green)
+                                .font(PluckrTheme.captionFont())
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                                .onAppear {
+                                    // Dismiss immediately since organization is created
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                        dismiss()
+                                    }
+                                }
+                        }
+                        
+                        Button(action: {
+                            Task {
+                                await viewModel.signUp()
+                            }
+                        }) {
+                            if viewModel.isLoading {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             } else {
@@ -63,8 +113,8 @@ struct SignUpView: View {
                             }
                         }
                         .pluckrButton()
-                        .disabled(!isFormValid || authService.isLoading)
-                        .opacity(isFormValid ? 1.0 : 0.6)
+                        .disabled(!viewModel.isFormValid || viewModel.isLoading)
+                        .opacity(viewModel.isFormValid ? 1.0 : 0.6)
                     }
                     .padding(.horizontal, PluckrTheme.horizontalPadding)
                     
@@ -84,25 +134,5 @@ struct SignUpView: View {
         }
     }
     
-    private var isFormValid: Bool {
-        !email.isEmpty && 
-        !password.isEmpty && 
-        !displayName.isEmpty && 
-        password == confirmPassword && 
-        password.count >= 6
-    }
-    
-    private func signUp() {
-        Task {
-            let success = await authService.createUser(
-                email: email, 
-                password: password, 
-                displayName: displayName
-            )
-            
-            if success {
-                dismiss()
-            }
-        }
-    }
+
 } 

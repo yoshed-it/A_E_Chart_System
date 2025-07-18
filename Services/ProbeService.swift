@@ -70,26 +70,18 @@ class ProbeService: ObservableObject {
      - Throws: Error if database operation fails
      */
     private func fetchProbesFromDatabase() async throws -> [Probe] {
-        // Try organization-based structure first
-        if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
-            let snapshot = try await db.collection("organizations")
-                .document(orgId)
-                .collection("probes")
-                .order(by: "name")
-                .getDocuments()
-            
-            return snapshot.documents.compactMap { doc in
-                Probe(data: doc.data(), id: doc.documentID)
-            }
-        } else {
-            // Fallback to root-level structure
-            let snapshot = try await db.collection("probes")
-                .order(by: "name")
-                .getDocuments()
-            
-            return snapshot.documents.compactMap { doc in
-                Probe(data: doc.data(), id: doc.documentID)
-            }
+        guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+            throw ProbeError.probeNotFound
+        }
+        
+        let snapshot = try await db.collection("organizations")
+            .document(orgId)
+            .collection("probes")
+            .order(by: "name")
+            .getDocuments()
+        
+        return snapshot.documents.compactMap { doc in
+            Probe(data: doc.data(), id: doc.documentID)
         }
     }
     
@@ -145,21 +137,17 @@ class ProbeService: ObservableObject {
      - Throws: Error if save operation fails
      */
     private func saveProbe(_ probe: Probe) async throws {
+        guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+            throw ProbeError.saveFailed
+        }
+        
         let probeData = probe.toDict()
         
-        // Try organization-based structure first
-        if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
-            try await db.collection("organizations")
-                .document(orgId)
-                .collection("probes")
-                .document(probe.id)
-                .setData(probeData, merge: true)
-        } else {
-            // Fallback to root-level structure
-            try await db.collection("probes")
-                .document(probe.id)
-                .setData(probeData, merge: true)
-        }
+        try await db.collection("organizations")
+            .document(orgId)
+            .collection("probes")
+            .document(probe.id)
+            .setData(probeData, merge: true)
     }
     
     // MARK: - Update Probe Status
@@ -172,19 +160,15 @@ class ProbeService: ObservableObject {
      - Throws: Error if update operation fails
      */
     func updateProbeStatus(probeId: String, isActive: Bool) async throws {
-        // Try organization-based structure first
-        if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
-            try await db.collection("organizations")
-                .document(orgId)
-                .collection("probes")
-                .document(probeId)
-                .updateData(["isActive": isActive])
-        } else {
-            // Fallback to root-level structure
-            try await db.collection("probes")
-                .document(probeId)
-                .updateData(["isActive": isActive])
+        guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+            throw ProbeError.probeNotFound
         }
+        
+        try await db.collection("organizations")
+            .document(orgId)
+            .collection("probes")
+            .document(probeId)
+            .updateData(["isActive": isActive])
         
         // Update local probes array
         if let index = probes.firstIndex(where: { $0.id == probeId }) {

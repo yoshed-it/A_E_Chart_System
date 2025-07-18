@@ -113,6 +113,17 @@
 		099DA7492E298B0600CF3D41 /* AllClientsFolioPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */; };
 		099DA74B2E298B1B00CF3D41 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */; };
 		099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */; };
+		099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */; };
+		099DA7532E2AEF9100CF3D41 /* JoinOrganizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7512E2AEF9100CF3D41 /* JoinOrganizationView.swift */; };
+		099DA7552E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7542E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift */; };
+		099DA7572E2AF12100CF3D41 /* CreateOrganizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7562E2AF12100CF3D41 /* CreateOrganizationViewModel.swift */; };
+		099DA7592E2AF17200CF3D41 /* CreateOrganizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7582E2AF17200CF3D41 /* CreateOrganizationView.swift */; };
+		099DA75B2E2AF19600CF3D41 /* AdminDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA75A2E2AF19600CF3D41 /* AdminDashboardViewModel.swift */; };
+		099DA75E2E2AF1C200CF3D41 /* AdminDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA75D2E2AF1C200CF3D41 /* AdminDashboardView.swift */; };
+		099DA7602E2AFC2900CF3D41 /* DEVELOPMENT.md in Resources */ = {isa = PBXBuildFile; fileRef = 099DA75F2E2AFC2900CF3D41 /* DEVELOPMENT.md */; };
+		099DA7622E2B025800CF3D41 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7612E2B025800CF3D41 /* LaunchScreenView.swift */; };
+		099DA7642E2B055E00CF3D41 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */; };
+		099DA7662E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -237,6 +248,17 @@
 		099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClientsFolioPickerView.swift; sourceTree = "<group>"; };
 		099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
 		099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalChartEntriesSection.swift; sourceTree = "<group>"; };
+		099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeManager.swift; sourceTree = "<group>"; };
+		099DA7512E2AEF9100CF3D41 /* JoinOrganizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinOrganizationView.swift; sourceTree = "<group>"; };
+		099DA7542E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinOrganizationViewModel.swift; sourceTree = "<group>"; };
+		099DA7562E2AF12100CF3D41 /* CreateOrganizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrganizationViewModel.swift; sourceTree = "<group>"; };
+		099DA7582E2AF17200CF3D41 /* CreateOrganizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrganizationView.swift; sourceTree = "<group>"; };
+		099DA75A2E2AF19600CF3D41 /* AdminDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardViewModel.swift; sourceTree = "<group>"; };
+		099DA75D2E2AF1C200CF3D41 /* AdminDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardView.swift; sourceTree = "<group>"; };
+		099DA75F2E2AFC2900CF3D41 /* DEVELOPMENT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEVELOPMENT.md; sourceTree = "<group>"; };
+		099DA7612E2B025800CF3D41 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationSelectionViewModel.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -275,6 +297,7 @@
 		094FF75F2E0F269B00A212F7 = {
 			isa = PBXGroup;
 			children = (
+				099DA75F2E2AFC2900CF3D41 /* DEVELOPMENT.md */,
 				099AC5302E27007700F62820 /* PluckrTests */,
 				099AC4E02E1EF88600F62820 /* Constants */,
 				099AC4DA2E1EF51700F62820 /* Services */,
@@ -309,6 +332,9 @@
 		0982B36C2E1DCFEB00DB6C1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				099DA7612E2B025800CF3D41 /* LaunchScreenView.swift */,
+				099DA75C2E2AF1B100CF3D41 /* Admin */,
+				099DA7522E2AEF9100CF3D41 /* Organization */,
 				099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */,
 				099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */,
 				099DA7452E298A6000CF3D41 /* Provider */,
@@ -358,6 +384,7 @@
 				099AC5142E25E2EB00F62820 /* Documentation.swift */,
 				099AC5152E25E2EB00F62820 /* Logger.swift */,
 				0982B3872E1DE31600DB6C1A /* Binding.swift */,
+				099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -410,6 +437,11 @@
 		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */,
+				099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */,
+				099DA75A2E2AF19600CF3D41 /* AdminDashboardViewModel.swift */,
+				099DA7562E2AF12100CF3D41 /* CreateOrganizationViewModel.swift */,
+				099DA7542E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift */,
 				093A0AF52E271B000097A6DA /* ChartsListViewModel.swift */,
 				099AC5232E25FBF400F62820 /* EditClientViewModel.swift */,
 				099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */,
@@ -542,6 +574,23 @@
 			path = ClientJournal;
 			sourceTree = "<group>";
 		};
+		099DA7522E2AEF9100CF3D41 /* Organization */ = {
+			isa = PBXGroup;
+			children = (
+				099DA7582E2AF17200CF3D41 /* CreateOrganizationView.swift */,
+				099DA7512E2AEF9100CF3D41 /* JoinOrganizationView.swift */,
+			);
+			path = Organization;
+			sourceTree = "<group>";
+		};
+		099DA75C2E2AF1B100CF3D41 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				099DA75D2E2AF1C200CF3D41 /* AdminDashboardView.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -667,6 +716,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				099DA7602E2AFC2900CF3D41 /* DEVELOPMENT.md in Resources */,
 				0982B35B2E1DCE3600DB6C1A /* README.md in Resources */,
 				0982B35C2E1DCE3600DB6C1A /* GoogleService-Info.plist in Resources */,
 				0982B35F2E1DCE3600DB6C1A /* Assets.xcassets in Resources */,
@@ -724,6 +774,7 @@
 				093A0B4D2E2969AF0097A6DA /* TagView.swift in Sources */,
 				093A0B4E2E2969AF0097A6DA /* ChartTreatmentAreaSection.swift in Sources */,
 				093A0B4F2E2969AF0097A6DA /* ChartTagsSection.swift in Sources */,
+				099DA7552E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift in Sources */,
 				093A0B512E2969AF0097A6DA /* ClientJournalTagsSection.swift in Sources */,
 				093A0B522E2969AF0097A6DA /* ChartModalitySection.swift in Sources */,
 				093A0B532E2969AF0097A6DA /* ChartEntryCard.swift in Sources */,
@@ -732,12 +783,14 @@
 				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
 				093A0B142E2853080097A6DA /* ProbeService.swift in Sources */,
 				0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */,
+				099DA75E2E2AF1C200CF3D41 /* AdminDashboardView.swift in Sources */,
 				099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */,
 				099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */,
 				0982B34F2E1DCE3600DB6C1A /* LoginView.swift in Sources */,
 				099AC5162E25E2EB00F62820 /* Documentation.swift in Sources */,
 				099AC5172E25E2EB00F62820 /* Logger.swift in Sources */,
 				093A0AF82E2720E70097A6DA /* Tag.swift in Sources */,
+				099DA7532E2AEF9100CF3D41 /* JoinOrganizationView.swift in Sources */,
 				099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */,
 				099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */,
 				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
@@ -760,13 +813,17 @@
 				0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */,
 				099AC4E62E1F2C9800F62820 /* StorageService.swift in Sources */,
 				099AC5202E25F35100F62820 /* ClientJournalViewModel.swift in Sources */,
+				099DA7572E2AF12100CF3D41 /* CreateOrganizationViewModel.swift in Sources */,
 				0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */,
 				093A0B062E272F200097A6DA /* OrganizationService.swift in Sources */,
+				099DA7622E2B025800CF3D41 /* LaunchScreenView.swift in Sources */,
 				099AC4E42E1F2AC200F62820 /* ChartEntryData.swift in Sources */,
 				093A0B002E2721070097A6DA /* TagConstants.swift in Sources */,
 				099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */,
+				099DA7592E2AF17200CF3D41 /* CreateOrganizationView.swift in Sources */,
 				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
 				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
+				099DA7642E2B055E00CF3D41 /* SignUpViewModel.swift in Sources */,
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
 				099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */,
 				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
@@ -780,7 +837,10 @@
 				099AC5182E25E31600F62820 /* AuthService.swift in Sources */,
 				093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */,
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
+				099DA7662E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift in Sources */,
+				099DA75B2E2AF19600CF3D41 /* AdminDashboardViewModel.swift in Sources */,
 				093A0AF62E271B060097A6DA /* ChartsListViewModel.swift in Sources */,
+				099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
 				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,
 			);

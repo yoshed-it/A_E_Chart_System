@@ -23,25 +23,47 @@ struct LoginView: View {
                 
                 VStack(spacing: PluckrTheme.verticalPadding * 1.5) {
                     // Header
-                    VStack(spacing: PluckrTheme.verticalPadding / 2) {
-                        Text("Pluckr")
-                            .font(PluckrTheme.displayFont(size: 38))
-                            .foregroundColor(PluckrTheme.textPrimary)
-                        Text("Clinical Journal")
-                            .font(PluckrTheme.subheadingFont(size: 20))
-                            .foregroundColor(PluckrTheme.textSecondary)
+                    VStack(spacing: PluckrTheme.verticalPadding) {
+                        // Logo
+                        Image("PluckrLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .padding(.bottom, 8)
+                        
+                        VStack(spacing: PluckrTheme.verticalPadding / 2) {
+                            Text("Pluckr")
+                                .font(PluckrTheme.displayFont(size: 38))
+                                .foregroundColor(PluckrTheme.textPrimary)
+                            Text("Clinical Journal")
+                                .font(PluckrTheme.subheadingFont(size: 20))
+                                .foregroundColor(PluckrTheme.textSecondary)
+                        }
                     }
-                    .padding(.top, 60)
+                    .padding(.top, 40)
                     
                     // Login Form
                     VStack(spacing: PluckrTheme.verticalPadding) {
+                        // MARK: - Development: Disabled Auto-Fill
                         TextField("Email", text: $email)
                             .pluckrTextField()
-                            .autocapitalization(.none)
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
                         
                         SecureField("Password", text: $password)
                             .pluckrTextField()
+                            .textContentType(.none)
+                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
+                            .keyboardType(.default)
+                            .allowsHitTesting(true)
+                            .onTapGesture {
+                                // Force keyboard to show without auto-fill
+                            }
                         
                         if let errorMessage = authService.errorMessage {
                             Text(errorMessage)

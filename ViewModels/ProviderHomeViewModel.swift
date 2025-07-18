@@ -31,6 +31,7 @@ import FirebaseFirestore
  - `clients`: Array of all clients
  - `searchText`: Current search query
  - `isLoading`: Boolean indicating if data is being loaded
+ - `errorMessage`: String containing any error messages
  */
 @MainActor
 class ProviderHomeViewModel: ObservableObject {
@@ -40,6 +41,8 @@ class ProviderHomeViewModel: ObservableObject {
     @Published var isLoading: Bool = true
     @Published var recentClients: [Client] = []
     @Published var dailyFolioClients: [Client] = [] // Placeholder for Daily Folio clients
+    @Published var currentProvider: Provider? = nil
+    @Published var errorMessage: String? = nil
 
     private let clientRepository = ClientRepository()
     private let db = Firestore.firestore()
@@ -55,6 +58,10 @@ class ProviderHomeViewModel: ObservableObject {
                 $0.fullName.lowercased().contains(searchText.lowercased())
             }
         }
+    }
+
+    var isAdmin: Bool {
+        currentProvider?.role == "admin"
     }
 
     /**
@@ -121,31 +128,15 @@ class ProviderHomeViewModel: ObservableObject {
      - Returns: The date of the most recent chart, or nil if no charts exist
      */
     private func getMostRecentChartDate(for clientId: String, by providerId: String) async -> Date? {
-        // Try organization-based structure first
-        if let orgId = OrganizationService.shared.getCurrentOrganizationId() {
-            do {
-                let snapshot = try await db.collection("organizations")
-                    .document(orgId)
-                    .collection("clients")
-                    .document(clientId)
-                    .collection("charts")
-                    .whereField("createdBy", isEqualTo: providerId)
-                    .order(by: "createdAt", descending: true)
-                    .limit(to: 1)
-                    .getDocuments()
-                
-                if let doc = snapshot.documents.first,
-                   let timestamp = doc.data()["createdAt"] as? Timestamp {
-                    return timestamp.dateValue()
-                }
-            } catch {
-                PluckrLogger.error("Failed to get chart date from org structure: \(error.localizedDescription)")
-            }
+        guard let orgId = OrganizationService.shared.getCurrentOrganizationId() else {
+            PluckrLogger.error("No organization context for chart date lookup")
+            return nil
         }
         
-        // Fallback to root-level structure
         do {
-            let snapshot = try await db.collection("clients")
+            let snapshot = try await db.collection("organizations")
+                .document(orgId)
+                .collection("clients")
                 .document(clientId)
                 .collection("charts")
                 .whereField("createdBy", isEqualTo: providerId)
@@ -158,7 +149,7 @@ class ProviderHomeViewModel: ObservableObject {
                 return timestamp.dateValue()
             }
         } catch {
-            PluckrLogger.error("Failed to get chart date from root structure: \(error.localizedDescription)")
+            PluckrLogger.error("Failed to get chart date from org structure: \(error.localizedDescription)")
         }
         
         return nil
@@ -237,6 +228,32 @@ class ProviderHomeViewModel: ObservableObject {
             }
         }
     }
+
+    func loadCurrentProvider() async {
+        guard let orgId = OrganizationService.shared.getCurrentOrganizationId(),
+              let userId = Auth.auth().currentUser?.uid else {
+            self.currentProvider = nil
+            return
+        }
+        let db = Firestore.firestore()
+        do {
+            let doc = try await db.collection("organizations").document(orgId).collection("providers").document(userId).getDocument()
+            if let data = doc.data() {
+                self.currentProvider = Provider(
+                    id: doc.documentID,
+                    name: data["name"] as? String ?? "",
+                    email: data["email"] as? String ?? "",
+                    role: data["role"] as? String ?? "provider",
+                    isActive: data["isActive"] as? Bool ?? true
+                )
+            } else {
+                self.currentProvider = nil
+            }
+        } catch {
+            self.currentProvider = nil
+        }
+    }
+
     deinit {
         folioListener?.remove()
         midnightTimer?.invalidate()
