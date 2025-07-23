@@ -309,6 +309,7 @@
 		094FF75F2E0F269B00A212F7 = {
 			isa = PBXGroup;
 			children = (
+				099DA7842E319E8700CF3D41 /* Depreciated */,
 				099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */,
 				099DA75F2E2AFC2900CF3D41 /* DEVELOPMENT.md */,
 				099AC5302E27007700F62820 /* PluckrTests */,
@@ -433,7 +434,6 @@
 				099DA75A2E2AF19600CF3D41 /* AdminDashboardViewModel.swift */,
 				099DA7562E2AF12100CF3D41 /* CreateOrganizationViewModel.swift */,
 				099DA7542E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift */,
-				093A0AF52E271B000097A6DA /* ChartsListViewModel.swift */,
 				099AC5232E25FBF400F62820 /* EditClientViewModel.swift */,
 				099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */,
 				099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */,
@@ -483,7 +483,6 @@
 			children = (
 				0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */,
 				0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */,
-				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -663,6 +662,15 @@
 				099DA7802E31951E00CF3D41 /* SwipeAction.swift */,
 			);
 			path = Actions;
+			sourceTree = "<group>";
+		};
+		099DA7842E319E8700CF3D41 /* Depreciated */ = {
+			isa = PBXGroup;
+			children = (
+				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
+				093A0AF52E271B000097A6DA /* ChartsListViewModel.swift */,
+			);
+			path = Depreciated;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
