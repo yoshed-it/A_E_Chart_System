@@ -1,12 +1,10 @@
 import SwiftUI
 
 struct OrganizationSelectionView: View {
+    @StateObject private var viewModel = OrganizationSelectionViewModel()
     @StateObject private var organizationService = OrganizationService.shared
     @State private var showingCreateOrganization = false
-    @State private var showingJoinOrganization = false
-    @State private var inviteCode = ""
-    @State private var isLoading = false
-    @State private var errorMessage: String?
+
     
     var body: some View {
         NavigationView {
@@ -21,7 +19,7 @@ struct OrganizationSelectionView: View {
                         .font(PluckrTheme.headingFont(size: 38))
                         .fontWeight(.bold)
                     
-                    Text("Choose or create an organization to get started")
+                    Text("Create your organization to get started")
                         .font(PluckrTheme.bodyFont())
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -57,32 +55,18 @@ struct OrganizationSelectionView: View {
                     }
                 }
                 
-                // Action Buttons
+                // Action Button
                 VStack(spacing: 16) {
                     Button(action: {
                         showingCreateOrganization = true
                     }) {
                         HStack {
                             Image(systemName: "plus.circle.fill")
-                            Text("Create New Organization")
+                            Text("Create Organization")
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(PluckrTheme.accent)
-                        .foregroundColor(.white)
-                        .cornerRadius(PluckrTheme.cardCornerRadius)
-                    }
-                    
-                    Button(action: {
-                        showingJoinOrganization = true
-                    }) {
-                        HStack {
-                            Image(systemName: "person.badge.plus")
-                            Text("Join Organization")
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(PluckrTheme.cardCornerRadius)
                     }
@@ -92,34 +76,30 @@ struct OrganizationSelectionView: View {
                 Spacer()
             }
             .navigationBarHidden(true)
-            .alert("Error", isPresented: .constant(errorMessage != nil)) {
+            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
                 Button("OK") {
-                    errorMessage = nil
+                    viewModel.errorMessage = nil
                 }
             } message: {
-                Text(errorMessage ?? "")
+                Text(viewModel.errorMessage ?? "")
             }
             .sheet(isPresented: $showingCreateOrganization) {
                 OrganizationSetupView()
-            }
-            .sheet(isPresented: $showingJoinOrganization) {
-                JoinOrganizationView()
+                    .onDisappear {
+                        // Refresh organizations when the sheet is dismissed
+                        Task {
+                            await viewModel.loadOrganizations()
+                        }
+                    }
             }
             .task {
-                await loadOrganizations()
+                await viewModel.loadOrganizations()
             }
+
         }
     }
     
-    private func loadOrganizations() async {
-        isLoading = true
-        do {
-            try await organizationService.fetchUserOrganizations()
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-        isLoading = false
-    }
+
 }
 
 struct OrganizationCard: View {
@@ -177,99 +157,6 @@ struct OrganizationCard: View {
             .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
         }
         .buttonStyle(PlainButtonStyle())
-    }
-}
-
-struct JoinOrganizationView: View {
-    @StateObject private var organizationService = OrganizationService.shared
-    @State private var inviteCode = ""
-    @State private var isLoading = false
-    @State private var errorMessage: String?
-    
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        NavigationView {
-            VStack(spacing: 24) {
-                VStack(spacing: 12) {
-                    Image(systemName: "person.badge.plus")
-                        .font(PluckrTheme.displayFont(size: 50))
-                        .foregroundColor(PluckrTheme.accent)
-                    
-                    Text("Join Organization")
-                        .font(PluckrTheme.subheadingFont(size: 22))
-                        .fontWeight(.bold)
-                    
-                    Text("Enter the invite code provided by your organization")
-                        .font(PluckrTheme.bodyFont())
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.top, 20)
-                
-                VStack(spacing: 16) {
-                    TextField("Invite Code", text: $inviteCode)
-                        .pluckrTextField()
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                    
-                    Button(action: joinOrganization) {
-                        if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        } else {
-                            Text("Join Organization")
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(PluckrTheme.cardCornerRadius)
-                    .disabled(inviteCode.isEmpty || isLoading)
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            .navigationTitle("Join Organization")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                }
-            }
-            .alert("Error", isPresented: .constant(errorMessage != nil)) {
-                Button("OK") {
-                    errorMessage = nil
-                }
-            } message: {
-                Text(errorMessage ?? "")
-            }
-        }
-    }
-    
-    private func joinOrganization() {
-        guard !inviteCode.isEmpty else { return }
-        
-        isLoading = true
-        Task {
-            do {
-                try await organizationService.joinOrganization(inviteCode: inviteCode)
-                await MainActor.run {
-                    dismiss()
-                }
-            } catch {
-                await MainActor.run {
-                    errorMessage = error.localizedDescription
-                }
-            }
-            await MainActor.run {
-                isLoading = false
-            }
-        }
     }
 }
 

@@ -26,4 +26,31 @@ class TagServiceTests: XCTestCase {
         let orgId: String? = nil
         XCTAssertNil(orgId)
     }
+
+    func testUpdateClientTagsSavesTags() async {
+        // This is an integration-style test. In a real unit test, use a mock Firestore.
+        // Here, we check that updateClientTags completes without error for a fake client.
+        let clientId = "testClientId"
+        let tags = [Tag(label: "Sensitive", colorNameOrHex: "PluckrTagRed"), Tag(label: "VIP", colorNameOrHex: "PluckrTagBlue")]
+        do {
+            try await TagService.shared.updateClientTags(clientId: clientId, tags: tags)
+            // If no error is thrown, the test passes for this integration scenario.
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail("updateClientTags threw an error: \(error)")
+        }
+    }
+
+    func testSaveCustomClientTagToLibrary() async {
+        // This is an integration-style test. In a real unit test, use a mock Firestore.
+        // Here, we check that saveCustomTagToLibrary completes without error for a custom client tag.
+        let customTag = Tag(label: "TestCustom", colorNameOrHex: "PluckrTagTan")
+        do {
+            try await TagService.shared.saveCustomTagToLibrary(tag: customTag, context: .client)
+            // If no error is thrown, the test passes for this integration scenario.
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail("saveCustomTagToLibrary threw an error: \(error)")
+        }
+    }
 } 

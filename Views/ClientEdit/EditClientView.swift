@@ -5,6 +5,8 @@ struct EditClientView: View {
     @StateObject private var viewModel: EditClientViewModel
     let onSave: () -> Void
 
+    @State private var showingTagPicker = false
+
     let pronounOptions = ["She/Her", "He/Him", "They/Them", "Other"]
 
     init(client: Client, onSave: @escaping () -> Void) {
@@ -30,6 +32,29 @@ struct EditClientView: View {
                         TextField("Phone Number", text: $viewModel.phone)
                             .keyboardType(.phonePad)
                             .phoneNumberFormatting(text: $viewModel.phone)
+                    }
+
+                    // Tag Picker Section
+                    Section(header: Text("Client Tags")) {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(viewModel.clientTags, id: \ .self) { tag in
+                                    TagView(tag: tag, size: .normal)
+                                }
+                            }
+                        }
+                        Button(action: { showingTagPicker = true }) {
+                            Label("Edit Tags", systemImage: "tag")
+                                .font(.body)
+                                .foregroundColor(.accentColor)
+                        }
+                    }
+                    .sheet(isPresented: $showingTagPicker) {
+                        TagPickerModal(
+                            selectedTags: $viewModel.clientTags,
+                            availableTags: [], // TagPickerModal loads its own tags
+                            context: .client
+                        )
                     }
 
                     if !viewModel.errorMessage.isEmpty {

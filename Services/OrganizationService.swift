@@ -12,7 +12,32 @@ class OrganizationService: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private init() {}
+    private let orgIdKey = "currentOrganizationId"
+    
+    private init() {
+        // Initialize when service is created
+        Task {
+            await initializeIfAuthenticated()
+        }
+    }
+    
+    // MARK: - Initialization
+    
+    func initializeIfAuthenticated() async {
+        guard let user = Auth.auth().currentUser else { 
+            PluckrLogger.info("No authenticated user for organization service initialization")
+            return 
+        }
+        
+        PluckrLogger.info("Initializing organization service for user: \(user.email ?? "Unknown")")
+        
+        do {
+            try await fetchUserOrganizations()
+            PluckrLogger.info("Organization service initialized. Found \(self.userOrganizations.count) organizations")
+        } catch {
+            PluckrLogger.error("Failed to initialize organization service: \(error.localizedDescription)")
+        }
+    }
     
     // MARK: - Organization Management
     
@@ -42,9 +67,29 @@ class OrganizationService: ObservableObject {
             .document(userOrg.id)
             .setData(userOrg.toDict())
         
+        // Create provider document for the organization creator
+        guard let user = Auth.auth().currentUser else {
+            throw OrganizationError.userNotAuthenticated
+        }
+        
+        let providerData: [String: Any] = [
+            "name": user.displayName ?? "",
+            "email": user.email ?? "",
+            "createdAt": Timestamp(date: Date()),
+            "isActive": true,
+            "role": "admin"
+        ]
+        
+        try await db.collection("organizations")
+            .document(organization.id)
+            .collection("providers")
+            .document(user.uid)
+            .setData(providerData)
+        
         // Set as current organization
         self.currentOrganization = organization
         self.userOrganizations.append(userOrg)
+        self.setCurrentOrganizationId(organization.id)
         
         PluckrLogger.success("Created organization: \(name)")
         return organization
@@ -67,23 +112,33 @@ class OrganizationService: ObservableObject {
             throw OrganizationError.userNotAuthenticated
         }
         
+        PluckrLogger.info("Fetching user organizations for user: \(userId)")
+        
         let snapshot = try await db.collection("userOrganizations")
             .whereField("userId", isEqualTo: userId)
             .whereField("isActive", isEqualTo: true)
             .getDocuments()
         
+        PluckrLogger.info("Found \(snapshot.documents.count) user organization documents")
+        
         var orgs: [UserOrganization] = []
         for doc in snapshot.documents {
             if let userOrg = UserOrganization(data: doc.data(), id: doc.documentID) {
                 orgs.append(userOrg)
+                PluckrLogger.info("Added user organization: \(userOrg.organizationId) with role: \(userOrg.role.rawValue)")
+            } else {
+                PluckrLogger.error("Failed to parse user organization document: \(doc.documentID)")
             }
         }
         
         self.userOrganizations = orgs
+        PluckrLogger.info("Set userOrganizations array with \(orgs.count) organizations")
         
         // Set first organization as current if none set
         if currentOrganization == nil, let firstOrg = orgs.first {
             currentOrganization = try await fetchOrganization(id: firstOrg.organizationId)
+            self.setCurrentOrganizationId(firstOrg.organizationId)
+            PluckrLogger.info("Set current organization: \(firstOrg.organizationId)")
         }
     }
     
@@ -91,8 +146,24 @@ class OrganizationService: ObservableObject {
         self.currentOrganization = organization
     }
     
+    func setCurrentOrganizationId(_ orgId: String) {
+        UserDefaults.standard.set(orgId, forKey: orgIdKey)
+        // Update currentOrganization if you want to keep it in sync
+        Task {
+            if let org = try? await fetchOrganization(id: orgId) {
+                await MainActor.run { self.currentOrganization = org }
+            }
+        }
+    }
+    
+    func setCurrentOrganization(_ organization: Organization) async {
+        await MainActor.run {
+            self.currentOrganization = organization
+        }
+    }
+
     func getCurrentOrganizationId() -> String? {
-        return currentOrganization?.id
+        return UserDefaults.standard.string(forKey: orgIdKey)
     }
     
     func joinOrganization(inviteCode: String) async throws {
@@ -116,7 +187,30 @@ class OrganizationService: ObservableObject {
             .document(userOrg.id)
             .setData(userOrg.toDict())
         
+        // Create provider document for the user joining the organization
+        guard let user = Auth.auth().currentUser else {
+            throw OrganizationError.userNotAuthenticated
+        }
+        
+        let providerData: [String: Any] = [
+            "name": user.displayName ?? "",
+            "email": user.email ?? "",
+            "createdAt": Timestamp(date: Date()),
+            "isActive": true,
+            "role": "provider"
+        ]
+        
+        try await db.collection("organizations")
+            .document(organization.id)
+            .collection("providers")
+            .document(user.uid)
+            .setData(providerData)
+        
+        // Add to local arrays and set as current organization
         self.userOrganizations.append(userOrg)
+        self.currentOrganization = organization
+        self.setCurrentOrganizationId(organization.id)
+        
         PluckrLogger.success("Joined organization: \(organization.name)")
     }
     

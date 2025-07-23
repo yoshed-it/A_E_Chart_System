@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - TagPickerModal
+// NOTE: Used for both chart and client tags. Update this comment if usage changes. See // MARK: usage notes in Components folder. [[memory:3581768]]
 struct TagPickerModal: View {
     @Binding var selectedTags: [Tag]
     let availableTags: [Tag]

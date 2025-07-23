@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct OrganizationSetupView: View {
+    @StateObject private var viewModel = OrganizationSelectionViewModel()
     @StateObject private var organizationService = OrganizationService.shared
     @State private var organizationName = ""
     @State private var organizationDescription = ""
@@ -65,9 +66,9 @@ struct OrganizationSetupView: View {
                     }
                 }
                 
-                if !(organizationService.errorMessage ?? "").isEmpty {
+                if !(viewModel.errorMessage ?? "").isEmpty {
                     Section {
-                        Text(organizationService.errorMessage ?? "")
+                        Text(viewModel.errorMessage ?? "")
                             .foregroundColor(.red)
                             .font(.caption)
                     }
@@ -102,33 +103,27 @@ struct OrganizationSetupView: View {
         guard !organizationName.isEmpty else { return }
         
         isCreating = true
-        organizationService.errorMessage = ""
+        viewModel.errorMessage = nil
         
         Task {
+            await viewModel.createOrganization(
+                name: organizationName,
+                description: organizationDescription.isEmpty ? nil : organizationDescription
+            )
+            
+            // Automatically migrate existing data to the new organization
             do {
-                let organization = try await organizationService.createOrganization(
-                    name: organizationName,
-                    description: organizationDescription.isEmpty ? nil : organizationDescription
-                )
-                
-                // Automatically migrate existing data to the new organization
-                do {
-                    try await organizationService.migrateExistingData()
-                    PluckrLogger.success("Data migration completed for new organization")
-                } catch {
-                    PluckrLogger.warning("Data migration failed: \(error.localizedDescription)")
-                    // Don't fail organization creation if migration fails
-                }
-                
-                await MainActor.run {
-                    organizationService.setCurrentOrganization(organization)
-                    isCreating = false
-                    dismiss()
-                }
+                try await organizationService.migrateExistingData()
+                PluckrLogger.success("Data migration completed for new organization")
             } catch {
-                await MainActor.run {
-                    organizationService.errorMessage = error.localizedDescription
-                    isCreating = false
+                PluckrLogger.warning("Data migration failed: \(error.localizedDescription)")
+                // Don't fail organization creation if migration fails
+            }
+            
+            await MainActor.run {
+                isCreating = false
+                if viewModel.shouldNavigateToMainApp {
+                    dismiss()
                 }
             }
         }

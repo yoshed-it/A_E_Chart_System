@@ -19,46 +19,30 @@ class OrgEncryptionKeyManager: ObservableObject {
         #endif
         guard orgKey == nil else { return }
         
-        // Try organization-based structure first
-        if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
-            do {
-                let doc = try await Firestore.firestore()
-                    .collection("organizations")
-                    .document(orgId)
-                    .collection("encryptionKeys")
-                    .document("chartImages")
-                    .getDocument()
-                if let keyString = doc.data()? ["key"] as? String,
-                   let keyData = Data(base64Encoded: keyString) {
-                    self.orgKey = SymmetricKey(data: keyData)
-                    PluckrLogger.info("Fetched org-wide AES key for \(orgId)")
-                } else {
-                    PluckrLogger.error("Failed to fetch org-wide AES key for \(orgId): missing or invalid data")
-                    self.orgKey = devFallbackKey
-                }
-            } catch {
-                PluckrLogger.error("Error fetching org-wide AES key for \(orgId): \(error)")
+        guard let orgId = await OrganizationService.shared.getCurrentOrganizationId() else {
+            PluckrLogger.error("No organization context for encryption key")
+            self.orgKey = devFallbackKey
+            return
+        }
+        
+        do {
+            let doc = try await Firestore.firestore()
+                .collection("organizations")
+                .document(orgId)
+                .collection("encryptionKeys")
+                .document("chartImages")
+                .getDocument()
+            if let keyString = doc.data()? ["key"] as? String,
+               let keyData = Data(base64Encoded: keyString) {
+                self.orgKey = SymmetricKey(data: keyData)
+                PluckrLogger.info("Fetched org-wide AES key for \(orgId)")
+            } else {
+                PluckrLogger.error("Failed to fetch org-wide AES key for \(orgId): missing or invalid data")
                 self.orgKey = devFallbackKey
             }
-        } else {
-            // Fallback to root-level structure
-            do {
-                let doc = try await Firestore.firestore()
-                    .collection("encryptionKeys")
-                    .document("chartImages")
-                    .getDocument()
-                if let keyString = doc.data()? ["key"] as? String,
-                   let keyData = Data(base64Encoded: keyString) {
-                    self.orgKey = SymmetricKey(data: keyData)
-                    PluckrLogger.info("Fetched org-wide AES key from root level")
-                } else {
-                    PluckrLogger.error("Failed to fetch org-wide AES key from root level: missing or invalid data")
-                    self.orgKey = devFallbackKey
-                }
-            } catch {
-                PluckrLogger.error("Error fetching org-wide AES key from root level: \(error)")
-                self.orgKey = devFallbackKey
-            }
+        } catch {
+            PluckrLogger.error("Error fetching org-wide AES key for \(orgId): \(error)")
+            self.orgKey = devFallbackKey
         }
     }
 } 
