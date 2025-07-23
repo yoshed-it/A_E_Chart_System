@@ -1,20 +1,20 @@
 /// Used in: ChartEntryFormView (Views/Charts/ChartEntryFormView.swift)
 import SwiftUI
 
-struct ChartTreatmentAreaSection: View {
-    @Binding var treatmentArea: String
+struct ChartNotesSection: View {
+    @Binding var notes: String
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Treatment Area")
+            Text("Clinical Notes")
                 .pluckrSectionHeader()
-            TreatmentAreaField(treatmentArea: $treatmentArea)
+            NotesCard(mode: .edit($notes))
         }
     }
 }
 
 #Preview {
-    @State var treatmentArea = "Upper Lip"
-    return ChartTreatmentAreaSection(treatmentArea: $treatmentArea)
+    @State var notes = "Patient tolerated treatment well."
+    return ChartNotesSection(notes: $notes)
         .padding()
         .background(PluckrTheme.background)
 } 

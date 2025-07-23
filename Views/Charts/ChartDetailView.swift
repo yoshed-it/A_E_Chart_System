@@ -97,19 +97,7 @@ struct ChartDetailView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Clinical Notes")
                             .pluckrSectionHeader()
-                        
-                        Text(chart.notes)
-                            .font(PluckrTheme.bodyFont())
-                            .foregroundColor(PluckrTheme.textPrimary)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color.pluckrCard)
-                            .cornerRadius(PluckrTheme.cardCornerRadius)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
-                                    .stroke(PluckrTheme.borderColor, lineWidth: 1)
-                            )
+                        NotesCard(mode: .view(chart.notes))
                     }
                 }
                 

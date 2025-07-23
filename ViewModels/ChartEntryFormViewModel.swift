@@ -22,9 +22,16 @@ final class ChartEntryFormViewModel: ObservableObject {
     @Published var chartId: String? = nil // Track current chartId
     @Published var isLoading: Bool = false
     @Published var chartTags: [Tag] = []
+
+    // MARK: - Dependencies
+    private let chartService: ChartService
+    private let tagService: TagService
     
     // MARK: - Init
-    init() {}
+    init(chartService: ChartService = AppEnvironment.live.chartService, tagService: TagService = AppEnvironment.live.tagService) {
+        self.chartService = chartService
+        self.tagService = tagService
+    }
     
     // MARK: - Upload Selected Images
     func uploadSelectedImages(from selections: [PhotosPickerItem], clientId: String) async {
@@ -52,7 +59,7 @@ final class ChartEntryFormViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         do {
-            if let entry = try await ChartService.shared.loadChartEntry(for: clientId, chartId: chartId) {
+            if let entry = try await chartService.loadChartEntry(for: clientId, chartId: chartId) {
                 self.selectedModality = entry.modality
                 self.rfLevel = entry.rfLevel
                 self.dcLevel = entry.dcLevel
@@ -99,7 +106,7 @@ final class ChartEntryFormViewModel: ObservableObject {
             chartTags: chartTags
         )
         
-        ChartService.shared.saveChartEntry(for: clientId, chartData: chartData, chartId: chartId) { [weak self] result in
+        chartService.saveChartEntry(for: clientId, chartData: chartData, chartId: chartId) { [weak self] result in
             Task { @MainActor in
                 self?.isSaving = false
                 switch result {

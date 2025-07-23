@@ -86,8 +86,6 @@
 		099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */; };
 		099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */; };
 		099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */; };
-		099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */; };
-		099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */; };
 		099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */; };
 		099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F42E1F2E7800F62820 /* ErrorView.swift */; };
 		099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */; };
@@ -125,6 +123,12 @@
 		099DA7642E2B055E00CF3D41 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */; };
 		099DA7662E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */; };
 		099DA7682E316C9B00CF3D41 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */; };
+		099DA76B2E3172A900CF3D41 /* ClientJournalMainContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7692E3172A900CF3D41 /* ClientJournalMainContent.swift */; };
+		099DA76C2E3172A900CF3D41 /* ClientJournalMainContentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA76A2E3172A900CF3D41 /* ClientJournalMainContentBody.swift */; };
+		099DA76E2E31734600CF3D41 /* ClientJournalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA76D2E31734600CF3D41 /* ClientJournalTypes.swift */; };
+		099DA7742E3177B200CF3D41 /* NotesFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7722E3177B200CF3D41 /* NotesFieldView.swift */; };
+		099DA77C2E317ADD00CF3D41 /* NotesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA77B2E317ADD00CF3D41 /* NotesCard.swift */; };
+		099DA77E2E317C2E00CF3D41 /* TreatmentAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA77D2E317C2E00CF3D41 /* TreatmentAreaField.swift */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -223,8 +227,6 @@
 		099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalityPickerView.swift; sourceTree = "<group>"; };
 		099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSettingsView.swift; sourceTree = "<group>"; };
 		099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbePickerView.swift; sourceTree = "<group>"; };
-		099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentAreaField.swift; sourceTree = "<group>"; };
-		099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesFieldView.swift; sourceTree = "<group>"; };
 		099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
 		099AC4F42E1F2E7800F62820 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
@@ -261,6 +263,12 @@
 		099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationSelectionViewModel.swift; sourceTree = "<group>"; };
 		099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		099DA7692E3172A900CF3D41 /* ClientJournalMainContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalMainContent.swift; sourceTree = "<group>"; };
+		099DA76A2E3172A900CF3D41 /* ClientJournalMainContentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalMainContentBody.swift; sourceTree = "<group>"; };
+		099DA76D2E31734600CF3D41 /* ClientJournalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalTypes.swift; sourceTree = "<group>"; };
+		099DA7722E3177B200CF3D41 /* NotesFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesFieldView.swift; sourceTree = "<group>"; };
+		099DA77B2E317ADD00CF3D41 /* NotesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCard.swift; sourceTree = "<group>"; };
+		099DA77D2E317C2E00CF3D41 /* TreatmentAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentAreaField.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -395,36 +403,13 @@
 		0982B3752E1DD15F00DB6C1A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				099DA7792E3178FE00CF3D41 /* Image */,
+				099DA7772E3177EE00CF3D41 /* Tags */,
+				099DA7762E3177E300CF3D41 /* Utils */,
+				099DA7752E3177C900CF3D41 /* Clients */,
+				099DA7732E3177B200CF3D41 /* Reusable */,
+				099DA76F2E31763A00CF3D41 /* Charts */,
 				099DA74C2E2994A800CF3D41 /* ClientJournal */,
-				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
-				093A0B3B2E2969AF0097A6DA /* ChartEntryCard.swift */,
-				093A0B3C2E2969AF0097A6DA /* ChartImageUploadSection.swift */,
-				093A0B3D2E2969AF0097A6DA /* ChartMachineSettingsSection.swift */,
-				093A0B3E2E2969AF0097A6DA /* ChartModalitySection.swift */,
-				093A0B3F2E2969AF0097A6DA /* ChartNotesSection.swift */,
-				093A0B402E2969AF0097A6DA /* ChartProbeSelectionSection.swift */,
-				093A0B412E2969AF0097A6DA /* ChartTagsSection.swift */,
-				093A0B422E2969AF0097A6DA /* ChartTreatmentAreaSection.swift */,
-				093A0B452E2969AF0097A6DA /* ImageConsentFormView.swift */,
-				093A0B462E2969AF0097A6DA /* TagPickerModal.swift */,
-				093A0B472E2969AF0097A6DA /* TagView.swift */,
-				093A0B192E2863EE0097A6DA /* FolioCardView.swift */,
-				093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */,
-				093A0AF92E2720F10097A6DA /* ClientInfoModal.swift */,
-				093A0AFA2E2720F10097A6DA /* CustomTagSheet.swift */,
-				099AC51B2E25EAC400F62820 /* ClientCardView.swift */,
-				099AC51C2E25EAC400F62820 /* LoadingView.swift */,
-				099AC4F82E1F30C700F62820 /* ImageView.swift */,
-				099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */,
-				099AC4F42E1F2E7800F62820 /* ErrorView.swift */,
-				099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */,
-				099AC4F02E1F2E6300F62820 /* NotesFieldView.swift */,
-				099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */,
-				099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */,
-				099AC4EE2E1F2E5B00F62820 /* TreatmentAreaField.swift */,
-				099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */,
-				0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */,
-				099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -570,6 +555,9 @@
 		099DA74C2E2994A800CF3D41 /* ClientJournal */ = {
 			isa = PBXGroup;
 			children = (
+				099DA76D2E31734600CF3D41 /* ClientJournalTypes.swift */,
+				099DA7692E3172A900CF3D41 /* ClientJournalMainContent.swift */,
+				099DA76A2E3172A900CF3D41 /* ClientJournalMainContentBody.swift */,
 				09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */,
 				093A0B442E2969AF0097A6DA /* ClientJournalTagsSection.swift */,
 				099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */,
@@ -592,6 +580,78 @@
 				099DA75D2E2AF1C200CF3D41 /* AdminDashboardView.swift */,
 			);
 			path = Admin;
+			sourceTree = "<group>";
+		};
+		099DA76F2E31763A00CF3D41 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				099DA77D2E317C2E00CF3D41 /* TreatmentAreaField.swift */,
+				099DA77B2E317ADD00CF3D41 /* NotesCard.swift */,
+				093A0B3B2E2969AF0097A6DA /* ChartEntryCard.swift */,
+				093A0B3C2E2969AF0097A6DA /* ChartImageUploadSection.swift */,
+				093A0B3D2E2969AF0097A6DA /* ChartMachineSettingsSection.swift */,
+				093A0B3E2E2969AF0097A6DA /* ChartModalitySection.swift */,
+				093A0B3F2E2969AF0097A6DA /* ChartNotesSection.swift */,
+				093A0B402E2969AF0097A6DA /* ChartProbeSelectionSection.swift */,
+				093A0B412E2969AF0097A6DA /* ChartTagsSection.swift */,
+				093A0B422E2969AF0097A6DA /* ChartTreatmentAreaSection.swift */,
+				099AC4EA2E1F2E3700F62820 /* MachineSettingsView.swift */,
+				099AC4EC2E1F2E4900F62820 /* ProbePickerView.swift */,
+				099AC4E82E1F2E2800F62820 /* ModalityPickerView.swift */,
+				0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */,
+				093A0B152E28532D0097A6DA /* CustomProbeSheet.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		099DA7732E3177B200CF3D41 /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				099DA7722E3177B200CF3D41 /* NotesFieldView.swift */,
+				0982B3472E1DCE3600DB6C1A /* SwipeToDeleteView.swift */,
+				099AC51C2E25EAC400F62820 /* LoadingView.swift */,
+				099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */,
+				099AC4F42E1F2E7800F62820 /* ErrorView.swift */,
+				099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
+		099DA7752E3177C900CF3D41 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				093A0AF92E2720F10097A6DA /* ClientInfoModal.swift */,
+				099AC51B2E25EAC400F62820 /* ClientCardView.swift */,
+				093A0B192E2863EE0097A6DA /* FolioCardView.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		099DA7762E3177E300CF3D41 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		099DA7772E3177EE00CF3D41 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				093A0B462E2969AF0097A6DA /* TagPickerModal.swift */,
+				093A0B472E2969AF0097A6DA /* TagView.swift */,
+				093A0AFA2E2720F10097A6DA /* CustomTagSheet.swift */,
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
+		099DA7792E3178FE00CF3D41 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				093A0B452E2969AF0097A6DA /* ImageConsentFormView.swift */,
+				099AC4F82E1F30C700F62820 /* ImageView.swift */,
+				099AC4F22E1F2E6E00F62820 /* ImageUploadView.swift */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -770,8 +830,12 @@
 				0982B34C2E1DCE3600DB6C1A /* EditClientView.swift in Sources */,
 				093A0B482E2969AF0097A6DA /* ChartImageUploadSection.swift in Sources */,
 				093A0B492E2969AF0097A6DA /* ChartMachineSettingsSection.swift in Sources */,
+				099DA7742E3177B200CF3D41 /* NotesFieldView.swift in Sources */,
+				099DA76E2E31734600CF3D41 /* ClientJournalTypes.swift in Sources */,
 				099DA7472E298AAB00CF3D41 /* ProviderHomeContent.swift in Sources */,
 				093A0B4A2E2969AF0097A6DA /* TagPickerModal.swift in Sources */,
+				099DA76B2E3172A900CF3D41 /* ClientJournalMainContent.swift in Sources */,
+				099DA76C2E3172A900CF3D41 /* ClientJournalMainContentBody.swift in Sources */,
 				093A0B4B2E2969AF0097A6DA /* ChartNotesSection.swift in Sources */,
 				093A0B4C2E2969AF0097A6DA /* ChartProbeSelectionSection.swift in Sources */,
 				093A0B4D2E2969AF0097A6DA /* TagView.swift in Sources */,
@@ -794,7 +858,6 @@
 				099AC5172E25E2EB00F62820 /* Logger.swift in Sources */,
 				093A0AF82E2720E70097A6DA /* Tag.swift in Sources */,
 				099DA7532E2AEF9100CF3D41 /* JoinOrganizationView.swift in Sources */,
-				099AC4EF2E1F2E5B00F62820 /* TreatmentAreaField.swift in Sources */,
 				099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */,
 				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
 				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
@@ -806,7 +869,6 @@
 				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
 				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
 				093A0B082E2730000097A6DA /* OrganizationSetupView.swift in Sources */,
-				099AC4F12E1F2E6A00F62820 /* NotesFieldView.swift in Sources */,
 				099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */,
 				0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */,
 				099AC5272E26F50B00F62820 /* OrgEncryptionKeyManager.swift in Sources */,
@@ -830,6 +892,7 @@
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
 				099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */,
 				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
+				099DA77C2E317ADD00CF3D41 /* NotesCard.swift in Sources */,
 				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
 				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
 				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
@@ -846,6 +909,7 @@
 				099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
 				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,
+				099DA77E2E317C2E00CF3D41 /* TreatmentAreaField.swift in Sources */,
 				099DA7682E316C9B00CF3D41 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

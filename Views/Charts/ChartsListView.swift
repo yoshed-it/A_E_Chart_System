@@ -46,7 +46,6 @@ struct ChartsListView: View {
         .sheet(isPresented: $showEditSheet) {
             if let chart = editingChart {
                 ChartEntryFormView(
-                    viewModel: ChartEntryFormViewModel(),
                     clientId: clientId,
                     chartId: chart.id,
                     onSave: {

@@ -20,6 +20,7 @@ import PhotosUI
  */
 struct ChartEntryFormView: View {
     // MARK: - Properties
+    @Environment(\.appEnvironment) private var env
     @StateObject var viewModel: ChartEntryFormViewModel
     let clientId: String
     let chartId: String?
@@ -35,6 +36,13 @@ struct ChartEntryFormView: View {
     @State private var showValidationAlert = false
     @State private var validationMessage = ""
     @State private var showingChartTagPicker = false
+
+    init(clientId: String, chartId: String? = nil, onSave: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: ChartEntryFormViewModel(chartService: AppEnvironment.live.chartService, tagService: AppEnvironment.live.tagService))
+        self.clientId = clientId
+        self.chartId = chartId
+        self.onSave = onSave
+    }
 
     // MARK: - Body
     var body: some View {
