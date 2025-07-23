@@ -124,6 +124,7 @@
 		099DA7622E2B025800CF3D41 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7612E2B025800CF3D41 /* LaunchScreenView.swift */; };
 		099DA7642E2B055E00CF3D41 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */; };
 		099DA7662E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */; };
+		099DA7682E316C9B00CF3D41 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -259,6 +260,7 @@
 		099DA7612E2B025800CF3D41 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationSelectionViewModel.swift; sourceTree = "<group>"; };
+		099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,6 +299,7 @@
 		094FF75F2E0F269B00A212F7 = {
 			isa = PBXGroup;
 			children = (
+				099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */,
 				099DA75F2E2AFC2900CF3D41 /* DEVELOPMENT.md */,
 				099AC5302E27007700F62820 /* PluckrTests */,
 				099AC4E02E1EF88600F62820 /* Constants */,
@@ -843,6 +846,7 @@
 				099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
 				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,
+				099DA7682E316C9B00CF3D41 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

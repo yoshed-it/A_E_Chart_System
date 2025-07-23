@@ -3,7 +3,8 @@ import SwiftUIX // For enhanced text field
 import UIKit
 
 struct ClientsListView: View {
-    @StateObject private var viewModel = ClientsListViewModel()
+    @Environment(\.appEnvironment) private var env
+    @StateObject private var viewModel: ClientsListViewModel
     @StateObject private var homeViewModel = ProviderHomeViewModel() // For folio actions
     @State private var selectedClient: Client? = nil
     @State private var clientToDelete: Client? = nil
@@ -18,6 +19,10 @@ struct ClientsListView: View {
     enum FolioAction {
         case added(Client)
         case removed(Client)
+    }
+
+    init() {
+        _viewModel = StateObject(wrappedValue: ClientsListViewModel(clientRepository: AppEnvironment.live.clientRepository))
     }
 
     var body: some View {

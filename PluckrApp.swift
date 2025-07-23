@@ -71,6 +71,7 @@ struct PluckrApp: App {
             .onChange(of: organizationService.userOrganizations.count) { _, count in
                 PluckrLogger.info("Organization count changed to: \(count)")
             }
+            .environment(\.appEnvironment, AppEnvironment.live)
         }
     }
 }

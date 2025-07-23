@@ -7,10 +7,10 @@ class ClientsListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let clientRepository = ClientRepository()
+    private let clientRepository: ClientRepository
     
-    init() {
-        // No longer need orgId parameter since we're using root-level collections
+    init(clientRepository: ClientRepository = AppEnvironment.live.clientRepository) {
+        self.clientRepository = clientRepository
     }
 
     func fetchClients() {
