@@ -1,4 +1,5 @@
 import SwiftUI
+import SwipeActions
 
 struct ClientJournalMainContentBody: View {
     let client: Client
@@ -46,15 +47,11 @@ struct ClientJournalMainContentBody: View {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 32)
                 } else {
-                    ClientJournalChartEntriesSection(
-                        entries: viewModel.entries,
-                        onEntryTap: { entry in selectedChart = entry },
-                        onEdit: { entry in editingChart = entry; showEditSheet = true },
-                        onDelete: { entry in
-                            deletingChart = entry
-                            showDeleteAlert = true
+                    VStack(spacing: 16) {
+                        ForEach(viewModel.entries) { entry in
+                            chartEntryRow(for: entry)
                         }
-                    )
+                    }
                     .padding(.top, 8)
                 }
             }
@@ -68,6 +65,22 @@ struct ClientJournalMainContentBody: View {
                 editingChart = chart
                 showEditSheet = true
             })
+        }
+    }
+
+    @ViewBuilder
+    private func chartEntryRow(for entry: ChartEntry) -> some View {
+        SwipeView {
+            ChartEntryCard(entry: entry, onTap: { selectedChart = entry })
+        } trailingActions: { _ in
+            SwipeAction("Edit", systemImage: "pencil", backgroundColor: .accentColor) {
+                editingChart = entry
+                showEditSheet = true
+            }
+            SwipeAction("Delete", systemImage: "trash", backgroundColor: .red) {
+                deletingChart = entry
+                showDeleteAlert = true
+            }
         }
     }
 } 

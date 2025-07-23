@@ -109,7 +109,6 @@
 		099DA7472E298AAB00CF3D41 /* ProviderHomeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */; };
 		099DA7492E298B0600CF3D41 /* AllClientsFolioPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */; };
 		099DA74B2E298B1B00CF3D41 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */; };
-		099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */; };
 		099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */; };
 		099DA7532E2AEF9100CF3D41 /* JoinOrganizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7512E2AEF9100CF3D41 /* JoinOrganizationView.swift */; };
 		099DA7552E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7542E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift */; };
@@ -128,8 +127,7 @@
 		099DA7742E3177B200CF3D41 /* NotesFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7722E3177B200CF3D41 /* NotesFieldView.swift */; };
 		099DA77C2E317ADD00CF3D41 /* NotesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA77B2E317ADD00CF3D41 /* NotesCard.swift */; };
 		099DA77E2E317C2E00CF3D41 /* TreatmentAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA77D2E317C2E00CF3D41 /* TreatmentAreaField.swift */; };
-		099DA7812E31951E00CF3D41 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7802E31951E00CF3D41 /* SwipeAction.swift */; };
-		099DA7832E3195D100CF3D41 /* SwipeableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7822E3195D100CF3D41 /* SwipeableRow.swift */; };
+		099DA7872E31A4CB00CF3D41 /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 099DA7862E31A4CB00CF3D41 /* SwipeActions */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -250,7 +248,6 @@
 		099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeContent.swift; sourceTree = "<group>"; };
 		099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClientsFolioPickerView.swift; sourceTree = "<group>"; };
 		099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
-		099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalChartEntriesSection.swift; sourceTree = "<group>"; };
 		099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeManager.swift; sourceTree = "<group>"; };
 		099DA7512E2AEF9100CF3D41 /* JoinOrganizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinOrganizationView.swift; sourceTree = "<group>"; };
 		099DA7542E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinOrganizationViewModel.swift; sourceTree = "<group>"; };
@@ -269,8 +266,6 @@
 		099DA7722E3177B200CF3D41 /* NotesFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesFieldView.swift; sourceTree = "<group>"; };
 		099DA77B2E317ADD00CF3D41 /* NotesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCard.swift; sourceTree = "<group>"; };
 		099DA77D2E317C2E00CF3D41 /* TreatmentAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentAreaField.swift; sourceTree = "<group>"; };
-		099DA7802E31951E00CF3D41 /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
-		099DA7822E3195D100CF3D41 /* SwipeableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableRow.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -284,6 +279,7 @@
 				094FF7982E0F2AC100A212F7 /* FirebaseFirestore in Frameworks */,
 				093A0B102E2808450097A6DA /* KeyboardObserving in Frameworks */,
 				093A0B0D2E28069F0097A6DA /* SwiftUIX in Frameworks */,
+				099DA7872E31A4CB00CF3D41 /* SwipeActions in Frameworks */,
 				0982B36B2E1DCEA400DB6C1A /* SwiftUIIntrospect in Frameworks */,
 				094FF79A2E0F2AC100A212F7 /* FirebaseStorage in Frameworks */,
 			);
@@ -406,7 +402,6 @@
 		0982B3752E1DD15F00DB6C1A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				099DA77F2E3194D600CF3D41 /* Actions */,
 				099DA7792E3178FE00CF3D41 /* Image */,
 				099DA7772E3177EE00CF3D41 /* Tags */,
 				099DA7762E3177E300CF3D41 /* Utils */,
@@ -562,7 +557,6 @@
 				099DA76A2E3172A900CF3D41 /* ClientJournalMainContentBody.swift */,
 				09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */,
 				093A0B442E2969AF0097A6DA /* ClientJournalTagsSection.swift */,
-				099DA74D2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift */,
 			);
 			path = ClientJournal;
 			sourceTree = "<group>";
@@ -609,7 +603,6 @@
 		099DA7732E3177B200CF3D41 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
-				099DA7822E3195D100CF3D41 /* SwipeableRow.swift */,
 				099DA7722E3177B200CF3D41 /* NotesFieldView.swift */,
 				099AC51C2E25EAC400F62820 /* LoadingView.swift */,
 				099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */,
@@ -656,14 +649,6 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
-		099DA77F2E3194D600CF3D41 /* Actions */ = {
-			isa = PBXGroup;
-			children = (
-				099DA7802E31951E00CF3D41 /* SwipeAction.swift */,
-			);
-			path = Actions;
-			sourceTree = "<group>";
-		};
 		099DA7842E319E8700CF3D41 /* Depreciated */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,6 +682,7 @@
 				0982B36A2E1DCEA400DB6C1A /* SwiftUIIntrospect */,
 				093A0B0C2E28069F0097A6DA /* SwiftUIX */,
 				093A0B0F2E2808450097A6DA /* KeyboardObserving */,
+				099DA7862E31A4CB00CF3D41 /* SwipeActions */,
 			);
 			productName = A_E_Charting;
 			productReference = 094FF7682E0F269B00A212F7 /* Pluckr.app */;
@@ -780,6 +766,7 @@
 				0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				093A0B0B2E28069F0097A6DA /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				093A0B0E2E2808450097A6DA /* XCRemoteSwiftPackageReference "KeyboardObserving" */,
+				099DA7852E31A4CB00CF3D41 /* XCRemoteSwiftPackageReference "SwipeActions" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 094FF7692E0F269B00A212F7 /* Products */;
@@ -836,7 +823,6 @@
 				099DA7492E298B0600CF3D41 /* AllClientsFolioPickerView.swift in Sources */,
 				093A0AFE2E2721010097A6DA /* ClientTagService.swift in Sources */,
 				0982B37B2E1DD47100DB6C1A /* Client.swift in Sources */,
-				099DA7832E3195D100CF3D41 /* SwipeableRow.swift in Sources */,
 				099AC5222E25FB2800F62820 /* Validation.swift in Sources */,
 				093A0B0A2E27312D0097A6DA /* OrganizationSelectionView.swift in Sources */,
 				099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */,
@@ -877,7 +863,6 @@
 				099AC5172E25E2EB00F62820 /* Logger.swift in Sources */,
 				093A0AF82E2720E70097A6DA /* Tag.swift in Sources */,
 				099DA7532E2AEF9100CF3D41 /* JoinOrganizationView.swift in Sources */,
-				099DA74E2E29965400CF3D41 /* ClientJournalChartEntriesSection.swift in Sources */,
 				0982B3502E1DCE3600DB6C1A /* CameraCaptureView.swift in Sources */,
 				099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */,
 				099DA74B2E298B1B00CF3D41 /* MultipleSelectionRow.swift in Sources */,
@@ -885,7 +870,6 @@
 				099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */,
 				093A0B122E2852FA0097A6DA /* Probe.swift in Sources */,
 				0982B3512E1DCE3600DB6C1A /* ChartDetailView.swift in Sources */,
-				099DA7812E31951E00CF3D41 /* SwipeAction.swift in Sources */,
 				0982B3532E1DCE3600DB6C1A /* ChartEntryFormView.swift in Sources */,
 				0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */,
 				093A0B082E2730000097A6DA /* OrganizationSetupView.swift in Sources */,
@@ -1305,6 +1289,14 @@
 				minimumVersion = 1.3.0;
 			};
 		};
+		099DA7852E31A4CB00CF3D41 /* XCRemoteSwiftPackageReference "SwipeActions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/SwipeActions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1342,6 +1334,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0982B3692E1DCEA400DB6C1A /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = SwiftUIIntrospect;
+		};
+		099DA7862E31A4CB00CF3D41 /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 099DA7852E31A4CB00CF3D41 /* XCRemoteSwiftPackageReference "SwipeActions" */;
+			productName = SwipeActions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
