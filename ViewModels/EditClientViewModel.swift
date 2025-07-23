@@ -20,10 +20,13 @@ class EditClientViewModel: ObservableObject {
     @Published var clientTags: [Tag] = []
 
     var onClientUpdated: () -> Void = {}
-    private let repository = ClientRepository()
+    private let repository: ClientRepository
+    private let tagService: TagService
     private let clientId: String
 
-    init(client: Client) {
+    init(client: Client, repository: ClientRepository = AppEnvironment.live.clientRepository, tagService: TagService = AppEnvironment.live.tagService) {
+        self.repository = repository
+        self.tagService = tagService
         self.clientId = client.id
         self.firstName = client.firstName
         self.lastName = client.lastName
@@ -96,7 +99,7 @@ class EditClientViewModel: ObservableObject {
             Task { @MainActor in
                 if success {
                     do {
-                        try await TagService.shared.updateClientTags(clientId: self.clientId, tags: self.clientTags)
+                        try await self.tagService.updateClientTags(clientId: self.clientId, tags: self.clientTags)
                         self.isSaving = false
                         self.onClientUpdated()
                     } catch {

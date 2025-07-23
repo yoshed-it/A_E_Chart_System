@@ -9,9 +9,13 @@ struct ClientJournalChartEntriesSection: View {
     var body: some View {
         VStack(spacing: 16) {
             ForEach(entries) { entry in
-                SwipeToDeleteView(
-                    onDelete: { onDelete(entry) },
-                    onEdit: { onEdit(entry) }
+                SwipeableRow(
+                    leadingActions: [
+                        SwipeAction(label: "Edit", systemImage: "pencil", tint: .accentColor, role: nil, action: { onEdit(entry) })
+                    ],
+                    trailingActions: [
+                        SwipeAction(label: "Delete", systemImage: "trash", tint: .red, role: .destructive, action: { onDelete(entry) })
+                    ]
                 ) {
                     ChartEntryCard(entry: entry, onTap: { onEntryTap(entry) })
                 }

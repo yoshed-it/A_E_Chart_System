@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EditClientView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.appEnvironment) private var env
     @StateObject private var viewModel: EditClientViewModel
     let onSave: () -> Void
 
@@ -10,7 +11,11 @@ struct EditClientView: View {
     let pronounOptions = ["She/Her", "He/Him", "They/Them", "Other"]
 
     init(client: Client, onSave: @escaping () -> Void) {
-        _viewModel = StateObject(wrappedValue: EditClientViewModel(client: client))
+        _viewModel = StateObject(wrappedValue: EditClientViewModel(
+            client: client,
+            repository: AppEnvironment.live.clientRepository,
+            tagService: AppEnvironment.live.tagService
+        ))
         self.onSave = onSave
     }
 

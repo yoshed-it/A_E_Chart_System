@@ -17,27 +17,29 @@ struct ChartsListView: View {
             } else if let error = viewModel.errorMessage {
                 Text("Error: \(error)")
             } else {
-                List(viewModel.charts) { chart in
-                    NavigationLink(destination: ChartDetailView(chart: chart, onEdit: {
-                        editingChart = chart
-                        showEditSheet = true
-                    })) {
-                        chartRowContent(for: chart)
-                    }
-                    .swipeActions(edge: .trailing) {
-                        Button {
-                            editingChart = chart
-                            showEditSheet = true
-                        } label: {
-                            Label("Edit", systemImage: "pencil")
-                        }.tint(.blue)
-                        Button(role: .destructive) {
-                            selectedChart = chart
-                            showDeleteAlert = true
-                        } label: {
-                            Label("Delete", systemImage: "trash")
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(viewModel.charts) { chart in
+                            SwipeableRow(
+                                leadingActions: [
+                                    SwipeAction(label: "Edit", systemImage: "pencil", tint: .accentColor, role: nil, action: {
+                                        editingChart = chart
+                                        showEditSheet = true
+                                    })
+                                ],
+                                trailingActions: [
+                                    SwipeAction(label: "Delete", systemImage: "trash", tint: .red, role: .destructive, action: {
+                                        selectedChart = chart
+                                        showDeleteAlert = true
+                                    })
+                                ]
+                            ) {
+                                ChartEntryCard(entry: chart)
+                            }
                         }
                     }
+                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                    .padding(.vertical, PluckrTheme.verticalPadding)
                 }
             }
         }
@@ -83,27 +85,6 @@ struct ChartsListView: View {
                     .fill(PluckrTheme.card)
                     .shadow(color: PluckrTheme.shadow, radius: 16, x: 0, y: 4)
             )
-        }
-    }
-    
-    @ViewBuilder
-    private func chartRowContent(for chart: ChartEntry) -> some View {
-        HStack {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
-                    ForEach(chart.chartTags, id: \ .self) { tag in
-                        TagView(tag: tag, size: .normal)
-                    }
-                }
-            }
-            Spacer()
-            Button(action: { viewModel.showTagPicker(for: chart) }) {
-                Image(systemName: "tag")
-                    .padding(8)
-                    .background(PluckrTheme.card)
-                    .clipShape(Circle())
-                    .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
-            }
         }
     }
 
