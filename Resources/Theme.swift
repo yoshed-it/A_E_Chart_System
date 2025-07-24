@@ -242,3 +242,25 @@ extension Font {
         .system(size: 14, weight: .regular, design: .default)
     }
 }
+
+struct PluckrSwipeActionStyle {
+    static let editColor = Color("PluckrAccent") 
+    static let deleteColor = Color("PluckrTagRed")
+    static let archiveGray = Color("ArchiveGray")
+    static let archiveOlive = Color("ArchiveOlive")
+    static let shadowColor = Color.black.opacity(0.15)
+    static let shadowRadius: CGFloat = 6
+    static let shadowY: CGFloat = 2
+}
+
+extension View {
+    /// Applies a consistent drop shadow for swipe actions. You can override color, radius, and y-offset if needed.
+    func pluckrSwipeActionShadow(
+        color: Color = PluckrSwipeActionStyle.shadowColor,
+        radius: CGFloat = PluckrSwipeActionStyle.shadowRadius,
+        y: CGFloat = PluckrSwipeActionStyle.shadowY
+    ) -> some View {
+        self.shadow(color: color, radius: radius, x: 0, y: y)
+    }
+}
+

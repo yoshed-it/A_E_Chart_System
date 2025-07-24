@@ -19,7 +19,7 @@ struct ClientJournalMainContentBody: View {
     var editFormViewModel: ChartEntryFormViewModel
     @Binding var isActive: Bool
     @Binding var selectedChart: ChartEntry?
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
@@ -67,20 +67,32 @@ struct ClientJournalMainContentBody: View {
             })
         }
     }
-
+    
     @ViewBuilder
     private func chartEntryRow(for entry: ChartEntry) -> some View {
         SwipeView {
             ChartEntryCard(entry: entry, onTap: { selectedChart = entry })
         } trailingActions: { _ in
-            SwipeAction("Edit", systemImage: "pencil", backgroundColor: .accentColor) {
-                editingChart = entry
-                showEditSheet = true
-            }
-            SwipeAction("Delete", systemImage: "trash", backgroundColor: .red) {
-                deletingChart = entry
-                showDeleteAlert = true
+            Group {
+                SwipeAction(action: {
+                    editingChart = entry
+                    showEditSheet = true
+                }) { _ in
+                    Label("Edit", systemImage: "pencil")
+                        .foregroundColor(.white)
+                } background: { _ in
+                    Color("EditBlue")
+                }
+                SwipeAction(action: {
+                    deletingChart = entry
+                    showDeleteAlert = true
+                }) { _ in
+                    Label("Delete", systemImage: "trash")
+                        .foregroundColor(.white)
+                } background: { _ in
+                    Color("DeleteRed")
+                }
             }
         }
     }
-} 
+}
