@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		093A0AF62E271B060097A6DA /* ChartsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0AF52E271B000097A6DA /* ChartsListViewModel.swift */; };
 		093A0AF82E2720E70097A6DA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0AF72E2720E70097A6DA /* Tag.swift */; };
 		093A0AFB2E2720F10097A6DA /* CustomTagSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0AFA2E2720F10097A6DA /* CustomTagSheet.swift */; };
 		093A0AFC2E2720F10097A6DA /* ClientInfoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0AF92E2720F10097A6DA /* ClientInfoModal.swift */; };
@@ -59,7 +58,6 @@
 		0982B3542E1DCE3600DB6C1A /* PluckrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3422E1DCE3600DB6C1A /* PluckrApp.swift */; };
 		0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */; };
 		0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */; };
-		0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */; };
 		0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */; };
 		0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */; };
 		0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */; };
@@ -149,7 +147,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		093A0AF52E271B000097A6DA /* ChartsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListViewModel.swift; sourceTree = "<group>"; };
 		093A0AF72E2720E70097A6DA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		093A0AF92E2720F10097A6DA /* ClientInfoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoModal.swift; sourceTree = "<group>"; };
 		093A0AFA2E2720F10097A6DA /* CustomTagSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTagSheet.swift; sourceTree = "<group>"; };
@@ -195,7 +192,6 @@
 		0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDetailView.swift; sourceTree = "<group>"; };
 		0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormView.swift; sourceTree = "<group>"; };
 		0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRowView.swift; sourceTree = "<group>"; };
-		0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListView.swift; sourceTree = "<group>"; };
 		0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailView.swift; sourceTree = "<group>"; };
 		0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalView.swift; sourceTree = "<group>"; };
 		0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientView.swift; sourceTree = "<group>"; };
@@ -305,7 +301,6 @@
 		094FF75F2E0F269B00A212F7 = {
 			isa = PBXGroup;
 			children = (
-				099DA7842E319E8700CF3D41 /* Depreciated */,
 				099DA7672E316C9B00CF3D41 /* AppEnvironment.swift */,
 				099DA75F2E2AFC2900CF3D41 /* DEVELOPMENT.md */,
 				099AC5302E27007700F62820 /* PluckrTests */,
@@ -649,15 +644,6 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
-		099DA7842E319E8700CF3D41 /* Depreciated */ = {
-			isa = PBXGroup;
-			children = (
-				0982B3382E1DCE3600DB6C1A /* ChartsListView.swift */,
-				093A0AF52E271B000097A6DA /* ChartsListViewModel.swift */,
-			);
-			path = Depreciated;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -891,7 +877,6 @@
 				099AC4E72E1F2CA000F62820 /* ChartService.swift in Sources */,
 				099DA7592E2AF17200CF3D41 /* CreateOrganizationView.swift in Sources */,
 				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
-				0982B3572E1DCE3600DB6C1A /* ChartsListView.swift in Sources */,
 				099DA7642E2B055E00CF3D41 /* SignUpViewModel.swift in Sources */,
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
 				099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */,
@@ -909,7 +894,6 @@
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
 				099DA7662E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift in Sources */,
 				099DA75B2E2AF19600CF3D41 /* AdminDashboardViewModel.swift in Sources */,
-				093A0AF62E271B060097A6DA /* ChartsListViewModel.swift in Sources */,
 				099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */,
 				0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */,
 				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,

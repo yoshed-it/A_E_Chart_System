@@ -92,6 +92,19 @@ struct ChartDetailView: View {
                     )
                 }
                 
+                // Chart Tags Section
+                if !chart.chartTags.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Chart Tags")
+                            .pluckrSectionHeader()
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], spacing: 8) {
+                            ForEach(chart.chartTags) { tag in
+                                TagView(tag: tag, size: .large)
+                            }
+                        }
+                    }
+                }
+                
                 // Clinical Notes Section
                 if !chart.notes.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {

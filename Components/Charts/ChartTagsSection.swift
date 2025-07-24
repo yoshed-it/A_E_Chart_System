@@ -15,11 +15,9 @@ struct ChartTagsSection: View {
                         .foregroundColor(PluckrTheme.accent)
                 }
             }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(chartTags) { tag in
-                        TagView(tag: tag, size: .large)
-                    }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], spacing: 8) {
+                ForEach(chartTags) { tag in
+                    TagView(tag: tag, size: .large)
                 }
             }
         }
