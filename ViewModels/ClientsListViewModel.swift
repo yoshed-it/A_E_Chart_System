@@ -6,6 +6,15 @@ class ClientsListViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var showSnackbar: Bool = false
+    @Published var snackbarMessage: String = ""
+    private var snackbarTimer: Timer? = nil
+    private(set) var lastFolioAction: FolioAction? = nil
+    enum FolioAction {
+        case added(Client)
+        case removed(Client)
+    }
+    var canUndo: Bool { lastFolioAction != nil }
 
     private let clientRepository: ClientRepository
     
@@ -54,12 +63,51 @@ class ClientsListViewModel: ObservableObject {
                     // Remove the client from the local array
                     self?.clients.removeAll { $0.id == client.id }
                     PluckrLogger.success("Client deleted successfully")
+                    self?.showSnackbar(message: "Client deleted: \(client.fullName)", action: .removed(client))
                 } else {
                     self?.errorMessage = "Failed to delete client"
                     PluckrLogger.error("Failed to delete client")
+                    self?.showSnackbar(message: "Failed to delete client", action: nil)
                 }
                 
                 completion(success)
+            }
+        }
+    }
+
+    func showSnackbar(message: String, action: FolioAction?) {
+        snackbarTimer?.invalidate()
+        snackbarMessage = message
+        lastFolioAction = action
+        showSnackbar = true
+        snackbarTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.showSnackbar = false
+                self?.lastFolioAction = nil
+            }
+        }
+    }
+
+    func undoLastFolioAction() {
+        guard let action = lastFolioAction else { return }
+        switch action {
+        case .added(let client):
+            // This should call a delegate or closure to update the folio in the ProviderHomeViewModel
+            // For now, just hide the snackbar
+            snackbarMessage = "Undid add: \(client.fullName)"
+        case .removed(let client):
+            snackbarMessage = "Undid remove: \(client.fullName)"
+        }
+        lastFolioAction = nil
+        showSnackbarWithTimer()
+    }
+
+    private func showSnackbarWithTimer() {
+        snackbarTimer?.invalidate()
+        showSnackbar = true
+        snackbarTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.showSnackbar = false
             }
         }
     }
