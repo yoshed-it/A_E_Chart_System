@@ -59,7 +59,6 @@
 		0982B3552E1DCE3600DB6C1A /* ChartRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */; };
 		0982B3562E1DCE3600DB6C1A /* ProviderHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3432E1DCE3600DB6C1A /* ProviderHomeRouter.swift */; };
 		0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */; };
-		0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */; };
 		0982B35A2E1DCE3600DB6C1A /* ProviderProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */; };
 		0982B35B2E1DCE3600DB6C1A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0982B3462E1DCE3600DB6C1A /* README.md */; };
 		0982B35C2E1DCE3600DB6C1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */; };
@@ -72,7 +71,6 @@
 		0982B37D2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */; };
 		0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3812E1DE06800DB6C1A /* ClientInput.swift */; };
 		0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */; };
-		0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */; };
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
@@ -128,6 +126,8 @@
 		099DA7872E31A4CB00CF3D41 /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 099DA7862E31A4CB00CF3D41 /* SwipeActions */; };
 		099DA78D2E31BDC100CF3D41 /* SnackbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA78C2E31BDC100CF3D41 /* SnackbarView.swift */; };
 		099DA78F2E31BDCD00CF3D41 /* ClientRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA78E2E31BDCD00CF3D41 /* ClientRowView.swift */; };
+		099DA7912E31BF3100CF3D41 /* ClientInfoFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7902E31BF3100CF3D41 /* ClientInfoFieldsView.swift */; };
+		099DA7932E31BFF100CF3D41 /* DestructiveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7922E31BFF100CF3D41 /* DestructiveButton.swift */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -194,7 +194,6 @@
 		0982B3352E1DCE3600DB6C1A /* ChartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDetailView.swift; sourceTree = "<group>"; };
 		0982B3362E1DCE3600DB6C1A /* ChartEntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormView.swift; sourceTree = "<group>"; };
 		0982B3372E1DCE3600DB6C1A /* ChartRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRowView.swift; sourceTree = "<group>"; };
-		0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailView.swift; sourceTree = "<group>"; };
 		0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalView.swift; sourceTree = "<group>"; };
 		0982B33D2E1DCE3600DB6C1A /* EditClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientView.swift; sourceTree = "<group>"; };
 		0982B33E2E1DCE3600DB6C1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -211,7 +210,6 @@
 		0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeViewModel.swift; sourceTree = "<group>"; };
 		0982B3812E1DE06800DB6C1A /* ClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInput.swift; sourceTree = "<group>"; };
 		0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientViewModel.swift; sourceTree = "<group>"; };
-		0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetailViewModel.swift; sourceTree = "<group>"; };
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
@@ -266,6 +264,8 @@
 		099DA77D2E317C2E00CF3D41 /* TreatmentAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentAreaField.swift; sourceTree = "<group>"; };
 		099DA78C2E31BDC100CF3D41 /* SnackbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackbarView.swift; sourceTree = "<group>"; };
 		099DA78E2E31BDCD00CF3D41 /* ClientRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRowView.swift; sourceTree = "<group>"; };
+		099DA7902E31BF3100CF3D41 /* ClientInfoFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoFieldsView.swift; sourceTree = "<group>"; };
+		099DA7922E31BFF100CF3D41 /* DestructiveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestructiveButton.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -431,7 +431,6 @@
 				099AC5232E25FBF400F62820 /* EditClientViewModel.swift */,
 				099AC51F2E25F34900F62820 /* ClientJournalViewModel.swift */,
 				099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */,
-				0982B3852E1DE2A200DB6C1A /* ClientDetailViewModel.swift */,
 				0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */,
 				0982B3782E1DD2F900DB6C1A /* ClientsListViewModel.swift */,
 				0982B37C2E1DDE8300DB6C1A /* ProviderHomeViewModel.swift */,
@@ -465,7 +464,6 @@
 		099AC4FC2E20860100F62820 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				0982B3392E1DCE3600DB6C1A /* ClientDetailView.swift */,
 				0982B33B2E1DCE3600DB6C1A /* ClientJournalView.swift */,
 				099AC5092E208E9C00F62820 /* ClientListView.swift */,
 			);
@@ -602,6 +600,7 @@
 		099DA7732E3177B200CF3D41 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
+				099DA7922E31BFF100CF3D41 /* DestructiveButton.swift */,
 				099DA78C2E31BDC100CF3D41 /* SnackbarView.swift */,
 				099DA7722E3177B200CF3D41 /* NotesFieldView.swift */,
 				099AC51C2E25EAC400F62820 /* LoadingView.swift */,
@@ -615,6 +614,7 @@
 		099DA7752E3177C900CF3D41 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				099DA7902E31BF3100CF3D41 /* ClientInfoFieldsView.swift */,
 				099DA78E2E31BDCD00CF3D41 /* ClientRowView.swift */,
 				093A0AF92E2720F10097A6DA /* ClientInfoModal.swift */,
 				099AC51B2E25EAC400F62820 /* ClientCardView.swift */,
@@ -845,7 +845,9 @@
 				093A0B542E2969AF0097A6DA /* ImageConsentFormView.swift in Sources */,
 				099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */,
 				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
+				099DA7932E31BFF100CF3D41 /* DestructiveButton.swift in Sources */,
 				099DA78F2E31BDCD00CF3D41 /* ClientRowView.swift in Sources */,
+				099DA7912E31BF3100CF3D41 /* ClientInfoFieldsView.swift in Sources */,
 				093A0B142E2853080097A6DA /* ProbeService.swift in Sources */,
 				0982B34E2E1DCE3600DB6C1A /* AddClientView.swift in Sources */,
 				099DA75E2E2AF1C200CF3D41 /* AdminDashboardView.swift in Sources */,
@@ -892,11 +894,9 @@
 				099DA77C2E317ADD00CF3D41 /* NotesCard.swift in Sources */,
 				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,
 				099AC4E92E1F2E2F00F62820 /* ModalityPickerView.swift in Sources */,
-				0982B3862E1DE2AB00DB6C1A /* ClientDetailViewModel.swift in Sources */,
 				09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */,
 				093A0AFB2E2720F10097A6DA /* CustomTagSheet.swift in Sources */,
 				093A0AFC2E2720F10097A6DA /* ClientInfoModal.swift in Sources */,
-				0982B3592E1DCE3600DB6C1A /* ClientDetailView.swift in Sources */,
 				099AC5182E25E31600F62820 /* AuthService.swift in Sources */,
 				093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */,
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,

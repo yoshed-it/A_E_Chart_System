@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct ClientJournalHeaderSection: View {
-    let client: Client
+    @Binding var client: Client
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {

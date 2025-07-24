@@ -22,7 +22,7 @@ class EditClientViewModel: ObservableObject {
     var onClientUpdated: () -> Void = {}
     private let repository: ClientRepository
     private let tagService: TagService
-    private let clientId: String
+    private(set) var clientId: String
 
     init(client: Client, repository: ClientRepository = AppEnvironment.live.clientRepository, tagService: TagService = AppEnvironment.live.tagService) {
         self.repository = repository

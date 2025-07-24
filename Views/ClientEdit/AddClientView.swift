@@ -108,10 +108,10 @@ struct AddClientView: View {
                             // Error Message
                             if !viewModel.errorMessage.isEmpty {
                                 Text(viewModel.errorMessage)
-                                    .font(PluckrTheme.captionFont())
                                     .foregroundColor(.red)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, PluckrTheme.horizontalPadding)
+                                    .font(.caption)
+                                    .padding(.top, 8)
+                                    .padding(.horizontal)
                             }
                             
                             // Save Button

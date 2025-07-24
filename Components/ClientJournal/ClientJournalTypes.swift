@@ -103,10 +103,13 @@ extension View {
 
 // MARK: - Toolbar Extension
 extension View {
-    func applyJournalToolbar(showNewEntry: Binding<Bool>, showingConsentForm: Binding<Bool>) -> some View {
+    func applyJournalToolbar(showNewEntry: Binding<Bool>, showingConsentForm: Binding<Bool>, showEditClient: Binding<Bool>) -> some View {
         self.toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
+                    Button("Edit Client") {
+                        showEditClient.wrappedValue = true
+                    }
                     Button("Image Consent Form") {
                         showingConsentForm.wrappedValue = true
                     }

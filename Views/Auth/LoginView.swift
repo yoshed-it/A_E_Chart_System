@@ -68,7 +68,7 @@ struct LoginView: View {
                         if let errorMessage = authService.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
-                                .font(PluckrTheme.captionFont())
+                                .font(.caption)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal)
                         }

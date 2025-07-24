@@ -293,5 +293,22 @@ final class ClientRepository {
                 }
         }
     }
+    
+    func fetchClient(by id: String, completion: @escaping (Client?) -> Void) {
+        Task {
+            let orgId = await OrganizationService.shared.getCurrentOrganizationId()!
+            self.db.collection("organizations")
+                .document(orgId)
+                .collection("clients")
+                .document(id)
+                .getDocument { snapshot, error in
+                    if let data = snapshot?.data(), let client = Client(data: data, id: snapshot?.documentID) {
+                        completion(client)
+                    } else {
+                        completion(nil)
+                    }
+                }
+        }
+    }
 }
 

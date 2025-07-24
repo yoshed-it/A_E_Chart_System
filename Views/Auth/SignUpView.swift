@@ -75,11 +75,11 @@ struct SignUpView: View {
                                 // Force keyboard to show without auto-fill
                             }
                         
-                        // Status messages
-                        if let errorMessage = viewModel.errorMessage {
+                        // Error Message (future-proof)
+                        if let errorMessage = viewModel.errorMessage, !errorMessage.isEmpty {
                             Text(errorMessage)
                                 .foregroundColor(.red)
-                                .font(PluckrTheme.captionFont())
+                                .font(.caption)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal)
                         }

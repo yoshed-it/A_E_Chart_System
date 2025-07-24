@@ -2,7 +2,7 @@ import SwiftUI
 import SwipeActions
 
 struct ClientJournalMainContentBody: View {
-    let client: Client
+    @Binding var client: Client
     @Binding var clientTags: [Tag]
     @Binding var availableClientTags: [Tag]
     @ObservedObject var viewModel: ClientJournalViewModel
@@ -23,7 +23,7 @@ struct ClientJournalMainContentBody: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                ClientJournalHeaderSection(client: client)
+                ClientJournalHeaderSection(client: $client)
                 ClientJournalTagsSection(
                     clientTags: clientTags,
                     onShowTagPicker: { showingClientTagPicker = true }

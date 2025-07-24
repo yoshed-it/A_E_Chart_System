@@ -4,7 +4,7 @@ import SwiftUI
 import SwiftUIIntrospect
 
 struct ClientJournalView: View {
-    let client: Client
+    @State var client: Client
     @Binding var isActive: Bool
     @StateObject private var viewModel: ClientJournalViewModel
     @State private var showNewEntry = false
@@ -23,7 +23,7 @@ struct ClientJournalView: View {
     @State private var selectedChart: ChartEntry? = nil
     
     init(client: Client, isActive: Binding<Bool>) {
-        self.client = client
+        self._client = State(initialValue: client)
         self._isActive = isActive
         self._viewModel = StateObject(wrappedValue: ClientJournalViewModel(clientId: client.id))
     }
@@ -32,7 +32,10 @@ struct ClientJournalView: View {
         ZStack {
             PluckrTheme.backgroundGradient.ignoresSafeArea()
             ClientJournalMainContent(
-                client: client,
+                client: $client,
+                onClientUpdated: { updatedClient in
+                    client = updatedClient
+                },
                 clientTags: $clientTags,
                 availableClientTags: $availableClientTags,
                 viewModel: viewModel,

@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct ClientJournalMainContent: View {
-    let client: Client
+    @Binding var client: Client
+    let onClientUpdated: (Client) -> Void
     @Binding var clientTags: [Tag]
     @Binding var availableClientTags: [Tag]
     @ObservedObject var viewModel: ClientJournalViewModel
@@ -18,16 +19,23 @@ struct ClientJournalMainContent: View {
     var editFormViewModel: ChartEntryFormViewModel
     @Binding var isActive: Bool
     @Binding var selectedChart: ChartEntry?
+    @State private var showEditClient = false
 
     var body: some View {
         contentWithAlerts
+            .sheet(isPresented: $showEditClient) {
+                EditClientView(client: client, onSave: { updatedClient in
+                    showEditClient = false
+                    onClientUpdated(updatedClient)
+                })
+            }
             .onAppear(perform: handleOnAppear)
             .onChange(of: clientTags, perform: handleOnChangeClientTags)
     }
 
     var contentWithToolbar: some View {
         ClientJournalMainContentBody(
-            client: client,
+            client: $client,
             clientTags: $clientTags,
             availableClientTags: $availableClientTags,
             viewModel: viewModel,
@@ -45,7 +53,7 @@ struct ClientJournalMainContent: View {
             isActive: $isActive,
             selectedChart: $selectedChart
         )
-        .applyJournalToolbar(showNewEntry: $showNewEntry, showingConsentForm: $showingConsentForm)
+        .applyJournalToolbar(showNewEntry: $showNewEntry, showingConsentForm: $showingConsentForm, showEditClient: $showEditClient)
     }
 
     var contentWithSheets: some View {
