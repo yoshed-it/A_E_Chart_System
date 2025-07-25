@@ -102,6 +102,19 @@ struct EditClientView: View {
         }
     }
     
+    // MARK: - Computed Properties for Alert
+    private var deleteClientAlertButtons: some View {
+        Group {
+            Button("Delete", role: .destructive) {
+                viewModel.deleteClient {
+                    dismiss()
+                    // Optionally notify parent view here
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+    }
+    
     // MARK: - Methods
     private func handleSaveStateChange(_ isSaving: Bool) {
         if !isSaving && viewModel.errorMessage.isEmpty {
@@ -143,17 +156,19 @@ struct EditClientView: View {
             .onChange(of: viewModel.isSaving) { _, newValue in
                 handleSaveStateChange(newValue)
             }
-            .alert("Delete Client?", isPresented: $showDeleteAlert) {
-                Button("Delete", role: .destructive) {
+            DestructiveAlertView(
+                title: "Delete Client?",
+                message: "Are you sure you want to delete this client? This action cannot be undone.",
+                isPresented: $showDeleteAlert,
+                destructiveAction: {
                     viewModel.deleteClient {
                         dismiss()
                         // Optionally notify parent view here
                     }
-                }
-                Button("Cancel", role: .cancel) {}
-            } message: {
-                Text("Are you sure you want to delete this client? This action cannot be undone.")
-            }
+                },
+                destructiveLabel: "Delete",
+                cancelLabel: "Cancel"
+            )
         }
     }
 }

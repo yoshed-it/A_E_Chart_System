@@ -72,6 +72,7 @@
 		0982B3822E1DE07100DB6C1A /* ClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3812E1DE06800DB6C1A /* ClientInput.swift */; };
 		0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */; };
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
+		0995D55B2E32E48E00371D7A /* DestructiveAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
@@ -211,6 +212,7 @@
 		0982B3812E1DE06800DB6C1A /* ClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInput.swift; sourceTree = "<group>"; };
 		0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientViewModel.swift; sourceTree = "<group>"; };
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestructiveAlertView.swift; sourceTree = "<group>"; };
 		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -600,6 +602,7 @@
 		099DA7732E3177B200CF3D41 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
+				0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */,
 				099DA7922E31BFF100CF3D41 /* DestructiveButton.swift */,
 				099DA78C2E31BDC100CF3D41 /* SnackbarView.swift */,
 				099DA7722E3177B200CF3D41 /* NotesFieldView.swift */,
@@ -898,6 +901,7 @@
 				093A0AFB2E2720F10097A6DA /* CustomTagSheet.swift in Sources */,
 				093A0AFC2E2720F10097A6DA /* ClientInfoModal.swift in Sources */,
 				099AC5182E25E31600F62820 /* AuthService.swift in Sources */,
+				0995D55B2E32E48E00371D7A /* DestructiveAlertView.swift in Sources */,
 				093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */,
 				099AC4EB2E1F2E3C00F62820 /* MachineSettingsView.swift in Sources */,
 				099DA7662E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift in Sources */,

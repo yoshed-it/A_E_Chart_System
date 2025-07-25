@@ -113,5 +113,27 @@ class EditClientViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteClient(completion: @escaping () -> Void) {
+        let client = Client(
+            id: clientId,
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone,
+            email: email,
+            pronouns: pronouns,
+            clientTags: clientTags
+        )
+        
+        repository.deleteClient(client) { success in
+            Task { @MainActor in
+                if success {
+                    completion()
+                } else {
+                    self.errorMessage = "Failed to delete client."
+                }
+            }
+        }
+    }
 }
 
