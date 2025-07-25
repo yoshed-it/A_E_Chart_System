@@ -7,6 +7,8 @@ class ClientJournalViewModel: ObservableObject {
     @Published var entries: [ChartEntry] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var clientTags: [Tag] = []
+    @Published var availableClientTags: [Tag] = []
     
     let clientId: String
     private var listenerRegistration: ListenerRegistration?
@@ -75,5 +77,51 @@ class ClientJournalViewModel: ObservableObject {
         await ChartEntryService.deleteEntry(for: clientId, chartId: chartId)
         // No need to manually reload - the listener will handle it
         isLoading = false
+    }
+    
+    // MARK: - Tag Management
+    func loadClientTags(client: Client) async {
+        // Load client tags from the client object or database
+        clientTags = client.clientTags
+    }
+    func loadAvailableClientTags() async {
+        PluckrLogger.info("ClientJournalViewModel: Starting loadAvailableClientTags")
+        
+        // Get library tags
+        let libraryTags = await TagService.shared.getAvailableTags(context: .client)
+        PluckrLogger.info("ClientJournalViewModel: Loaded \(libraryTags.count) library tags")
+        PluckrLogger.info("ClientJournalViewModel: Current clientTags count: \(clientTags.count)")
+        
+        // Create a dictionary to track unique tags by label (case-insensitive)
+        var uniqueTagsDict: [String: Tag] = [:]
+        
+        // Add library tags first
+        for tag in libraryTags {
+            uniqueTagsDict[tag.label.lowercased()] = tag
+        }
+        
+        // Add client's current tags (only if not already present)
+        for tag in clientTags {
+            if uniqueTagsDict[tag.label.lowercased()] == nil {
+                uniqueTagsDict[tag.label.lowercased()] = tag
+                PluckrLogger.info("ClientJournalViewModel: Added client tag '\(tag.label)' to available tags")
+            } else {
+                PluckrLogger.info("ClientJournalViewModel: Skipped duplicate client tag '\(tag.label)'")
+            }
+        }
+        
+        // Convert back to array and sort
+        let allAvailableTags = Array(uniqueTagsDict.values).sorted { $0.label < $1.label }
+        
+        availableClientTags = allAvailableTags
+        PluckrLogger.info("ClientJournalViewModel: Final availableClientTags count: \(allAvailableTags.count)")
+    }
+    func saveClientTags(clientId: String, tags: [Tag]) async {
+        do {
+            try await TagService.shared.updateClientTags(clientId: clientId, tags: tags)
+            clientTags = tags
+        } catch {
+            print("Failed to save client tags: \(error)")
+        }
     }
 }

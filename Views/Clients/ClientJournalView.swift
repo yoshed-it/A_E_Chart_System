@@ -17,8 +17,7 @@ struct ClientJournalView: View {
     @State private var activeSheet: ActiveSheet? = nil
     @State private var showingClientTagPicker = false
     @State private var showDeleteClientAlert = false
-    @State private var clientTags: [Tag] = []
-    @State private var availableClientTags: [Tag] = []
+    // Tag state now managed by ViewModel
     @State private var showingConsentForm = false
     @State private var selectedChart: ChartEntry? = nil
     
@@ -36,8 +35,8 @@ struct ClientJournalView: View {
                 onClientUpdated: { updatedClient in
                     client = updatedClient
                 },
-                clientTags: $clientTags,
-                availableClientTags: $availableClientTags,
+                clientTags: $viewModel.clientTags,
+                availableClientTags: $viewModel.availableClientTags,
                 viewModel: viewModel,
                 selectedChartId: $selectedChartId,
                 activeSheet: $activeSheet,
@@ -54,35 +53,20 @@ struct ClientJournalView: View {
                 selectedChart: $selectedChart
             )
         }
-        .onChange(of: clientTags) { newTags in
+        .onChange(of: viewModel.clientTags) { newTags in
             Task {
-                await saveClientTags(newTags)
+                await viewModel.saveClientTags(clientId: client.id, tags: newTags)
+            }
+        }
+        .onAppear {
+            Task {
+                PluckrLogger.info("ClientJournalView: onAppear - starting tag loading")
+                await viewModel.loadClientTags(client: client)
+                PluckrLogger.info("ClientJournalView: onAppear - clientTags loaded: \(viewModel.clientTags.count)")
+                await viewModel.loadAvailableClientTags()
+                PluckrLogger.info("ClientJournalView: onAppear - availableClientTags loaded: \(viewModel.availableClientTags.count)")
             }
         }
     }
     
-    
-    // MARK: - Client Tag Management
-    private func loadClientTags() async {
-        // Load client tags from the client object or database
-        // For now, we'll use an empty array and implement this later
-        clientTags = []
-    }
-    
-    private func loadAvailableClientTags() async {
-        availableClientTags = await TagService.shared.getAvailableTags(context: .client)
-    }
-    
-    private func saveClientTags(_ tags: [Tag]) async {
-        do {
-            try await TagService.shared.updateClientTags(clientId: client.id, tags: tags)
-        } catch {
-            print("Failed to save client tags: \(error)")
-        }
-    }
-    
-    private func deleteClient() {
-        // Implementation for deleting client
-        print("Delete client implementation")
-    }
 }

@@ -47,7 +47,7 @@ struct ChartDetailView: View {
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.textSecondary)
                             Spacer()
-                            Text("\(chart.rfLevel, specifier: "%.1f") MHz")
+                            Text(chart.formattedRFLevel)
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.textPrimary)
                         }
@@ -57,7 +57,7 @@ struct ChartDetailView: View {
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.textSecondary)
                             Spacer()
-                            Text("\(chart.dcLevel, specifier: "%.1f") mA")
+                            Text(chart.formattedDCLevel)
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.textPrimary)
                         }
@@ -125,18 +125,18 @@ struct ChartDetailView: View {
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.textSecondary)
                             Spacer()
-                            Text(chart.createdAt.formatted(date: .abbreviated, time: .shortened))
+                            Text(chart.formattedCreatedAt)
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.textPrimary)
                         }
                         
-                        if let lastEdited = chart.lastEditedAt {
+                        if let lastEdited = chart.formattedLastEditedAt {
                             HStack {
                                 Text("Last Edited")
                                     .font(PluckrTheme.bodyFont())
                                     .foregroundColor(PluckrTheme.textSecondary)
                                 Spacer()
-                                Text(lastEdited.formatted(date: .abbreviated, time: .shortened))
+                                Text(lastEdited)
                                     .font(PluckrTheme.bodyFont())
                                     .foregroundColor(PluckrTheme.textPrimary)
                             }

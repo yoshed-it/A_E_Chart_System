@@ -80,3 +80,18 @@ struct ChartEntry: Identifiable {
         return dict
     }
 }
+
+extension ChartEntry {
+    var formattedRFLevel: String {
+        String(format: "%.1f MHz", rfLevel)
+    }
+    var formattedDCLevel: String {
+        String(format: "%.1f mA", dcLevel)
+    }
+    var formattedCreatedAt: String {
+        createdAt.formatted(date: .abbreviated, time: .shortened)
+    }
+    var formattedLastEditedAt: String? {
+        lastEditedAt?.formatted(date: .abbreviated, time: .shortened)
+    }
+}

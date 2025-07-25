@@ -4,11 +4,13 @@ struct CustomTagSheet: View {
     @Binding var tagLabel: String
     @Binding var tagColor: String
     @Binding var saveToLibrary: Bool
-    let context: TagPickerModal.TagContext
+    let context: TagContext
     let onSave: (Tag) -> Void
     
     @Environment(\.dismiss) var dismiss
     @State private var showingColorPicker = false
+    @State private var errorMessage: String? = nil
+    @State private var isSaving = false
     
     private let availableColors = [
         "PluckrTagGreen", "PluckrTagBeige", "PluckrTagTan",
@@ -69,43 +71,71 @@ struct CustomTagSheet: View {
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Save") {
-                            let newTag = Tag(label: tagLabel, colorNameOrHex: tagColor)
-                            
-                            // Save to library if requested
-                            if saveToLibrary {
-                                Task {
-                                    do {
-                                        try await TagService.shared.saveCustomTagToLibrary(tag: newTag, context: context)
-                                        PluckrLogger.success("Successfully saved custom tag '\(newTag.label)' to library")
-                                        
-                                        // Call onSave after successful save
-                                        await MainActor.run {
-                                            onSave(newTag)
-                                            dismiss()
-                                        }
-                                    } catch {
-                                        PluckrLogger.error("Failed to save tag to library: \(error.localizedDescription)")
-                                        
-                                        // Still call onSave even if library save fails
-                                        await MainActor.run {
-                                            onSave(newTag)
-                                            dismiss()
-                                        }
-                                    }
-                                }
-                            } else {
-                                // If not saving to library, just call onSave immediately
-                                onSave(newTag)
-                                dismiss()
-                            }
+                        Button(isSaving ? "Saving..." : "Save") {
+                            saveTag()
                         }
-                        .disabled(tagLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .disabled(tagLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isSaving)
                     }
                 }
         }
         .sheet(isPresented: $showingColorPicker) {
             ColorPickerSheet(selectedColor: $tagColor)
+        }
+        .alert("Error", isPresented: .constant(errorMessage != nil)) {
+            Button("OK") {
+                errorMessage = nil
+            }
+        } message: {
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
+            }
+        }
+    }
+    
+    private func saveTag() {
+        let trimmedLabel = tagLabel.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedLabel.isEmpty else {
+            errorMessage = "Tag label cannot be empty"
+            return
+        }
+        
+        let newTag = Tag(label: trimmedLabel, colorNameOrHex: tagColor)
+        
+        isSaving = true
+        Task {
+            do {
+                if saveToLibrary {
+                    // Save to library with duplicate checking
+                    try await TagService.shared.createTag(newTag, context: context)
+                    PluckrLogger.success("Successfully saved custom tag '\(trimmedLabel)' to library")
+                    
+                    // Only call onSave if successfully saved to library
+                    await MainActor.run {
+                        onSave(newTag)
+                        dismiss()
+                    }
+                } else {
+                    // If not saving to library, just call onSave immediately
+                    await MainActor.run {
+                        onSave(newTag)
+                        dismiss()
+                    }
+                }
+            } catch let tagError as TagError {
+                PluckrLogger.error("Failed to save tag: \(tagError.localizedDescription)")
+                await MainActor.run {
+                    errorMessage = tagError.localizedDescription
+                }
+            } catch {
+                PluckrLogger.error("Failed to save tag: \(error.localizedDescription)")
+                await MainActor.run {
+                    errorMessage = "Failed to save tag: \(error.localizedDescription)"
+                }
+            }
+            
+            await MainActor.run {
+                isSaving = false
+            }
         }
     }
 }

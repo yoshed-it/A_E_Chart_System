@@ -13,7 +13,7 @@ struct ClientJournalTagsSection: View {
                 Button {
                     onShowTagPicker()
                 } label: {
-                    Image(systemName: "plus.circle.fill")
+                    Image(systemName: "tag.circle.fill")
                         .foregroundColor(PluckrTheme.accent)
                         .font(PluckrTheme.subheadingFont(size: 22))
                 }

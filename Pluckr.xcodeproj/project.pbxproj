@@ -73,6 +73,7 @@
 		0982B3842E1DE0F400DB6C1A /* AddClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */; };
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 		0995D55B2E32E48E00371D7A /* DestructiveAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */; };
+		0995D55D2E3420F400371D7A /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55C2E3420F400371D7A /* TagViewModel.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
@@ -213,6 +214,7 @@
 		0982B3832E1DE0E900DB6C1A /* AddClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClientViewModel.swift; sourceTree = "<group>"; };
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestructiveAlertView.swift; sourceTree = "<group>"; };
+		0995D55C2E3420F400371D7A /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
 		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				0995D55C2E3420F400371D7A /* TagViewModel.swift */,
 				099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */,
 				099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */,
 				099DA75A2E2AF19600CF3D41 /* AdminDashboardViewModel.swift */,
@@ -846,6 +849,7 @@
 				093A0B522E2969AF0097A6DA /* ChartModalitySection.swift in Sources */,
 				093A0B532E2969AF0097A6DA /* ChartEntryCard.swift in Sources */,
 				093A0B542E2969AF0097A6DA /* ImageConsentFormView.swift in Sources */,
+				0995D55D2E3420F400371D7A /* TagViewModel.swift in Sources */,
 				099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */,
 				0982B34D2E1DCE3600DB6C1A /* ChartEntry.swift in Sources */,
 				099DA7932E31BFF100CF3D41 /* DestructiveButton.swift in Sources */,

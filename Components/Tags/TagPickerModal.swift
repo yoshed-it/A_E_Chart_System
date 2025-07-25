@@ -16,11 +16,6 @@ struct TagPickerModal: View {
     @State private var allAvailableTags: [Tag] = []
     @State private var isLoading = false
     
-    enum TagContext {
-        case client
-        case chart
-    }
-    
     var body: some View {
         VStack(spacing: 0) {
             // Header
@@ -35,11 +30,11 @@ struct TagPickerModal: View {
                         .font(PluckrTheme.subheadingFont(size: 22))
                         .fontWeight(.semibold)
                     Spacer()
-                    Button("Add Custom") {
-                        showingCustomTagSheet = true
+                    Button(action: { showingCustomTagSheet = true }) {
+                        Label("Add Custom", systemImage: "tag")
+                            .font(.subheadline)
+                            .font(PluckrTheme.captionFont())
                     }
-                    .font(.subheadline)
-                    .font(PluckrTheme.captionFont())
                     .foregroundColor(.accentColor)
                 }
                 .padding(.horizontal)
@@ -76,8 +71,23 @@ struct TagPickerModal: View {
                 saveToLibrary: $saveToLibrary,
                 context: context,
                 onSave: { tag in
-                    allAvailableTags.append(tag)
-                    selectedTags.append(tag)
+                    // Check if tag already exists in available tags
+                    let tagExists = allAvailableTags.contains { $0.label.lowercased() == tag.label.lowercased() }
+                    if !tagExists {
+                        allAvailableTags.append(tag)
+                        PluckrLogger.info("TagPickerModal: Added new custom tag '\(tag.label)' to available tags")
+                    } else {
+                        PluckrLogger.info("TagPickerModal: Skipped duplicate custom tag '\(tag.label)'")
+                    }
+                    
+                    // Check if tag is already selected
+                    let isSelected = selectedTags.contains { $0.label.lowercased() == tag.label.lowercased() }
+                    if !isSelected {
+                        selectedTags.append(tag)
+                        PluckrLogger.info("TagPickerModal: Added custom tag '\(tag.label)' to selected tags")
+                    } else {
+                        PluckrLogger.info("TagPickerModal: Skipped adding duplicate selected tag '\(tag.label)'")
+                    }
                 }
             )
         }
@@ -87,25 +97,40 @@ struct TagPickerModal: View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
                 ForEach(allAvailableTags) { tag in
-                    TagView(tag: tag, size: .large)
-                        .overlay(
-                            Group {
-                                if selectedTags.contains(tag) {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.accentColor, lineWidth: 2)
-                                }
-                            }
-                        )
-                        .onTapGesture {
-                            // Haptic feedback for better UX
-                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                            impactFeedback.impactOccurred()
-                            if selectedTags.contains(tag) {
-                                selectedTags.removeAll { $0 == tag }
-                            } else {
-                                selectedTags.append(tag)
+                    TagView(
+                        tag: tag,
+                        size: .large,
+                        onRemove: selectedTags.contains(where: { $0.label.lowercased() == tag.label.lowercased() }) ? {
+                            selectedTags.removeAll { $0.label.lowercased() == tag.label.lowercased() }
+                        } : nil
+                    )
+                    .overlay(
+                        Group {
+                            if selectedTags.contains(where: { $0.label.lowercased() == tag.label.lowercased() }) {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.accentColor, lineWidth: 2)
                             }
                         }
+                    )
+                    .onTapGesture {
+                        // Haptic feedback for better UX
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedback.impactOccurred()
+                        
+                        if selectedTags.contains(where: { $0.label.lowercased() == tag.label.lowercased() }) {
+                            // Remove tag if already selected
+                            selectedTags.removeAll { $0.label.lowercased() == tag.label.lowercased() }
+                            PluckrLogger.info("TagPickerModal: Removed tag '\(tag.label)' from selection")
+                        } else {
+                            // Add tag if not selected (prevent duplicates)
+                            if !selectedTags.contains(where: { $0.label.lowercased() == tag.label.lowercased() }) {
+                                selectedTags.append(tag)
+                                PluckrLogger.info("TagPickerModal: Added tag '\(tag.label)' to selection")
+                            } else {
+                                PluckrLogger.info("TagPickerModal: Skipped adding duplicate tag '\(tag.label)'")
+                            }
+                        }
+                    }
                 }
             }
             .padding()
@@ -115,9 +140,35 @@ struct TagPickerModal: View {
     private func loadTags() {
         isLoading = true
         Task {
-            let tags = await TagService.shared.getAvailableTags(context: context)
+            PluckrLogger.info("TagPickerModal: loadTags() called")
+            PluckrLogger.info("TagPickerModal: availableTags count: \(availableTags.count)")
+            PluckrLogger.info("TagPickerModal: selectedTags count: \(selectedTags.count)")
+            
+            // Always use provided availableTags if they exist, otherwise load from Firestore
+            let tags: [Tag]
+            if availableTags.count > 0 {
+                tags = availableTags
+                PluckrLogger.info("TagPickerModal: Using provided availableTags (\(tags.count) tags)")
+                for tag in tags {
+                    PluckrLogger.info("TagPickerModal: Available tag: '\(tag.label)'")
+                }
+            } else {
+                PluckrLogger.info("TagPickerModal: No availableTags provided, loading from Firestore")
+                tags = await TagService.shared.getAvailableTags(context: context)
+                PluckrLogger.info("TagPickerModal: Loaded tags from Firestore (\(tags.count) tags)")
+            }
+            
             await MainActor.run {
                 allAvailableTags = tags
+                PluckrLogger.info("TagPickerModal: Set allAvailableTags to \(tags.count) tags")
+                PluckrLogger.info("TagPickerModal: selectedTags count: \(selectedTags.count)")
+                
+                // Debug: Check which tags should be highlighted
+                for tag in selectedTags {
+                    let isInAvailable = allAvailableTags.contains { $0.label.lowercased() == tag.label.lowercased() }
+                    PluckrLogger.info("TagPickerModal: Selected tag '\(tag.label)' is in available: \(isInAvailable)")
+                }
+                
                 isLoading = false
             }
         }

@@ -76,4 +76,11 @@ extension Color {
             opacity: Double(a) / 255
         )
     }
+}
+
+// MARK: - Tag Context
+/// Used to distinguish between client and chart tag contexts throughout the app
+public enum TagContext: String, Codable, CaseIterable {
+    case client
+    case chart
 } 
