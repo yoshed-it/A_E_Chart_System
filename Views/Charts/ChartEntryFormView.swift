@@ -33,8 +33,6 @@ struct ChartEntryFormView: View {
     @State private var showDcWheel = false
     @State private var showSuccessAlert = false
     @State private var showErrorAlert = false
-    @State private var showValidationAlert = false
-    @State private var validationMessage = ""
     @State private var showingChartTagPicker = false
 
     init(clientId: String, chartId: String? = nil, onSave: @escaping () -> Void) {
@@ -53,7 +51,7 @@ struct ChartEntryFormView: View {
                 .toolbar { toolbarContent }
                 .alert("Success", isPresented: $showSuccessAlert) { Button("OK") { showSuccessAlert = false } } message: { Text(chartId == nil ? "Chart entry created successfully." : "Chart entry updated successfully.") }
                 .alert("Error", isPresented: $showErrorAlert) { Button("OK") { showErrorAlert = false } } message: { Text(viewModel.errorMessage ?? "An error occurred.") }
-                .alert("Validation Error", isPresented: $showValidationAlert) { Button("OK") { showValidationAlert = false } } message: { Text(validationMessage) }
+                .alert("Validation Error", isPresented: $viewModel.showValidationAlert) { Button("OK") { viewModel.showValidationAlert = false } } message: { Text(viewModel.validationMessage ?? "") }
                 .onChange(of: viewModel.errorMessage) { _, newValue in if let newValue = newValue, !newValue.isEmpty { showErrorAlert = true } }
                 .overlay { overlays }
         }
@@ -73,7 +71,13 @@ struct ChartEntryFormView: View {
                     .foregroundColor(PluckrTheme.accent)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") { validateAndSave() }
+                Button("Save") {
+                    viewModel.validateAndSaveChart(for: clientId, chartId: chartId) {
+                        showSuccessAlert = true
+                        onSave()
+                        dismiss()
+                    }
+                }
                     .foregroundColor(PluckrTheme.accent)
                     .font(PluckrTheme.bodyFont())
                     .disabled(viewModel.isSaving)
@@ -203,22 +207,6 @@ struct ChartEntryFormView: View {
     }
 
     // MARK: - Actions
-    private func saveChart() {
-        PluckrLogger.info("Saving chart (chartId: \(chartId ?? "new"))")
-        viewModel.saveChart(for: clientId, chartId: chartId) { success in
-            if success {
-                PluckrLogger.info("Chart saved successfully (chartId: \(chartId ?? "new"))")
-                showSuccessAlert = true
-                onSave()
-                dismiss()
-            } else {
-                PluckrLogger.info("Chart save failed (chartId: \(chartId ?? "new"))")
-                showErrorAlert = true
-            }
-        }
-    }
-    
-    // MARK: - Helpers
     private func handleImageUpload(_ selections: [PhotosPickerItem]) {
         // Use async/await properly with @MainActor
         Task { @MainActor in
@@ -234,32 +222,6 @@ struct ChartEntryFormView: View {
             } else {
                 viewModel.imageUploadErrorMessage = "Upload failed."
             }
-        }
-    }
-
-    private func validateAndSave() {
-        var missingFields: [String] = []
-        
-        // Check required fields
-        if viewModel.selectedModality.isEmpty {
-            missingFields.append("Treatment Modality")
-        }
-        
-        if viewModel.usingOnePiece && viewModel.selectedOnePieceProbe.isEmpty {
-            missingFields.append("One-Piece Probe")
-        } else if !viewModel.usingOnePiece && viewModel.selectedTwoPieceProbe.isEmpty {
-            missingFields.append("Two-Piece Probe")
-        }
-        
-        if viewModel.treatmentArea.isEmpty {
-            missingFields.append("Treatment Area")
-        }
-        
-        if !missingFields.isEmpty {
-            validationMessage = "Please complete the following required fields:\n\n• " + missingFields.joined(separator: "\n• ")
-            showValidationAlert = true
-        } else {
-            saveChart()
         }
     }
 }

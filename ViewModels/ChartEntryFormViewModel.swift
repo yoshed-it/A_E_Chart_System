@@ -22,6 +22,8 @@ final class ChartEntryFormViewModel: ObservableObject {
     @Published var chartId: String? = nil // Track current chartId
     @Published var isLoading: Bool = false
     @Published var chartTags: [Tag] = []
+    @Published var validationMessage: String? = nil
+    @Published var showValidationAlert: Bool = false
 
     // MARK: - Dependencies
     private let chartService: ChartService
@@ -118,6 +120,32 @@ final class ChartEntryFormViewModel: ObservableObject {
                     PluckrLogger.error("Failed to save chart: \(error.localizedDescription)")
                     completion(false)
                 }
+            }
+        }
+    }
+    
+    // MARK: - Validation and Save
+    func validateAndSaveChart(for clientId: String, chartId: String? = nil, onSuccess: @escaping () -> Void) {
+        var missingFields: [String] = []
+        if selectedModality.isEmpty {
+            missingFields.append("Treatment Modality")
+        }
+        if usingOnePiece && selectedOnePieceProbe.isEmpty {
+            missingFields.append("One-Piece Probe")
+        } else if !usingOnePiece && selectedTwoPieceProbe.isEmpty {
+            missingFields.append("Two-Piece Probe")
+        }
+        if treatmentArea.isEmpty {
+            missingFields.append("Treatment Area")
+        }
+        if !missingFields.isEmpty {
+            validationMessage = "Please complete the following required fields:\n\n• " + missingFields.joined(separator: "\n• ")
+            showValidationAlert = true
+            return
+        }
+        saveChart(for: clientId, chartId: chartId) { success in
+            if success {
+                onSuccess()
             }
         }
     }
