@@ -44,6 +44,27 @@ class ProviderHomeViewModel: ObservableObject {
     @Published var currentProvider: Provider? = nil
     @Published var errorMessage: String? = nil
 
+    // MARK: - UI State (for ProviderHomeView)
+    @Published var showSnackbar: Bool = false
+    @Published var snackbarMessage: String = ""
+    @Published var lastFolioAction: FolioAction? = nil
+    private var snackbarTimer: Timer? = nil
+
+    @Published var showAddClient: Bool = false
+    @Published var showFolioPicker: Bool = false
+    @Published var showAdminDashboard: Bool = false
+    @Published var showJoinOrganization: Bool = false
+    @Published var showCreateOrganization: Bool = false
+    @Published var showDeleteAccountAlert: Bool = false
+    @Published var showLogin: Bool = false
+    @Published var selectedClient: Client? = nil
+    @Published var hasOrganization: Bool = false
+
+    enum FolioAction {
+        case added(Client)
+        case removed(Client)
+    }
+
     private let clientRepository = ClientRepository()
     private let db = Firestore.firestore()
     private var folioListener: ListenerRegistration?
@@ -252,6 +273,33 @@ class ProviderHomeViewModel: ObservableObject {
         } catch {
             self.currentProvider = nil
         }
+    }
+
+    // MARK: - Snackbar Helpers
+    func showSnackbarWithTimer(message: String, action: FolioAction? = nil) {
+        snackbarTimer?.invalidate()
+        snackbarMessage = message
+        lastFolioAction = action
+        showSnackbar = true
+        snackbarTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.showSnackbar = false
+            }
+        }
+    }
+
+    func undoLastFolioAction() {
+        guard let action = lastFolioAction else { return }
+        switch action {
+        case .added(let client):
+            removeClientFromFolio(client)
+            snackbarMessage = "Undid add: \(client.fullName)"
+        case .removed(let client):
+            addClientToFolio(client)
+            snackbarMessage = "Undid remove: \(client.fullName)"
+        }
+        lastFolioAction = nil
+        showSnackbarWithTimer(message: snackbarMessage)
     }
 
     deinit {

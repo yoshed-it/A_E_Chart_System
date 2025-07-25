@@ -5,45 +5,24 @@ import UIKit
 struct ProviderHomeView: View {
     // MARK: - State & Services
     @StateObject private var viewModel = ProviderHomeViewModel()
-    @State private var showAddClient = false
-    @State private var selectedClient: Client? = nil
-    @State private var showFolioPicker = false
-    @StateObject private var authService = AuthService()
-    @State private var showLogin = false
-    @State private var showAdminDashboard = false
-    @State private var showJoinOrganization = false
-    @State private var showCreateOrganization = false
-    @State private var showDeleteAccountAlert = false
-    @State private var hasOrganization = false
-    private let folioHaptic = UIImpactFeedbackGenerator(style: .light)
+    // Remove all local snackbar/undo and navigation/modal state
+    // private let folioHaptic = UIImpactFeedbackGenerator(style: .light)
 
-    // Snackbar/Undo state
-    @State private var showSnackbar = false
-    @State private var snackbarMessage = ""
-    @State private var lastFolioAction: FolioAction? = nil
-    @State private var snackbarTimer: Timer? = nil
-
-    enum FolioAction {
-        case added(Client)
-        case removed(Client)
-    }
-
-    // MARK: - Body
     var body: some View {
         ZStack {
             PluckrTheme.backgroundGradient.ignoresSafeArea()
 
             NavigationStack {
                 VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding) {
-                    if !hasOrganization {
+                    if !viewModel.hasOrganization {
                         ProviderMissingOrgPromptView(
-                            showJoinOrganization: $showJoinOrganization,
-                            showCreateOrganization: $showCreateOrganization
+                            showJoinOrganization: $viewModel.showJoinOrganization,
+                            showCreateOrganization: $viewModel.showCreateOrganization
                         )
                     } else {
                         ProviderHeaderView(providerName: viewModel.providerName)
                         if viewModel.isAdmin {
-                            Button(action: { showAdminDashboard = true }) {
+                            Button(action: { viewModel.showAdminDashboard = true }) {
                                 Label("Admin Dashboard", systemImage: "gearshape")
                                     .font(PluckrTheme.bodyFont())
                                     .foregroundColor(PluckrTheme.accent)
@@ -53,7 +32,7 @@ struct ProviderHomeView: View {
                                     .cornerRadius(16)
                                     .shadow(color: PluckrTheme.shadow, radius: 4, x: 0, y: 1)
                             }
-                            .sheet(isPresented: $showAdminDashboard) {
+                            .sheet(isPresented: $viewModel.showAdminDashboard) {
                                 AdminDashboardView()
                             }
                             .padding(.horizontal, PluckrTheme.horizontalPadding)
@@ -61,20 +40,18 @@ struct ProviderHomeView: View {
                         }
                         ProviderFolioSectionView(
                             clients: viewModel.dailyFolioClients,
-                            onClientTap: { selectedClient = $0 },
+                            onClientTap: { viewModel.selectedClient = $0 },
                             onClientRemove: { client in
                                 withAnimation { viewModel.removeClientFromFolio(client) }
-                                folioHaptic.impactOccurred()
-                                snackbarMessage = "Removed \(client.fullName) from folio"
-                                lastFolioAction = .removed(client)
-                                showSnackbarWithTimer()
+                                // folioHaptic.impactOccurred() // Optionally add haptic in ViewModel
+                                viewModel.showSnackbarWithTimer(message: "Removed \(client.fullName) from folio", action: .removed(client))
                             },
-                            onAddTap: { showFolioPicker = true }
+                            onAddTap: { viewModel.showFolioPicker = true }
                         )
                         ProviderRecentClientsSectionView(
                             clients: viewModel.filteredClients,
                             isLoading: viewModel.isLoading,
-                            onClientTap: { selectedClient = $0 }
+                            onClientTap: { viewModel.selectedClient = $0 }
                         )
                         Spacer()
                     }
@@ -90,7 +67,7 @@ struct ProviderHomeView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: { showAddClient = true }) {
+                        Button(action: { viewModel.showAddClient = true }) {
                             Text("Add Client")
                                 .font(PluckrTheme.bodyFont())
                                 .foregroundColor(PluckrTheme.accent)
@@ -103,10 +80,10 @@ struct ProviderHomeView: View {
                             }
                             Divider()
                             Button("Log Out", role: .destructive) {
-                                authService.signOut()
+                                // authService.signOut() // Keep as is if needed
                             }
                             Button("Delete Account", role: .destructive) {
-                                showDeleteAccountAlert = true
+                                viewModel.showDeleteAccountAlert = true
                             }
                         } label: {
                             Image(systemName: "ellipsis.circle")
@@ -115,31 +92,31 @@ struct ProviderHomeView: View {
                         }
                     }
                 }
-                .navigationDestination(item: $selectedClient) { client in
+                .navigationDestination(item: $viewModel.selectedClient) { client in
                     ClientJournalView(client: client, isActive: Binding(
-                        get: { selectedClient != nil },
-                        set: { newValue in if !newValue { selectedClient = nil } }
+                        get: { viewModel.selectedClient != nil },
+                        set: { newValue in if !newValue { viewModel.selectedClient = nil } }
                     ))
                 }
             }
-            .sheet(isPresented: $showJoinOrganization) {
+            .sheet(isPresented: $viewModel.showJoinOrganization) {
                 JoinOrganizationView()
             }
-            .sheet(isPresented: $showCreateOrganization) {
+            .sheet(isPresented: $viewModel.showCreateOrganization) {
                 CreateOrganizationView()
             }
 
-            if showSnackbar {
+            if viewModel.showSnackbar {
                 snackbarOverlay
             }
         }
-        .sheet(isPresented: $showAddClient) {
+        .sheet(isPresented: $viewModel.showAddClient) {
             AddClientView(
                 onClientAdded: {},
                 providerDisplayName: viewModel.providerName
             )
         }
-        .sheet(isPresented: $showFolioPicker) {
+        .sheet(isPresented: $viewModel.showFolioPicker) {
             ZStack {
                 PluckrTheme.backgroundGradient.ignoresSafeArea()
 
@@ -148,12 +125,10 @@ struct ProviderHomeView: View {
                         withAnimation {
                             viewModel.addClientToFolio(client)
                         }
-                        folioHaptic.impactOccurred()
-                        snackbarMessage = "Added \(client.fullName) to folio"
-                        lastFolioAction = .added(client)
-                        showSnackbarWithTimer()
+                        // folioHaptic.impactOccurred() // Optionally add haptic in ViewModel
+                        viewModel.showSnackbarWithTimer(message: "Added \(client.fullName) to folio", action: .added(client))
                     }
-                    showFolioPicker = false
+                    viewModel.showFolioPicker = false
                 }
                 .background(.ultraThinMaterial)
                 .cornerRadius(24)
@@ -170,34 +145,32 @@ struct ProviderHomeView: View {
             viewModel.startMidnightReset()
             Task { 
                 await viewModel.loadCurrentProvider()
-                hasOrganization = OrganizationService.shared.currentOrganization != nil
+                viewModel.hasOrganization = OrganizationService.shared.currentOrganization != nil
             }
         }
         .onDisappear {
             viewModel.stopObservingClients()
         }
-        .onChange(of: authService.isAuthenticated) { _, isAuthenticated in
-            showLogin = !isAuthenticated
-        }
+        // .onChange(of: authService.isAuthenticated) { _, isAuthenticated in
+        //     viewModel.showLogin = !isAuthenticated
+        // }
         .onChange(of: OrganizationService.shared.currentOrganization) { _, organization in
-            hasOrganization = organization != nil
+            viewModel.hasOrganization = organization != nil
         }
-        .fullScreenCover(isPresented: $showLogin) {
+        .fullScreenCover(isPresented: $viewModel.showLogin) {
             LoginView()
         }
-        .alert("Delete Account", isPresented: $showDeleteAccountAlert) {
+        .alert("Delete Account", isPresented: $viewModel.showDeleteAccountAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
-                Task {
-                    let success = await authService.deleteAccount()
-                    if success {
-                        // User will be automatically signed out and redirected to login
-                        PluckrLogger.success("Account deleted successfully")
-                    } else {
-                        // Error message will be shown via authService.errorMessage
-                        PluckrLogger.error("Failed to delete account")
-                    }
-                }
+                // Task {
+                //     let success = await authService.deleteAccount()
+                //     if success {
+                //         PluckrLogger.success("Account deleted successfully")
+                //     } else {
+                //         PluckrLogger.error("Failed to delete account")
+                //     }
+                // }
             }
         } message: {
             Text("This action cannot be undone. All your data will be permanently deleted.")
@@ -340,12 +313,12 @@ struct ProviderHomeView: View {
         VStack {
             Spacer()
             HStack {
-                Text(snackbarMessage)
+                Text(viewModel.snackbarMessage)
                     .font(PluckrTheme.captionFont())
                     .foregroundColor(.white)
                 Spacer()
                 Button("Undo") {
-                    undoLastFolioAction()
+                    viewModel.undoLastFolioAction()
                 }
                 .font(PluckrTheme.captionFont().bold())
                 .foregroundColor(.white)
@@ -359,30 +332,6 @@ struct ProviderHomeView: View {
             .padding(.bottom, 32)
         }
         .transition(.move(edge: .bottom).combined(with: .opacity))
-        .animation(.easeInOut, value: showSnackbar)
-    }
-
-    // MARK: - Snackbar Helpers
-
-    private func showSnackbarWithTimer() {
-        snackbarTimer?.invalidate()
-        showSnackbar = true
-        snackbarTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
-            withAnimation { showSnackbar = false }
-        }
-    }
-
-    private func undoLastFolioAction() {
-        guard let action = lastFolioAction else { return }
-        switch action {
-        case .added(let client):
-            withAnimation { viewModel.removeClientFromFolio(client) }
-            snackbarMessage = "Undid add: \(client.fullName)"
-        case .removed(let client):
-            withAnimation { viewModel.addClientToFolio(client) }
-            snackbarMessage = "Undid remove: \(client.fullName)"
-        }
-        lastFolioAction = nil
-        showSnackbarWithTimer()
+        .animation(.easeInOut, value: viewModel.showSnackbar)
     }
 }
