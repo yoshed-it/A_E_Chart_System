@@ -6,10 +6,8 @@ struct ClientsListView: View {
     @Environment(\.appEnvironment) private var env
     @StateObject private var viewModel: ClientsListViewModel
     @StateObject private var homeViewModel = ProviderHomeViewModel() // For folio actions
-    @State private var selectedClient: Client? = nil
-    @State private var clientToDelete: Client? = nil
-    @State private var showDeleteAlert = false
-    private let folioHaptic = UIImpactFeedbackGenerator(style: .light)
+    // Remove all local navigation/modal and snackbar/undo state
+    // private let folioHaptic = UIImpactFeedbackGenerator(style: .light)
 
     enum FolioAction {
         case added(Client)
@@ -45,17 +43,17 @@ struct ClientsListView: View {
                                     ClientRowView(
                                         client: client,
                                         isInFolio: homeViewModel.dailyFolioClients.contains(where: { $0.id == client.id }),
-                                        onSelect: { selectedClient = client },
+                                        onSelect: { viewModel.selectedClient = client },
                                         onAddToFolio: {
                                             withAnimation {
                                                 homeViewModel.addClientToFolio(client)
                                             }
-                                            folioHaptic.impactOccurred()
+                                            // folioHaptic.impactOccurred()
                                             viewModel.showSnackbar(message: "Added \(client.fullName) to folio", action: .added(client))
                                         },
                                         onDelete: {
-                                            clientToDelete = client
-                                            showDeleteAlert = true
+                                            viewModel.clientToDelete = client
+                                            viewModel.showDeleteAlert = true
                                         }
                                     )
                                 }
@@ -73,17 +71,17 @@ struct ClientsListView: View {
             }
             .navigationTitle("All Clients")
             .navigationBarTitleDisplayMode(.large)
-            .navigationDestination(item: $selectedClient) { client in
+            .navigationDestination(item: $viewModel.selectedClient) { client in
                 ClientJournalView(client: client, isActive: Binding(
-                    get: { selectedClient != nil },
-                    set: { newValue in if (!newValue) { selectedClient = nil } }
+                    get: { viewModel.selectedClient != nil },
+                    set: { newValue in if (!newValue) { viewModel.selectedClient = nil } }
                 ))
             }
             .onAppear {
                 viewModel.fetchClients()
                 homeViewModel.loadDailyFolio()
             }
-            .alert("Delete Client?", isPresented: $showDeleteAlert, presenting: clientToDelete) { client in
+            .alert("Delete Client?", isPresented: $viewModel.showDeleteAlert, presenting: viewModel.clientToDelete) { client in
                 Button("Delete", role: .destructive) {
                     viewModel.deleteClient(client) { success in
                         if success {

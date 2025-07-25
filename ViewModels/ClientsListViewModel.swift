@@ -10,6 +10,10 @@ class ClientsListViewModel: ObservableObject {
     @Published var snackbarMessage: String = ""
     private var snackbarTimer: Timer? = nil
     private(set) var lastFolioAction: FolioAction? = nil
+    // Navigation/modal state
+    @Published var selectedClient: Client? = nil
+    @Published var clientToDelete: Client? = nil
+    @Published var showDeleteAlert: Bool = false
     enum FolioAction {
         case added(Client)
         case removed(Client)
