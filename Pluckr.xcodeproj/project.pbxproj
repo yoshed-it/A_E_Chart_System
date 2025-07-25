@@ -74,6 +74,7 @@
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 		0995D55B2E32E48E00371D7A /* DestructiveAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */; };
 		0995D55D2E3420F400371D7A /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55C2E3420F400371D7A /* TagViewModel.swift */; };
+		0995D55F2E3431FA00371D7A /* ChartsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55E2E3431FA00371D7A /* ChartsListViewModel.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
@@ -87,7 +88,6 @@
 		099AC4F52E1F2E7D00F62820 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F42E1F2E7800F62820 /* ErrorView.swift */; };
 		099AC4F72E1F2E8900F62820 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */; };
 		099AC4F92E1F30CD00F62820 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4F82E1F30C700F62820 /* ImageView.swift */; };
-		099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5072E20887900F62820 /* ChartEntryService.swift */; };
 		099AC50A2E208E9C00F62820 /* ClientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5092E208E9C00F62820 /* ClientListView.swift */; };
 		099AC50C2E21F84900F62820 /* BottomPickerDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */; };
 		099AC5132E25E29100F62820 /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5112E25E29100F62820 /* ClientRepository.swift */; };
@@ -215,6 +215,7 @@
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestructiveAlertView.swift; sourceTree = "<group>"; };
 		0995D55C2E3420F400371D7A /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
+		0995D55E2E3431FA00371D7A /* ChartsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListViewModel.swift; sourceTree = "<group>"; };
 		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -229,7 +230,6 @@
 		099AC4F42E1F2E7800F62820 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		099AC4F62E1F2E8400F62820 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
 		099AC4F82E1F30C700F62820 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		099AC5072E20887900F62820 /* ChartEntryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryService.swift; sourceTree = "<group>"; };
 		099AC5092E208E9C00F62820 /* ClientListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientListView.swift; sourceTree = "<group>"; };
 		099AC50B2E21F84900F62820 /* BottomPickerDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPickerDrawer.swift; sourceTree = "<group>"; };
 		099AC5112E25E29100F62820 /* ClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepository.swift; sourceTree = "<group>"; };
@@ -427,6 +427,7 @@
 		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				0995D55E2E3431FA00371D7A /* ChartsListViewModel.swift */,
 				0995D55C2E3420F400371D7A /* TagViewModel.swift */,
 				099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */,
 				099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */,
@@ -449,7 +450,6 @@
 				093A0B132E2853080097A6DA /* ProbeService.swift */,
 				093A0B052E272F200097A6DA /* OrganizationService.swift */,
 				093A0AFD2E2721010097A6DA /* ClientTagService.swift */,
-				099AC5072E20887900F62820 /* ChartEntryService.swift */,
 				099AC4E52E1F2C1C00F62820 /* ChartService.swift */,
 				099AC4DD2E1EF54800F62820 /* AuthService.swift */,
 				099AC4DC2E1EF53F00F62820 /* StorageService.swift */,
@@ -844,6 +844,7 @@
 				093A0B4D2E2969AF0097A6DA /* TagView.swift in Sources */,
 				093A0B4E2E2969AF0097A6DA /* ChartTreatmentAreaSection.swift in Sources */,
 				093A0B4F2E2969AF0097A6DA /* ChartTagsSection.swift in Sources */,
+				0995D55F2E3431FA00371D7A /* ChartsListViewModel.swift in Sources */,
 				099DA7552E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift in Sources */,
 				093A0B512E2969AF0097A6DA /* ClientJournalTagsSection.swift in Sources */,
 				093A0B522E2969AF0097A6DA /* ChartModalitySection.swift in Sources */,
@@ -896,7 +897,6 @@
 				099AC4F32E1F2E7300F62820 /* ImageUploadView.swift in Sources */,
 				099DA7642E2B055E00CF3D41 /* SignUpViewModel.swift in Sources */,
 				0982B3582E1DCE3600DB6C1A /* ProviderHomeView.swift in Sources */,
-				099AC5082E20888000F62820 /* ChartEntryService.swift in Sources */,
 				0982B3742E1DD11500DB6C1A /* Theme.swift in Sources */,
 				099DA77C2E317ADD00CF3D41 /* NotesCard.swift in Sources */,
 				099AC4ED2E1F2E4900F62820 /* ProbePickerView.swift in Sources */,

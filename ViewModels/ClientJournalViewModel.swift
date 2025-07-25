@@ -74,8 +74,13 @@ class ClientJournalViewModel: ObservableObject {
     func deleteEntry(chartId: String) async {
         isLoading = true
         errorMessage = nil
-        await ChartEntryService.deleteEntry(for: clientId, chartId: chartId)
-        // No need to manually reload - the listener will handle it
+        do {
+            try await ChartService.shared.deleteChartEntry(for: clientId, chartId: chartId)
+            // No need to manually reload - the listener will handle it
+        } catch {
+            errorMessage = "Failed to delete chart entry: \(error.localizedDescription)"
+            PluckrLogger.error("Failed to delete chart entry: \(error.localizedDescription)")
+        }
         isLoading = false
     }
     

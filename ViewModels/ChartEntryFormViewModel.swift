@@ -61,19 +61,18 @@ final class ChartEntryFormViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         do {
-            if let entry = try await chartService.loadChartEntry(for: clientId, chartId: chartId) {
-                self.selectedModality = entry.modality
-                self.rfLevel = entry.rfLevel
-                self.dcLevel = entry.dcLevel
-                self.usingOnePiece = entry.probeIsOnePiece
-                self.selectedOnePieceProbe = entry.probeIsOnePiece ? entry.probe : ""
-                self.selectedTwoPieceProbe = entry.probeIsOnePiece ? "" : entry.probe
-                self.treatmentArea = entry.treatmentArea ?? ""
-                self.notes = entry.notes
-                self.uploadedImageURLs = entry.imageURLs
-                self.chartTags = entry.chartTags
-                self.chartId = chartId
-            }
+            let entry = try await chartService.loadChartEntry(for: clientId, chartId: chartId)
+            self.selectedModality = entry.modality
+            self.rfLevel = entry.rfLevel
+            self.dcLevel = entry.dcLevel
+            self.usingOnePiece = entry.probeIsOnePiece
+            self.selectedOnePieceProbe = entry.probeIsOnePiece ? entry.probe : ""
+            self.selectedTwoPieceProbe = entry.probeIsOnePiece ? "" : entry.probe
+            self.treatmentArea = entry.treatmentArea ?? ""
+            self.notes = entry.notes
+            self.uploadedImageURLs = entry.imageURLs
+            self.chartTags = entry.chartTags
+            self.chartId = chartId
         } catch {
             self.errorMessage = "Failed to load chart: \(error.localizedDescription)"
         }
