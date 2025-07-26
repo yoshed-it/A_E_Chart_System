@@ -99,6 +99,21 @@ class AdminDashboardViewModel: ObservableObject {
         }
     }
     
+    func migrateData() async {
+        isLoading = true
+        errorMessage = nil
+        successMessage = nil
+        
+        do {
+            try await OrganizationService.shared.migrateExistingData()
+            successMessage = "Data migration completed successfully!"
+        } catch {
+            errorMessage = "Data migration failed: \(error.localizedDescription)"
+        }
+        
+        isLoading = false
+    }
+    
     func updateProviderStatus(providerId: String, isActive: Bool) async {
         guard let orgId = orgId else { return }
         let db = Firestore.firestore()

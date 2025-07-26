@@ -257,58 +257,111 @@ class OrganizationService: ObservableObject {
         
         PluckrLogger.info("Starting data migration to organization: \(orgId)")
         
+        // Use a batch write for atomic migration
+        let batch = db.batch()
+        var migratedCount = 0
+        
         // Migrate clients
         let clientsSnapshot = try await db.collection("clients").getDocuments()
+        PluckrLogger.info("Found \(clientsSnapshot.documents.count) clients to migrate")
+        
         for doc in clientsSnapshot.documents {
             let clientData = doc.data()
-            try await db.collection("organizations")
+            let newClientRef = db.collection("organizations")
                 .document(orgId)
                 .collection("clients")
                 .document(doc.documentID)
-                .setData(clientData)
+            batch.setData(clientData, forDocument: newClientRef)
+            migratedCount += 1
         }
         
-        // Migrate charts (they're already under clients, so we need to move them)
+        // Migrate charts
         for doc in clientsSnapshot.documents {
             let chartsSnapshot = try await db.collection("clients")
                 .document(doc.documentID)
                 .collection("charts")
                 .getDocuments()
             
+            PluckrLogger.info("Found \(chartsSnapshot.documents.count) charts for client \(doc.documentID)")
+            
             for chartDoc in chartsSnapshot.documents {
                 let chartData = chartDoc.data()
-                try await db.collection("organizations")
+                let newChartRef = db.collection("organizations")
                     .document(orgId)
                     .collection("clients")
                     .document(doc.documentID)
                     .collection("charts")
                     .document(chartDoc.documentID)
-                    .setData(chartData)
+                batch.setData(chartData, forDocument: newChartRef)
+                migratedCount += 1
             }
         }
         
         // Migrate tags
         let clientTagsSnapshot = try await db.collection("clientTagsLibrary").getDocuments()
+        PluckrLogger.info("Found \(clientTagsSnapshot.documents.count) client tags to migrate")
+        
         for doc in clientTagsSnapshot.documents {
             let tagData = doc.data()
-            try await db.collection("organizations")
+            let newTagRef = db.collection("organizations")
                 .document(orgId)
                 .collection("clientTagsLibrary")
                 .document(doc.documentID)
-                .setData(tagData)
+            batch.setData(tagData, forDocument: newTagRef)
+            migratedCount += 1
         }
         
         let chartTagsSnapshot = try await db.collection("chartTagsLibrary").getDocuments()
+        PluckrLogger.info("Found \(chartTagsSnapshot.documents.count) chart tags to migrate")
+        
         for doc in chartTagsSnapshot.documents {
             let tagData = doc.data()
-            try await db.collection("organizations")
+            let newTagRef = db.collection("organizations")
                 .document(orgId)
                 .collection("chartTagsLibrary")
                 .document(doc.documentID)
-                .setData(tagData)
+            batch.setData(tagData, forDocument: newTagRef)
+            migratedCount += 1
         }
         
-        PluckrLogger.success("Data migration completed for organization: \(orgId)")
+        // Commit the batch
+        try await batch.commit()
+        PluckrLogger.success("Data migration completed for organization: \(orgId) - migrated \(migratedCount) documents")
+        
+        // Optionally, clean up old data after successful migration
+        // await cleanupOldData()
+    }
+    
+    private func cleanupOldData() async {
+        PluckrLogger.info("Starting cleanup of old data structure")
+        
+        // Delete old clients collection
+        let clientsSnapshot = try? await db.collection("clients").getDocuments()
+        if let clients = clientsSnapshot?.documents {
+            for doc in clients {
+                try? await doc.reference.delete()
+            }
+            PluckrLogger.info("Deleted \(clients.count) old client documents")
+        }
+        
+        // Delete old tag libraries
+        let clientTagsSnapshot = try? await db.collection("clientTagsLibrary").getDocuments()
+        if let clientTags = clientTagsSnapshot?.documents {
+            for doc in clientTags {
+                try? await doc.reference.delete()
+            }
+            PluckrLogger.info("Deleted \(clientTags.count) old client tag documents")
+        }
+        
+        let chartTagsSnapshot = try? await db.collection("chartTagsLibrary").getDocuments()
+        if let chartTags = chartTagsSnapshot?.documents {
+            for doc in chartTags {
+                try? await doc.reference.delete()
+            }
+            PluckrLogger.info("Deleted \(chartTags.count) old chart tag documents")
+        }
+        
+        PluckrLogger.success("Old data cleanup completed")
     }
 }
 

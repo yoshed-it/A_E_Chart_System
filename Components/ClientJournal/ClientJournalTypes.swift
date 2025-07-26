@@ -67,7 +67,9 @@ extension View {
             }
             .sheet(isPresented: showingConsentForm) {
                 ImageConsentFormView(client: client) { updatedClient in
-                    // TODO: Update client in Firestore and local state
+                    Task {
+                        await updateClientInFirestore(updatedClient)
+                    }
                 }
             }
     }
@@ -92,12 +94,41 @@ extension View {
             }
             .alert("Delete Client?", isPresented: showDeleteClientAlert) {
                 Button("Delete", role: .destructive) {
-                    // Implement deleteClient logic here if needed
+                    Task {
+                        await deleteClientFromFirestore(client)
+                    }
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Are you sure you want to delete \(client.fullName)? This will permanently delete the client and all their chart entries. This action cannot be undone.")
             }
+    }
+}
+
+// MARK: - Helper Functions
+private func updateClientInFirestore(_ client: Client) async {
+    await withCheckedContinuation { continuation in
+        ClientRepository().updateClient(client) { success in
+            if success {
+                PluckrLogger.success("Client updated successfully: \(client.fullName)")
+            } else {
+                PluckrLogger.error("Failed to update client: \(client.fullName)")
+            }
+            continuation.resume()
+        }
+    }
+}
+
+private func deleteClientFromFirestore(_ client: Client) async {
+    await withCheckedContinuation { continuation in
+        ClientRepository().deleteClient(client) { success in
+            if success {
+                PluckrLogger.success("Client deleted successfully: \(client.fullName)")
+            } else {
+                PluckrLogger.error("Failed to delete client: \(client.fullName)")
+            }
+            continuation.resume()
+        }
     }
 }
 

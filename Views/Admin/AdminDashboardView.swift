@@ -60,6 +60,39 @@ struct AdminDashboardView: View {
                     }
                     .padding(.horizontal)
                     
+                    // Data Migration
+                    Section(header: Text("Data Management").font(PluckrTheme.subheadingFont(size: 20))) {
+                        VStack(spacing: 12) {
+                            Button(action: {
+                                Task { await viewModel.migrateData() }
+                            }) {
+                                Label("Migrate Existing Data", systemImage: "arrow.triangle.2.circlepath")
+                                    .font(PluckrTheme.bodyFont())
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.orange)
+                                    .cornerRadius(12)
+                            }
+                            .disabled(viewModel.isLoading)
+                            
+                            if let error = viewModel.errorMessage {
+                                Text(error)
+                                    .font(PluckrTheme.captionFont())
+                                    .foregroundColor(.red)
+                                    .multilineTextAlignment(.center)
+                            }
+                            
+                            if let success = viewModel.successMessage {
+                                Text(success)
+                                    .font(PluckrTheme.captionFont())
+                                    .foregroundColor(.green)
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    
                     // Invite Codes
                     Section(header: Text("Invite Codes").font(PluckrTheme.subheadingFont(size: 20))) {
                         HStack {

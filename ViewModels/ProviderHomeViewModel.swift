@@ -195,43 +195,82 @@ class ProviderHomeViewModel: ObservableObject {
     }
 
     func loadDailyFolio() {
-        guard let providerId = Auth.auth().currentUser?.uid else { return }
-        folioListener?.remove()
-        let dateKey = todayKey()
-        folioListener = db.collection("providers").document(providerId).collection("dailyFolio").document(dateKey).collection("clients").addSnapshotListener { [weak self] snapshot, error in
-            guard let self = self else { return }
-            guard let docs = snapshot?.documents else {
+        Task {
+            guard let providerId = Auth.auth().currentUser?.uid,
+                  let orgId = await OrganizationService.shared.getCurrentOrganizationId() else { 
                 self.dailyFolioClients = []
-                return
+                return 
             }
-            let clients = docs.compactMap { doc in
-                let data = doc.data()
-                let clientId = data["clientId"] as? String
-                let clientData = data["clientData"] as? [String: Any]
-                if let clientId = clientId, let clientData = clientData {
-                    return Client(data: clientData, id: clientId)
+            
+            folioListener?.remove()
+            let dateKey = todayKey()
+            
+            folioListener = db.collection("organizations")
+                .document(orgId)
+                .collection("providers")
+                .document(providerId)
+                .collection("dailyFolio")
+                .document(dateKey)
+                .collection("clients")
+                .addSnapshotListener { [weak self] snapshot, error in
+                    guard let self = self else { return }
+                    guard let docs = snapshot?.documents else {
+                        self.dailyFolioClients = []
+                        return
+                    }
+                    let clients = docs.compactMap { doc in
+                        let data = doc.data()
+                        let clientId = data["clientId"] as? String
+                        let clientData = data["clientData"] as? [String: Any]
+                        if let clientId = clientId, let clientData = clientData {
+                            return Client(data: clientData, id: clientId)
+                        }
+                        return nil
+                    }
+                    self.dailyFolioClients = clients
                 }
-                return nil
-            }
-            self.dailyFolioClients = clients
         }
     }
 
     func addClientToFolio(_ client: Client) {
-        guard let providerId = Auth.auth().currentUser?.uid else { return }
-        let dateKey = todayKey()
-        let docRef = db.collection("providers").document(providerId).collection("dailyFolio").document(dateKey).collection("clients").document(client.id)
-        docRef.setData([
-            "clientId": client.id,
-            "clientData": client.toDict()
-        ])
+        Task {
+            guard let providerId = Auth.auth().currentUser?.uid,
+                  let orgId = await OrganizationService.shared.getCurrentOrganizationId() else { return }
+            
+            let dateKey = todayKey()
+            let docRef = db.collection("organizations")
+                .document(orgId)
+                .collection("providers")
+                .document(providerId)
+                .collection("dailyFolio")
+                .document(dateKey)
+                .collection("clients")
+                .document(client.id)
+            
+            try? await docRef.setData([
+                "clientId": client.id,
+                "clientData": client.toDict()
+            ])
+        }
     }
 
     func removeClientFromFolio(_ client: Client) {
-        guard let providerId = Auth.auth().currentUser?.uid else { return }
-        let dateKey = todayKey()
-        let docRef = db.collection("providers").document(providerId).collection("dailyFolio").document(dateKey).collection("clients").document(client.id)
-        docRef.delete()
+        Task {
+            guard let providerId = Auth.auth().currentUser?.uid,
+                  let orgId = await OrganizationService.shared.getCurrentOrganizationId() else { return }
+            
+            let dateKey = todayKey()
+            let docRef = db.collection("organizations")
+                .document(orgId)
+                .collection("providers")
+                .document(providerId)
+                .collection("dailyFolio")
+                .document(dateKey)
+                .collection("clients")
+                .document(client.id)
+            
+            try? await docRef.delete()
+        }
     }
 
     // Optionally, add a timer to reload at midnight

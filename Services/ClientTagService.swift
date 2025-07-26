@@ -3,7 +3,7 @@ import Firebase
 import FirebaseFirestore
 
 // MARK: - Tag Errors
-enum TagError: LocalizedError {
+enum TagError: LocalizedError, Equatable {
     case duplicateTag(label: String)
     case invalidTag
     case saveFailed
@@ -20,12 +20,79 @@ enum TagError: LocalizedError {
     }
 }
 
+// MARK: - Firestore Protocol for Dependency Injection
+protocol FirestoreProtocol {
+    func collection(_ path: String) -> CollectionReferenceProtocol
+}
+
+protocol CollectionReferenceProtocol {
+    func document(_ id: String) -> DocumentReferenceProtocol
+    func getDocuments() async throws -> QuerySnapshot
+}
+
+protocol DocumentReferenceProtocol {
+    func setData(_ data: [String: Any]) async throws
+    func updateData(_ data: [String: Any]) async throws
+    func delete() async throws
+    func getDocument() async throws -> DocumentSnapshot
+    func collection(_ path: String) -> CollectionReferenceProtocol
+}
+
+// MARK: - Firestore Adapter
+class FirestoreAdapter: FirestoreProtocol {
+    private let firestore: Firestore
+    init(_ firestore: Firestore = Firestore.firestore()) {
+        self.firestore = firestore
+    }
+    func collection(_ path: String) -> CollectionReferenceProtocol {
+        return CollectionReferenceAdapter(firestore.collection(path))
+    }
+}
+
+class CollectionReferenceAdapter: CollectionReferenceProtocol {
+    private let collection: CollectionReference
+    init(_ collection: CollectionReference) {
+        self.collection = collection
+    }
+    func document(_ id: String) -> DocumentReferenceProtocol {
+        return DocumentReferenceAdapter(collection.document(id))
+    }
+    func getDocuments() async throws -> QuerySnapshot {
+        return try await collection.getDocuments()
+    }
+}
+
+class DocumentReferenceAdapter: DocumentReferenceProtocol {
+    private let document: DocumentReference
+    init(_ document: DocumentReference) {
+        self.document = document
+    }
+    func setData(_ data: [String: Any]) async throws {
+        try await document.setData(data)
+    }
+    func updateData(_ data: [String: Any]) async throws {
+        try await document.updateData(data)
+    }
+    func delete() async throws {
+        try await document.delete()
+    }
+    func getDocument() async throws -> DocumentSnapshot {
+        return try await document.getDocument()
+    }
+    func collection(_ path: String) -> CollectionReferenceProtocol {
+        return CollectionReferenceAdapter(document.collection(path))
+    }
+}
+
 @MainActor
 class TagService: ObservableObject {
     static let shared = TagService()
-    private let db = Firestore.firestore()
+    private let db: FirestoreProtocol
     
-    private init() {}
+    // Allow dependency injection for testing
+    init(db: FirestoreProtocol = FirestoreAdapter()) {
+        self.db = db
+    }
     
     // MARK: - Update Client Tags
     func updateClientTags(clientId: String, tags: [Tag]) async throws {
@@ -164,7 +231,9 @@ class TagService: ObservableObject {
             return allExistingTags.contains { $0.label.lowercased() == label.lowercased() }
         } catch {
             PluckrLogger.error("Failed to check if tag exists: \(error.localizedDescription)")
-            return false
+            // Fall back to checking only default tags when library loading fails
+            let defaultTags = context == TagContext.client ? TagConstants.defaultClientTags : TagConstants.defaultChartTags
+            return defaultTags.contains { $0.label.lowercased() == label.lowercased() }
         }
     }
 }

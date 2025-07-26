@@ -135,9 +135,16 @@ class AuthService: ObservableObject {
         errorMessage = nil
         
         do {
-            // Delete user profile document if it exists
-            try await db.collection("users").document(user.uid).delete()
-            PluckrLogger.info("User profile document deleted")
+                    // Delete user profile documents from all organizations
+        let userOrgs = await OrganizationService.shared.userOrganizations
+        for userOrg in userOrgs {
+            try? await db.collection("organizations")
+                .document(userOrg.organizationId)
+                .collection("users")
+                .document(user.uid)
+                .delete()
+            PluckrLogger.info("User profile document deleted from org \(userOrg.organizationId)")
+        }
             
             // Delete the Firebase Auth account
             try await user.delete()
@@ -179,14 +186,22 @@ class AuthService: ObservableObject {
             changeRequest.displayName = displayName
             try await changeRequest.commitChanges()
             
-            // Create user profile document
-            let userProfile: [String: Any] = [
-                "displayName": displayName,
-                "email": result.user.email ?? "",
-                "createdAt": Timestamp(date: Date())
-            ]
-            try await db.collection("users").document(result.user.uid).setData(userProfile)
-            PluckrLogger.success("User profile created for user: \(result.user.uid)")
+            // Create user profile document (if organization context exists)
+            if let orgId = await OrganizationService.shared.getCurrentOrganizationId() {
+                let userProfile: [String: Any] = [
+                    "displayName": displayName,
+                    "email": result.user.email ?? "",
+                    "createdAt": Timestamp(date: Date())
+                ]
+                try await db.collection("organizations")
+                    .document(orgId)
+                    .collection("users")
+                    .document(result.user.uid)
+                    .setData(userProfile)
+                PluckrLogger.success("User profile created for user: \(result.user.uid) in org \(orgId)")
+            } else {
+                PluckrLogger.info("No organization context - user profile will be created when user joins an organization")
+            }
             
             // Create provider document (will be skipped if no organization context)
             try await createProviderDocument(userId: result.user.uid, displayName: displayName)

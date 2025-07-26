@@ -53,7 +53,29 @@ struct Client: Identifiable, Hashable, Codable, Equatable {
     /// Computed property that returns the client's full name
     /// - Returns: A string combining first and last name
     var fullName: String {
-        "\(firstName) \(lastName)"
+        // Clean up any corrupted data that might contain literal code
+        let cleanFirst = firstName.replacingOccurrences(of: ".trimmingCharacters(in: .whitespacesAndNewlines)", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanLast = lastName.replacingOccurrences(of: ".trimmingCharacters(in: .whitespacesAndNewlines)", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let result = (cleanFirst + (cleanFirst.isEmpty || cleanLast.isEmpty ? "" : " ") + cleanLast).trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Debug logging to identify the issue
+        if firstName.contains("trimming") || lastName.contains("trimming") {
+            print("DEBUG: Found corrupted data - firstName: '\(firstName)', lastName: '\(lastName)'")
+            print("DEBUG: Cleaned result: '\(result)'")
+        }
+        
+        return result
+    }
+    
+    /// Cleans up corrupted firstName and lastName data permanently
+    mutating func cleanCorruptedData() {
+        if firstName.contains(".trimmingCharacters(in: .whitespacesAndNewlines)") {
+            self.firstName = firstName.replacingOccurrences(of: ".trimmingCharacters(in: .whitespacesAndNewlines)", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if lastName.contains(".trimmingCharacters(in: .whitespacesAndNewlines)") {
+            self.lastName = lastName.replacingOccurrences(of: ".trimmingCharacters(in: .whitespacesAndNewlines)", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
     }
 
     /**

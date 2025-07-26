@@ -25,7 +25,6 @@
 		093A0B182E2853430097A6DA /* ProbeManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B172E2853430097A6DA /* ProbeManagementView.swift */; };
 		093A0B1A2E2863EE0097A6DA /* FolioCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B192E2863EE0097A6DA /* FolioCardView.swift */; };
 		093A0B1C2E295ACE0097A6DA /* GoogleService-Info-Test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 093A0B1B2E295ACE0097A6DA /* GoogleService-Info-Test.plist */; };
-		093A0B232E295D1D0097A6DA /* ChartsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B1F2E295D1D0097A6DA /* ChartsListViewModelTests.swift */; };
 		093A0B242E295D1D0097A6DA /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B1D2E295D1D0097A6DA /* AuthServiceTests.swift */; };
 		093A0B252E295D1D0097A6DA /* TagServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B222E295D1D0097A6DA /* TagServiceTests.swift */; };
 		093A0B262E295D1D0097A6DA /* ClientRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A0B202E295D1D0097A6DA /* ClientRepositoryTests.swift */; };
@@ -74,7 +73,6 @@
 		0982B3882E1DE31900DB6C1A /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982B3872E1DE31600DB6C1A /* Binding.swift */; };
 		0995D55B2E32E48E00371D7A /* DestructiveAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */; };
 		0995D55D2E3420F400371D7A /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55C2E3420F400371D7A /* TagViewModel.swift */; };
-		0995D55F2E3431FA00371D7A /* ChartsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0995D55E2E3431FA00371D7A /* ChartsListViewModel.swift */; };
 		099AC4D32E1DF7D600F62820 /* FirebaseStorage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */; };
 		099AC4D92E1EF33D00F62820 /* ChartEntryFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */; };
 		099AC4E22E1F09A300F62820 /* CameraUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC4E12E1F099E00F62820 /* CameraUploader.swift */; };
@@ -129,6 +127,14 @@
 		099DA78F2E31BDCD00CF3D41 /* ClientRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA78E2E31BDCD00CF3D41 /* ClientRowView.swift */; };
 		099DA7912E31BF3100CF3D41 /* ClientInfoFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7902E31BF3100CF3D41 /* ClientInfoFieldsView.swift */; };
 		099DA7932E31BFF100CF3D41 /* DestructiveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7922E31BFF100CF3D41 /* DestructiveButton.swift */; };
+		099E4BBC2E35578400C6720E /* ClientJournalTypesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BB82E35578400C6720E /* ClientJournalTypesTests.swift */; };
+		099E4BBD2E35578400C6720E /* ProviderHomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BBA2E35578400C6720E /* ProviderHomeViewModelTests.swift */; };
+		099E4BBE2E35578400C6720E /* RealFirestoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BBB2E35578400C6720E /* RealFirestoreTests.swift */; };
+		099E4BBF2E35578400C6720E /* AdminDashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BB72E35578400C6720E /* AdminDashboardViewModelTests.swift */; };
+		099E4BC02E35578400C6720E /* OrganizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BB92E35578400C6720E /* OrganizationServiceTests.swift */; };
+		099E4BC42E35592300C6720E /* MockFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BC32E35592300C6720E /* MockFirestore.swift */; };
+		099E4BC62E35713A00C6720E /* FirestoreStructureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BC52E35713A00C6720E /* FirestoreStructureTests.swift */; };
+		099E4BC82E35718D00C6720E /* ValidationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E4BC72E35718D00C6720E /* ValidationUtilities.swift */; };
 		09A33EA02E29739B00E520F5 /* ClientJournalHeaderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -168,7 +174,6 @@
 		093A0B1B2E295ACE0097A6DA /* GoogleService-Info-Test.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Test.plist"; sourceTree = "<group>"; };
 		093A0B1D2E295D1D0097A6DA /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		093A0B1E2E295D1D0097A6DA /* ChartServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartServiceTests.swift; sourceTree = "<group>"; };
-		093A0B1F2E295D1D0097A6DA /* ChartsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListViewModelTests.swift; sourceTree = "<group>"; };
 		093A0B202E295D1D0097A6DA /* ClientRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepositoryTests.swift; sourceTree = "<group>"; };
 		093A0B212E295D1D0097A6DA /* ClientsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListViewModelTests.swift; sourceTree = "<group>"; };
 		093A0B222E295D1D0097A6DA /* TagServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagServiceTests.swift; sourceTree = "<group>"; };
@@ -214,7 +219,6 @@
 		0982B3872E1DE31600DB6C1A /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		0995D55A2E32E48E00371D7A /* DestructiveAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestructiveAlertView.swift; sourceTree = "<group>"; };
 		0995D55C2E3420F400371D7A /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
-		0995D55E2E3431FA00371D7A /* ChartsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsListViewModel.swift; sourceTree = "<group>"; };
 		099AC4D22E1DF7CD00F62820 /* FirebaseStorage+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseStorage+Async.swift"; sourceTree = "<group>"; };
 		099AC4D82E1EF33500F62820 /* ChartEntryFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntryFormViewModel.swift; sourceTree = "<group>"; };
 		099AC4DC2E1EF53F00F62820 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -268,6 +272,14 @@
 		099DA78E2E31BDCD00CF3D41 /* ClientRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRowView.swift; sourceTree = "<group>"; };
 		099DA7902E31BF3100CF3D41 /* ClientInfoFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoFieldsView.swift; sourceTree = "<group>"; };
 		099DA7922E31BFF100CF3D41 /* DestructiveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestructiveButton.swift; sourceTree = "<group>"; };
+		099E4BB72E35578400C6720E /* AdminDashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardViewModelTests.swift; sourceTree = "<group>"; };
+		099E4BB82E35578400C6720E /* ClientJournalTypesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalTypesTests.swift; sourceTree = "<group>"; };
+		099E4BB92E35578400C6720E /* OrganizationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationServiceTests.swift; sourceTree = "<group>"; };
+		099E4BBA2E35578400C6720E /* ProviderHomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeViewModelTests.swift; sourceTree = "<group>"; };
+		099E4BBB2E35578400C6720E /* RealFirestoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealFirestoreTests.swift; sourceTree = "<group>"; };
+		099E4BC32E35592300C6720E /* MockFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirestore.swift; sourceTree = "<group>"; };
+		099E4BC52E35713A00C6720E /* FirestoreStructureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreStructureTests.swift; sourceTree = "<group>"; };
+		099E4BC72E35718D00C6720E /* ValidationUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationUtilities.swift; sourceTree = "<group>"; };
 		09A33E9F2E29739B00E520F5 /* ClientJournalHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientJournalHeaderSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -387,6 +399,7 @@
 		0982B3712E1DD03900DB6C1A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				099E4BC72E35718D00C6720E /* ValidationUtilities.swift */,
 				099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */,
 				099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */,
 				099AC5212E25FB2400F62820 /* Validation.swift */,
@@ -425,7 +438,6 @@
 		0982B3772E1DD2E500DB6C1A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				0995D55E2E3431FA00371D7A /* ChartsListViewModel.swift */,
 				0995D55C2E3420F400371D7A /* TagViewModel.swift */,
 				099DA7652E2B0C4800CF3D41 /* OrganizationSelectionViewModel.swift */,
 				099DA7632E2B055E00CF3D41 /* SignUpViewModel.swift */,
@@ -519,6 +531,7 @@
 		099AC52F2E27007700F62820 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				099E4BC32E35592300C6720E /* MockFirestore.swift */,
 				093A0B292E295D270097A6DA /* CameraUploaderTests.swift */,
 				099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */,
 			);
@@ -528,9 +541,14 @@
 		099AC5302E27007700F62820 /* PluckrTests */ = {
 			isa = PBXGroup;
 			children = (
+				099E4BC52E35713A00C6720E /* FirestoreStructureTests.swift */,
+				099E4BB72E35578400C6720E /* AdminDashboardViewModelTests.swift */,
+				099E4BB82E35578400C6720E /* ClientJournalTypesTests.swift */,
+				099E4BB92E35578400C6720E /* OrganizationServiceTests.swift */,
+				099E4BBA2E35578400C6720E /* ProviderHomeViewModelTests.swift */,
+				099E4BBB2E35578400C6720E /* RealFirestoreTests.swift */,
 				093A0B1D2E295D1D0097A6DA /* AuthServiceTests.swift */,
 				093A0B1E2E295D1D0097A6DA /* ChartServiceTests.swift */,
-				093A0B1F2E295D1D0097A6DA /* ChartsListViewModelTests.swift */,
 				093A0B202E295D1D0097A6DA /* ClientRepositoryTests.swift */,
 				093A0B212E295D1D0097A6DA /* ClientsListViewModelTests.swift */,
 				093A0B222E295D1D0097A6DA /* TagServiceTests.swift */,
@@ -840,7 +858,6 @@
 				093A0B4D2E2969AF0097A6DA /* TagView.swift in Sources */,
 				093A0B4E2E2969AF0097A6DA /* ChartTreatmentAreaSection.swift in Sources */,
 				093A0B4F2E2969AF0097A6DA /* ChartTagsSection.swift in Sources */,
-				0995D55F2E3431FA00371D7A /* ChartsListViewModel.swift in Sources */,
 				099DA7552E2AF0D900CF3D41 /* JoinOrganizationViewModel.swift in Sources */,
 				093A0B512E2969AF0097A6DA /* ClientJournalTagsSection.swift in Sources */,
 				093A0B522E2969AF0097A6DA /* ChartModalitySection.swift in Sources */,
@@ -911,6 +928,7 @@
 				099AC5242E25FBFA00F62820 /* EditClientViewModel.swift in Sources */,
 				099DA77E2E317C2E00CF3D41 /* TreatmentAreaField.swift in Sources */,
 				099DA7682E316C9B00CF3D41 /* AppEnvironment.swift in Sources */,
+				099E4BC82E35718D00C6720E /* ValidationUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,8 +937,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */,
-				093A0B232E295D1D0097A6DA /* ChartsListViewModelTests.swift in Sources */,
 				093A0B242E295D1D0097A6DA /* AuthServiceTests.swift in Sources */,
+				099E4BBC2E35578400C6720E /* ClientJournalTypesTests.swift in Sources */,
+				099E4BC62E35713A00C6720E /* FirestoreStructureTests.swift in Sources */,
+				099E4BC42E35592300C6720E /* MockFirestore.swift in Sources */,
+				099E4BBD2E35578400C6720E /* ProviderHomeViewModelTests.swift in Sources */,
+				099E4BBE2E35578400C6720E /* RealFirestoreTests.swift in Sources */,
+				099E4BBF2E35578400C6720E /* AdminDashboardViewModelTests.swift in Sources */,
+				099E4BC02E35578400C6720E /* OrganizationServiceTests.swift in Sources */,
 				093A0B252E295D1D0097A6DA /* TagServiceTests.swift in Sources */,
 				093A0B2A2E295D270097A6DA /* CameraUploaderTests.swift in Sources */,
 				093A0B262E295D1D0097A6DA /* ClientRepositoryTests.swift in Sources */,

@@ -3,6 +3,7 @@ import SwiftUI
 struct SnackbarOverlay: View {
     let message: String
     let lastAction: FolioAction?
+    let onUndo: (() -> Void)?
     let onDismiss: () -> Void
     
     var body: some View {
@@ -15,9 +16,9 @@ struct SnackbarOverlay: View {
                 
                 Spacer()
                 
-                if lastAction != nil {
+                if lastAction != nil && onUndo != nil {
                     Button("Undo") {
-                        // TODO: Handle undo action
+                        onUndo?()
                         onDismiss()
                     }
                     .font(PluckrTheme.bodyFont())
