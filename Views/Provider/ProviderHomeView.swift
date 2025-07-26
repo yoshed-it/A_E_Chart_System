@@ -53,7 +53,7 @@ struct ProviderHomeView: View {
                             isLoading: viewModel.isLoading,
                             onClientTap: { viewModel.selectedClient = $0 }
                         )
-                        Spacer()
+                        // Removed Spacer() that was causing white space at bottom
                     }
                     if let error = viewModel.errorMessage {
                         Text(error)
@@ -252,7 +252,7 @@ struct ProviderHomeView: View {
                     .padding(.vertical, 20)
                 } else {
                     ScrollView {
-                        LazyVStack(spacing: 8) {
+                        LazyVStack(spacing: 16) { // Increased spacing from 8 to 16 to accommodate shadows
                             ForEach(clients.prefix(5)) { client in
                                 ClientCardView(client: client) {
                                     onClientTap(client)
@@ -260,7 +260,9 @@ struct ProviderHomeView: View {
                             }
                         }
                         .padding(.horizontal, PluckrTheme.horizontalPadding)
+                        .padding(.top, 8) // Add top padding to prevent shadow clipping
                     }
+                    // Removed scrollClipDisabled(true) as it causes cards to scroll over header
                 }
             }
         }

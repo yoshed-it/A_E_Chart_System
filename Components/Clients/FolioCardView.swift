@@ -14,10 +14,7 @@ struct FolioCardView: View {
             .accessibilityAddTraits(.isButton)
             .background(PluckrTheme.card)
             .cornerRadius(PluckrTheme.cardCornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: PluckrTheme.cardCornerRadius)
-                    .stroke(PluckrTheme.accent.opacity(0.3), lineWidth: 1)
-            )
+            .shadow(color: PluckrTheme.shadowMedium, radius: PluckrTheme.shadowRadiusMedium, x: 0, y: PluckrTheme.shadowYMedium)
             
             Button(action: onRemove) {
                 Image(systemName: "minus.circle.fill")
@@ -84,7 +81,7 @@ struct FolioSectionView: View {
                 .padding(.vertical, 20)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: 16) { // Increased spacing from 8 to 16 to accommodate shadows
                         ForEach(clients) { client in
                             FolioCardView(
                                 client: client,
@@ -96,6 +93,7 @@ struct FolioSectionView: View {
                     .padding(.horizontal, PluckrTheme.horizontalPadding)
                     .padding(.vertical, 8)
                 }
+                .scrollClipDisabled(true) // Prevent shadow clipping (iOS 17+)
             }
         }
         .padding(.bottom, PluckrTheme.verticalPadding)
