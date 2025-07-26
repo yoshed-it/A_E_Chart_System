@@ -104,7 +104,6 @@
 		099AC5282E26F50B00F62820 /* ChartImageDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5252E26F50B00F62820 /* ChartImageDecryptor.swift */; };
 		099AC52A2E26F7D400F62820 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC5292E26F7D400F62820 /* ImageConstants.swift */; };
 		099AC5322E27007700F62820 /* ChartImageCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */; };
-		099DA7472E298AAB00CF3D41 /* ProviderHomeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */; };
 		099DA7492E298B0600CF3D41 /* AllClientsFolioPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */; };
 		099DA74B2E298B1B00CF3D41 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */; };
 		099DA7502E2AEF7500CF3D41 /* InviteCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */; };
@@ -245,7 +244,6 @@
 		099AC5262E26F50B00F62820 /* OrgEncryptionKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgEncryptionKeyManager.swift; sourceTree = "<group>"; };
 		099AC5292E26F7D400F62820 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		099AC52E2E27007700F62820 /* ChartImageCryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageCryptoTests.swift; sourceTree = "<group>"; };
-		099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderHomeContent.swift; sourceTree = "<group>"; };
 		099DA7482E298AFA00CF3D41 /* AllClientsFolioPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClientsFolioPickerView.swift; sourceTree = "<group>"; };
 		099DA74A2E298B1200CF3D41 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
 		099DA74F2E2AEF7500CF3D41 /* InviteCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeManager.swift; sourceTree = "<group>"; };
@@ -544,7 +542,6 @@
 		099DA7452E298A6000CF3D41 /* Provider */ = {
 			isa = PBXGroup;
 			children = (
-				099DA7462E298AA400CF3D41 /* ProviderHomeContent.swift */,
 				0982B3442E1DCE3600DB6C1A /* ProviderHomeView.swift */,
 				0982B3452E1DCE3600DB6C1A /* ProviderProfileSetupView.swift */,
 			);
@@ -835,7 +832,6 @@
 				093A0B492E2969AF0097A6DA /* ChartMachineSettingsSection.swift in Sources */,
 				099DA7742E3177B200CF3D41 /* NotesFieldView.swift in Sources */,
 				099DA76E2E31734600CF3D41 /* ClientJournalTypes.swift in Sources */,
-				099DA7472E298AAB00CF3D41 /* ProviderHomeContent.swift in Sources */,
 				093A0B4A2E2969AF0097A6DA /* TagPickerModal.swift in Sources */,
 				099DA76B2E3172A900CF3D41 /* ClientJournalMainContent.swift in Sources */,
 				099DA76C2E3172A900CF3D41 /* ClientJournalMainContentBody.swift in Sources */,
