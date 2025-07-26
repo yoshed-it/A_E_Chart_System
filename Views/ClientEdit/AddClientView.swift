@@ -31,7 +31,7 @@ struct AddClientView: View {
                         // Form
                         VStack(spacing: PluckrTheme.verticalPadding) {
                             clientInfoSection
-                            tagPickerSection
+//                            tagPickerSection
                             // Error Message
                             if !viewModel.errorMessage.isEmpty {
                                 Text(viewModel.errorMessage)
@@ -122,31 +122,31 @@ struct AddClientView: View {
         }
     }
 
-    private var tagPickerSection: some View {
-        VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
-            Text("Client Tags")
-                .font(PluckrTheme.subheadingFont(size: 18))
-                .foregroundColor(PluckrTheme.textPrimary)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(viewModel.clientTags, id: \.self) { tag in
-                        TagView(tag: tag, size: .normal)
-                    }
-                }
-            }
-            Button(action: { showingTagPicker = true }) {
-                Label("Edit Tags", systemImage: "tag")
-                    .font(PluckrTheme.bodyFont())
-                    .foregroundColor(PluckrTheme.accent)
-            }
-        }
-        .padding(.vertical, PluckrTheme.verticalPadding / 2)
-        .sheet(isPresented: $showingTagPicker) {
-            TagPickerModal(
-                selectedTags: $viewModel.clientTags,
-                availableTags: [], // TagPickerModal loads its own tags
-                context: .client
-            )
-        }
-    }
+//    private var tagPickerSection: some View {
+//        VStack(alignment: .leading, spacing: PluckrTheme.verticalPadding / 2) {
+//            Text("Client Tags")
+//                .font(PluckrTheme.subheadingFont(size: 18))
+//                .foregroundColor(PluckrTheme.textPrimary)
+//            ScrollView(.horizontal, showsIndicators: false) {
+//                HStack(spacing: 8) {
+//                    ForEach(viewModel.clientTags, id: \.self) { tag in
+//                        TagView(tag: tag, size: .normal)
+//                    }
+//                }
+//            }
+//            Button(action: { showingTagPicker = true }) {
+//                Label("Edit Tags", systemImage: "tag")
+//                    .font(PluckrTheme.bodyFont())
+//                    .foregroundColor(PluckrTheme.accent)
+//            }
+//        }
+//        .padding(.vertical, PluckrTheme.verticalPadding / 2)
+//        .sheet(isPresented: $showingTagPicker) {
+//            TagPickerModal(
+//                selectedTags: $viewModel.clientTags,
+//                availableTags: [], // TagPickerModal loads its own tags
+//                context: .client
+//            )
+//        }
+//    }
 }
